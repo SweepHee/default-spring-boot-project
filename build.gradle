@@ -1,0 +1,83 @@
+plugins {
+    id 'org.springframework.boot' version "2.7.3"
+    id 'io.spring.dependency-management' version "1.0.11.RELEASE"
+    id 'java'
+    id 'java-library'
+    id 'idea'
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+bootJar {
+    enabled = false
+}
+
+jar {
+    enabled = true
+}
+
+group 'com.bankpin'
+version = '1.0.0'
+
+apply plugin: 'java'
+apply plugin: "java-library"
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+apply plugin: 'war'
+apply plugin: 'idea'
+
+sourceCompatibility = JavaVersion.VERSION_11
+targetCompatibility = JavaVersion.VERSION_11
+
+configurations {
+    developmentOnly
+    runtimeClasspath {
+        extendsFrom developmentOnly
+    }
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+    maven {
+        url "https://repo.spring.io/release"
+    }
+    maven {
+        url "https://repository.jboss.org/maven2"
+    }
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.2'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:3.1.0'
+    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5:3.0.4.RELEASE'
+    implementation 'org.apache.tomcat:tomcat-catalina-ha:9.0.62'
+    implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16'
+    implementation 'org.apache.commons:commons-lang3:3.12.0'
+    implementation 'org.apache.commons:commons-collections4:4.4'
+    implementation 'org.apache.commons:commons-pool2:2.11.1'
+    runtimeOnly 'org.mariadb.jdbc:mariadb-java-client:3.0.6'
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    testAnnotationProcessor "org.projectlombok:lombok"
+    runtimeOnly 'org.springframework.boot:spring-boot-devtools'
+    testCompileOnly("org.springframework.security:spring-security-test:5.7.3")
+    testCompileOnly('org.mybatis.spring.boot:mybatis-spring-boot-starter-test:2.2.2')
+    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
+    testCompileOnly("org.springframework.security:spring-security-test")
+}
+
+test {
+    useJUnitPlatform()
+}
