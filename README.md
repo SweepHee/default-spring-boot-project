@@ -17,6 +17,7 @@
 ### 설정 참조
 - Context path: `/user`
 - Port(Local): `8507` (기본설정 됨, 변경가능)
+- Deploy: WAR
 - DataBase
   * MariaDB
   * IP: `211.184.225.81`
