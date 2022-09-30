@@ -1,5 +1,13 @@
 # Bankpin User Server
 
+### 개발환경(테스트 서버)
+- Java: Java 11.0.16
+- MariaDB: 10.1.48
+- Tomcat: 9.0.16
+- Nginx: 1.14.0
+- Ubuntu: 18.04.6 LTS
+
+
 ### 개발툴
 - IDE: [IntelliJ IDEA](https://www.jetbrains.com/ko-kr/idea/download/#section=windows) 참조 (유료는 별도 구매요청)
 - DB: [MySQL Workbench](https://dev.mysql.com/downloads/workbench/) 참조 (편한 툴 사용, 유료는 별도 구매요청)
