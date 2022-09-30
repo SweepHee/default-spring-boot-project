@@ -23,8 +23,9 @@
   * Port: `3306`
   * DB: `abc`
   * User: `abc`
+- [DB 계정](http://211.184.225.81:3000/Dev-abc/abc-online/src/branch/main/%EB%B1%85%ED%81%AC%ED%95%80-%EA%B0%9C%EB%B0%9C%EB%AC%B8%EC%84%9C/DEV/%ED%85%8C%EC%8A%A4%ED%8A%B8-%EC%84%9C%EB%B2%84.md)
 - [ERD](http://211.184.225.81:3000/Dev-abc/abc-online/src/branch/main/%EB%B1%85%ED%81%AC%ED%95%80-%EA%B0%9C%EB%B0%9C%EB%AC%B8%EC%84%9C/ERD) 참조
-- [ERMaster](https://sourceforge.net/projects/ermaster/files/)
+- [ERMaster](https://sourceforge.net/projects/ermaster/files/) 툴 참조
 
 
 ### Package 네이밍 참조
