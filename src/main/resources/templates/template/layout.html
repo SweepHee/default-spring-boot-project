@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, maximum-scale=1.0, minimum-scale=1, user-scalable=yes,initial-scale=1.0" />
+    <th:block layout:fragment="css"></th:block>
+    <title></title>
+</head>
+<body>
+    <th:block layout:fragment="content"></th:block>
+
+
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="/user/static/assets/js/handlebars.js"></script>
+    <script src="/user/static/assets/js/handle_wrapper.js"></script>
+    <th:block layout:fragment="script"></th:block>
+
+</body>
+</html>

@@ -12,15 +12,13 @@ import java.security.Principal;
 public class MainController
 {
     @GetMapping(value = {"/", "/index"})
-    public String index() {
-        return "index";
+    public String index()
+    {
+        return "main";
     }
 
-
-    @GetMapping(value = "/main")
-//    @PreAuthorize("hasAnyRole('MOBILE', 'ADMIN')")
-    public String main(Principal principal) {
-        log.info("================== Name: "+ principal.getName());
+    @GetMapping("/main")
+    public String main() {
         return "main";
     }
 

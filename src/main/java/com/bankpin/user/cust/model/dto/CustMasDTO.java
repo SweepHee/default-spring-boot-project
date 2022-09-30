@@ -1,42 +1,34 @@
 package com.bankpin.user.cust.model.dto;
 
-import com.bankpin.user.model.dto.BaseModel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
-
+import lombok.Data;
 
 public class CustMasDTO
 {
-    @Getter
-    @Setter
+    @Data
     public static class Create
     {
         private String custCiNo;
         private String custSimplePwd;
         private String custNm;
+        private String custAuthCd;
+        private Boolean custActvGbcd;
     }
 
-
-    @Getter
-    @Setter
-    public static class Detail extends BaseModel
+    @Data
+    public static class Detail
     {
         private String custCiNo;
         private String custSimplePwd;
         private String custNm;
+        private String custAuthCd;
     }
 
-
-    @Getter
-    @Setter
-    @Builder
-    @AllArgsConstructor
-    public static class Item extends BaseModel
+    @Data
+    public static class Item
     {
         private String custCiNo;
         private String custNm;
+        private String custAuthCd;
     }
 
 }
