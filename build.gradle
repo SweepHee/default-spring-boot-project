@@ -67,11 +67,8 @@ dependencies {
     implementation 'org.apache.commons:commons-lang3:3.12.0'
     implementation 'org.apache.commons:commons-collections4:4.4'
     implementation 'org.apache.commons:commons-pool2:2.11.1'
-
-    // jasypt
     implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.4'
     implementation 'org.bouncycastle:bcprov-jdk15on:1.70'
-
     runtimeOnly 'org.mariadb.jdbc:mariadb-java-client:3.0.6'
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
