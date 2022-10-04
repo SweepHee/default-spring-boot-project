@@ -56,6 +56,11 @@
   * ext.coocon (쿠콘)
 
 
+### Controller 네이밍
+- View 를 사용하는 경우: XxxController
+- API 를 사용하는 경우: ApiXxxController
+
+
 ### 쿠콘 API 개발 참조
 - URI
   * Send: `/user/api/v1/coocon/...`
