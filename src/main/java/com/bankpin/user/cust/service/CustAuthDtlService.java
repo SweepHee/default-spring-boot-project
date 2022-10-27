@@ -5,6 +5,7 @@ import com.bankpin.user.cust.model.dto.CustAuthDtlDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -40,6 +41,7 @@ public class CustAuthDtlService
      * @param custAuthDtlDTO
      * @return
      */
+    @Transactional
     public int insertCustAuthDtlDTO(CustAuthDtlDTO.Create custAuthDtlDTO) {
         return custAuthDtlMapper.save(custAuthDtlDTO);
     }
@@ -49,6 +51,7 @@ public class CustAuthDtlService
      * @param custAuthDtlDTO
      * @return
      */
+    @Transactional
     public int updateCustAuthDtlDTO(CustAuthDtlDTO.Create custAuthDtlDTO) {
         return custAuthDtlMapper.update(custAuthDtlDTO);
     }

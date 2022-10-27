@@ -9,9 +9,13 @@ import java.util.Arrays;
 @RequiredArgsConstructor
 public enum AuthorityType
 {
-    DEFAULT("ROLE_DEFAULT", "DEFAULT"),
     GUEST("ROLE_GUEST", "GUEST"),
-    USER("ROLE_USER", "USER");
+    USER("ROLE_USER", "Read User"),
+    USER_PRINT("ROLE_PRINT_USER", "Read Print User"),
+    USER_WRITE("ROLE_WRITE_USER", "Read Write User"),
+    USER_WRITE_PRINT("ROLE_WRITE_PRINT_USER", "Read Write Print User"),
+    USER_WRITE_REMOVE("ROLE_WRITE_REMOVE_USER", "Read Write Remove User"),
+    USER_WRITE_REMOVE_PRINT("ROLE_WRITE_REMOVE_PRINT_USER", "Read Write Remove Print User");
 
     private final String key;
     private final String label;

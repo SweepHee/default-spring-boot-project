@@ -9,15 +9,29 @@ import java.util.List;
 @Mapper
 public interface CustMasMapper
 {
-    @Select("SELECT *"+
+    @Select("SELECT"+
+            "     , CUST_CI_NO" +
+            "     , CUST_ID" +
+            "     , FN_DECRYPT(CUST_NM) AS CUST_NM" +
+            "     , CUST_AUTH_CD" +
+            "     , CUST_ACTV_GBCD" +
+            "     , FN_DECRYPT(CUST_EMAIL) AS CUST_EMAIL" +
+            "     , CUST_BIRTH" +
+            "     , CUST_GENDER" +
             "  FROM TBCOM_CUSTMAS"+
-            " WHERE cust_ci_no = #{custCiNo, jdbcType=VARCHAR}"+
-            "   AND cust_actv_gbcd = 1")
+            " WHERE CUST_CI_NO = #{custCiNo, jdbcType=VARCHAR}"+
+            "   AND CUST_ACTV_GBCD = 1")
     CustMasDTO findByCustCiNo(@Param("custCiNo") String custCiNo);
 
-    @Select("SELECT *"+
+    @Select("SELECT"+
+            "     , CUST_CI_NO" +
+            "     , CUST_ID" +
+            "     , FN_DECRYPT(CUST_NM) AS CUST_NM" +
+            "     , CUST_AUTH_CD" +
+            "     , CUST_BIRTH" +
+            "     , CUST_GENDER" +
             "  FROM TBCOM_CUSTMAS"+
-            " WHERE cust_actv_gbcd = #{custActvGbcd, jdbcType=BIT}")
+            " WHERE CUST_ACTV_GBCD = #{custActvGbcd, jdbcType=TINYINT}")
     List<CustMasDTO> findAllByCustActvGbcd(boolean custActvGbcd);
 
 }

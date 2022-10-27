@@ -1,7 +1,6 @@
 server:
   port: 8507
   servlet:
-    session: 10800
     context-path: /user
   tomcat:
     uri-encoding: UTF-8
@@ -21,11 +20,17 @@ mybatis:
   configuration:
     map-underscore-to-camel-case: true
 
+logging:
+  config: classpath:logback.xml
+
 spring:
   main:
     banner-mode: off
   application:
     name: BankPin User Server
+  config:
+    import:
+      - classpath:/application-oauth.yml
   profiles:
     active: local
     group:
@@ -38,8 +43,6 @@ spring:
   config:
     activate:
       on-profile: local
-    import:
-      - classpath:/application-oauth.yml
   devtools:
     livereload:
       enabled: true
@@ -47,11 +50,12 @@ spring:
       enabled: true
   datasource:
     driverClassName: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
-    url: jdbc:log4jdbc:mariadb://211.184.225.81:3306/abc?characterEncoding=UTF-8&serverTimezone=Asia/Seoul
-    username: ENC(CR4V6mQp8V32+wNNWZBwDA==)
-    password: ENC(JTGUiqp/XIl8cUbQzl9bG9SnkQz/lxof)
-
-
+    url: jdbc:log4jdbc:mariadb://localhost:3306/localdev?characterEncoding=UTF-8&serverTimezone=Asia/Seoul
+    username: ENC(iIMxdqR/dFfh0E1QC2gXpQ==)
+    password: ENC(LY5Rq49nvJ1MqI9DBV8GQA==)
+#    url: jdbc:log4jdbc:mariadb://211.184.225.81:3306/bankpindb?characterEncoding=UTF-8&serverTimezone=Asia/Seoul
+#    username: ENC(CR4V6mQp8V32+wNNWZBwDA==)
+#    password: ENC(JTGUiqp/XIl8cUbQzl9bG9SnkQz/lxof)
 
 ---
 server:
