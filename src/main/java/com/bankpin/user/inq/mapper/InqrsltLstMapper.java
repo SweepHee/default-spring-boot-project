@@ -167,7 +167,7 @@ public interface InqrsltLstMapper
             "UPDATE TBLNS_INQRSLT_LST" +
             "   SET" +
             "   <if test='bankCd != null and bankCd != \"\"'>" +
-            "     , BANK_CD = #{bankCd, jdbcType=VARCHAR}" +
+            "       BANK_CD = #{bankCd, jdbcType=VARCHAR}" +
             "   </if>" +
             "   <if test='bankBrchCd != null and bankBrchCd != \"\"'>" +
             "     , BANK_BRCH_CD = #{bankBrchCd, jdbcType=VARCHAR}" +
@@ -209,7 +209,7 @@ public interface InqrsltLstMapper
             "     , APPLY_RATE = #{applyRate, jdbcType=DECIMAL}" +
             "   </if>" +
             "   <if test='priRateYn != null and priRateYn != \"\"'>" +
-            "     , PRI_RATE_YN = #{priRateYn, jdbcType=VARCHAR}" +
+            "     , PRI_RATE_YN = #{priRateYn, jdbcType=TINYINT}" +
             "   </if>" +
             "   <if test='priRateRsnCntn != null and priRateRsnCntn != \"\"'>" +
             "     , PRI_RATE_RSN_CNTN = #{priRateRsnCntn, jdbcType=VARCHAR}" +

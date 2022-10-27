@@ -1,9 +1,9 @@
 package com.bankpin.user.auth.model.dto;
 
-import com.bankpin.user.model.type.HttpCodeType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import org.springframework.http.HttpStatus;
 
 public class UserDTO
 {
@@ -16,6 +16,9 @@ public class UserDTO
         private String name;
         private String custAuthCd;
         private Boolean custActvGbcd;
+        private String custEmail;
+        private String custBirth;
+        private String custGender;
     }
 
     @Data
@@ -26,6 +29,9 @@ public class UserDTO
         private String custId;
         private String custNm;
         private String custAuthCd;
+        private String custEmail;
+        private String custBirth;
+        private String custGender;
     }
 
     @Data
@@ -34,6 +40,9 @@ public class UserDTO
         private String custCiNo;
         private String custId;
         private String custNm;
+        private String custEmail;
+        private String custBirth;
+        private String custGender;
     }
 
     @Data
@@ -44,7 +53,7 @@ public class UserDTO
         @Builder.Default
         private Boolean error = false;
         @Builder.Default
-        private Integer code = HttpCodeType.OK.getCode();
+        private Integer code = HttpStatus.OK.value();
         private String message;
         private Object data;
     }

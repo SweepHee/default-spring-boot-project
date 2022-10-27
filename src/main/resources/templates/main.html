@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
 	<meta charset="UTF-8">
@@ -107,7 +107,9 @@
 							</ul>
 						</div>
 
-						<dl>
+						<dl id="loan_bank_list">
+							<script id="loan_bank_list_template" type="text/x-handlebars-template">
+							{{#items}}
 							<div>
 								<dt><img src="/user/static/assets/images/common/bank01.svg"></dt>
 								<dd>
@@ -121,7 +123,9 @@
 									</p>
 								</dd>
 							</div>
-							<div>
+							{{/items}}
+							</script>
+							<!--<div>
 								<dt><img src="/user/static/assets/images/common/bank02.svg"></dt>
 								<dd>
 									<p class="bank">
@@ -133,7 +137,7 @@
 										<span><b>5,000</b>만원</span>
 									</p>
 								</dd>
-							</div>
+							</div>-->
 						</dl>
 					</div>
 					<!--조회 후 대출 이력 리스트 e-->
@@ -196,88 +200,25 @@
 				<!--appr_tit e-->
 
 				<!--appr_list-->
-				<div class="appr_list">
-
+				<div class="appr_list" id="appr_list">
+					<script id="appr_list_template" type="text/x-handlebars-template">
+					{{#items}}
 					<dl>
 						<dt>
-							<p class="tt">대출가능 <b>1</b></p>
-							<p class="num"><label>최대한도</label> <b>6,000</b>만원</p>
-							<p class="num"><label>최저금리</label> <b>4.18%</b></p>
+							<p class="tt">대출가능 <b>{{avlCnt}}</b></p>
+							<p class="num"><label>최대한도</label> <b>{{toCurrency lstLnLmtAmt}}</b>만원</p>
+							<p class="num"><label>최저금리</label> <b>{{toFixed lstLnRate}}%</b></p>
 						</dt>
-						<dd class="man">
-							<p class="name">김**님(40대)</p>
+						<dd class="{{#if (isWoman custGender)}}woman{{else}}man{{/if}}">
+							<p class="name">{{custNm}}님({{custBirth}}대)</p>
 							<p class="type">
-								<span>경기도</span>
-								<span>아파트</span>
-								<span>생활비</span>
+								<span>{{custHousTypecdType custHousTypecd}}</span>
+								<span>{{lnUseGbcdType lnUseGbcd}}</span>
 							</p>
 						</dd>
 					</dl>
-
-					<dl>
-						<dt>
-							<p class="tt">대출가능 <b>1</b></p>
-							<p class="num"><label>최대한도</label> <b>6,000</b>만원</p>
-							<p class="num"><label>최저금리</label> <b>4.18%</b></p>
-						</dt>
-						<dd class="woman">
-							<p class="name">김**님(40대)</p>
-							<p class="type">
-								<span>경기도</span>
-								<span>아파트</span>
-								<span>생활비</span>
-							</p>
-						</dd>
-					</dl>
-
-					<dl>
-						<dt>
-							<p class="tt">대출가능 <b>1</b></p>
-							<p class="num"><label>최대한도</label> <b>6,000</b>만원</p>
-							<p class="num"><label>최저금리</label> <b>4.18%</b></p>
-						</dt>
-						<dd class="man">
-							<p class="name">김**님(40대)</p>
-							<p class="type">
-								<span>경기도</span>
-								<span>아파트</span>
-								<span>생활비</span>
-							</p>
-						</dd>
-					</dl>
-
-					<dl>
-						<dt>
-							<p class="tt">대출가능 <b>1</b></p>
-							<p class="num"><label>최대한도</label> <b>6,000</b>만원</p>
-							<p class="num"><label>최저금리</label> <b>4.18%</b></p>
-						</dt>
-						<dd class="woman">
-							<p class="name">김**님(40대)</p>
-							<p class="type">
-								<span>경기도</span>
-								<span>아파트</span>
-								<span>생활비</span>
-							</p>
-						</dd>
-					</dl>
-
-					<dl>
-						<dt>
-							<p class="tt">대출가능 <b>1</b></p>
-							<p class="num"><label>최대한도</label> <b>6,000</b>만원</p>
-							<p class="num"><label>최저금리</label> <b>4.18%</b></p>
-						</dt>
-						<dd class="woman">
-							<p class="name">김**님(40대)</p>
-							<p class="type">
-								<span>경기도</span>
-								<span>아파트</span>
-								<span>생활비</span>
-							</p>
-						</dd>
-					</dl>
-
+					{{/items}}
+					</script>
 				</div>
 				<!--appr_list e-->
 
@@ -362,28 +303,47 @@
 	<script type="text/javascript" src="/user/static/assets/js/slick.min.js"></script>
 	<script type="text/javascript" src="/user/static/assets/js/default.js"></script>
 	<script type="text/javascript" src="/user/static/assets/js/rolling.js"></script>
+	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="/user/static/assets/js/handlebars.js"></script>
     <script src="/user/static/assets/js/handle_wrapper.js"></script>
+    <script src="/user/static/assets/js/handle_helper.js"></script>
 
 	<script>
-		const handleWrap = new HandleWrapper();
+		const appr_list_data = {items: []};
+		const appr_list_handleWrap = new HandleWrapper();
+		function appr_list() {
+			axios.get('/user/api/v1/appr-list')
+				.then(function(request) {
+					if (request.status == 200) {
+						if (!request.data.error) {
+							appr_list_data.items = request.data.data;
+							appr_list_handleWrap.setTemplate($('#appr_list_template').html());
+							appr_list_handleWrap.setData(appr_list_data);
+							appr_list_handleWrap.compile($('#appr_list'));
+							appr_list_slick();
+						} else {
+							console.log('error', request.data.message);
+						}
+					} else {
+						console.log('error', request.data);
+					}
+				})
+				.catch(function(error) {
+					if (error.response) {
+						console.error(error);
+					}
+				});
+		}
 
-		let data = {items: [
-			{tt: 1, max: "6,000", low: "4.1%", icon: "man", name: "김**님(40대)", types: [{type: "경기도"}, {type: "아파트"}, {type: "생활비"}]},
-			{tt: 1, max: "6,000", low: "4.1%", icon: "woman", name: "김**님(40대)", types: [{type: "경기도"}, {type: "아파트"}, {type: "생활비"}]},
-			{tt: 1, max: "6,000", low: "4.1%", icon: "man", name: "김**님(40대)", types: [{type: "경기도"}, {type: "아파트"}, {type: "생활비"}]},
-			{tt: 1, max: "6,000", low: "4.1%", icon: "man", name: "김**님(40대)", types: [{type: "경기도"}, {type: "아파트"}, {type: "생활비"}]},
-			{tt: 1, max: "6,000", low: "4.1%", icon: "man", name: "김**님(40대)", types: [{type: "경기도"}, {type: "아파트"}, {type: "생활비"}]},
-			{tt: 1, max: "6,000", low: "4.1%", icon: "woman", name: "김**님(40대)", types: [{type: "경기도"}, {type: "아파트"}, {type: "생활비"}]},
-			{tt: 1, max: "6,000", low: "4.1%", icon: "man", name: "김**님(40대)", types: [{type: "경기도"}, {type: "아파트"}, {type: "생활비"}]},
-			{tt: 1, max: "6,000", low: "4.1%", icon: "woman", name: "김**님(40대)", types: [{type: "경기도"}, {type: "아파트"}, {type: "생활비"}]},
-			{tt: 1, max: "6,000", low: "4.1%", icon: "man", name: "김**님(40대)", types: [{type: "경기도"}, {type: "아파트"}, {type: "생활비"}]},
-			{tt: 1, max: "6,000", low: "4.1%", icon: "woman", name: "김**님(40대)", types: [{type: "경기도"}, {type: "아파트"}, {type: "생활비"}]}
-		]};
-	</script>
+		const loan_bank_list_data = {items: [{id:"adf"}, {id:"adfd"}, {id:"adfg"}]};
+		const loan_bank_list_handleWrap = new HandleWrapper();
+		function loan_bank_list() {
+			loan_bank_list_handleWrap.setTemplate($('#loan_bank_list_template').html());
+			loan_bank_list_handleWrap.setData(loan_bank_list_data);
+			loan_bank_list_handleWrap.compile($('#loan_bank_list'));
+		}
 
-	<script>
-		$(document).ready(function() {
+		function appr_list_slick() {
 			$(".appr_list").slick({
 				vertical: true,
 				swipe: false,
@@ -393,8 +353,12 @@
 				autoplaySpeed: 2000,
 				arrows: false,
 				verticalSwiping: true,
-
 			});
+		}
+
+		document.addEventListener("DOMContentLoaded", function() {
+			loan_bank_list();
+			appr_list();
 		});
 	</script>
 

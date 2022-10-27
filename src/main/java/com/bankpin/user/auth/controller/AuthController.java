@@ -5,9 +5,9 @@ import com.bankpin.user.auth.model.dto.UserDTO;
 import com.bankpin.user.auth.model.type.AuthErrorType;
 import com.bankpin.user.auth.model.type.AuthorityType;
 import com.bankpin.user.auth.service.UserAuthService;
-import com.bankpin.user.model.type.HttpCodeType;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.util.StringUtils;
@@ -43,7 +43,7 @@ public class AuthController
         return ResponseEntity.ok().body(
                 UserDTO.ResponseMessage.builder()
                     .error(!authenticate | error)
-                    .code(authenticate ? HttpCodeType.OK.getCode() : HttpCodeType.UNAUTHORIZED.getCode())
+                    .code(authenticate ? HttpStatus.OK.value() : HttpStatus.UNAUTHORIZED.value())
                     .message(message)
                     .build());
     }
@@ -54,7 +54,7 @@ public class AuthController
         return ResponseEntity.ok().body(
                 UserDTO.ResponseMessage.builder()
                     .error(!authentication)
-                    .code(authentication ? HttpCodeType.OK.getCode() : HttpCodeType.UNAUTHORIZED.getCode())
+                    .code(authentication ? HttpStatus.OK.value() : HttpStatus.UNAUTHORIZED.value())
                     .build());
     }
 
@@ -62,14 +62,14 @@ public class AuthController
 	public ResponseEntity<UserDTO.ResponseMessage> create(UserDTO.Create user)
     {
         boolean error = false;
-        int code = HttpCodeType.OK.getCode();
+        int code = HttpStatus.OK.value();
         String message = null;
 
         if (!user.getPassword().equals(user.getRePassword())) {
             return ResponseEntity.ok().body(
                     UserDTO.ResponseMessage.builder()
                     .error(true)
-                    .code(HttpCodeType.BAD_REQUEST.getCode())
+                    .code(HttpStatus.BAD_REQUEST.value())
                     .message(AuthErrorType.PASSWORD_NOT_FOUND.getMessage())
                     .build());
         }
@@ -79,18 +79,18 @@ public class AuthController
             return ResponseEntity.ok().body(
                     UserDTO.ResponseMessage.builder()
                     .error(true)
-                    .code(HttpCodeType.FORBIDDEN.getCode())
+                    .code(HttpStatus.FORBIDDEN.value())
                     .message(AuthErrorType.USER_ALREADY_EXISTS.getMessage())
                     .build());
         }
 
-        user.setCustAuthCd(AuthorityType.USER.getKey());
+        user.setCustAuthCd(AuthorityType.USER_WRITE_REMOVE_PRINT.getKey());
         user.setCustActvGbcd(Boolean.FALSE);
         try {
             userAuthService.join(user);
         } catch (Exception e) {
             error = true;
-            code = HttpCodeType.INTERNAL_SERVER_ERROR.getCode();
+            code = HttpStatus.INTERNAL_SERVER_ERROR.value();
             message = AuthErrorType.SIGN_UP_ERROR.getMessage();
             log.error("userAuthService.join: "+ e.getMessage());
         }

@@ -4,6 +4,7 @@ import com.bankpin.user.mrtg.mapper.MrtgevalInfoMapper;
 import com.bankpin.user.mrtg.model.dto.MrtgevalInfoDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -21,14 +22,17 @@ public class MrtgevalInfoService
         return mrtgevalInfoMapper.findAll(lnMrtgNo);
     }
 
+    @Transactional
     public int insert(MrtgevalInfoDTO.Create create) {
         return mrtgevalInfoMapper.save(create);
     }
 
+    @Transactional
     public int update(MrtgevalInfoDTO.Create edit) {
         return mrtgevalInfoMapper.edit(edit);
     }
 
+    @Transactional
     public int delete(MrtgevalInfoDTO.Param param) {
         return mrtgevalInfoMapper.remove(param);
     }

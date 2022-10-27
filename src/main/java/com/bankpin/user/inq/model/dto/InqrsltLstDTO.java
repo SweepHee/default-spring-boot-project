@@ -19,6 +19,7 @@ public class InqrsltLstDTO
         @NotBlank(message = "not null")
         @Length(max = 14, message = "max = 14")
         private String lnReqNo;
+        @NotBlank(message = "not null")
         @Length(max = 20, message = "max = 20")
         private String fintecOrgMngno;
         @Length(max = 5, message = "max = 5")
@@ -68,7 +69,7 @@ public class InqrsltLstDTO
         @Length(max = 3, message = "max = 3")
         private String lnRateCycleCd;
         @Positive
-        @Digits(integer = 15, fraction = 0, message = "max = 3,5")
+        @Digits(integer = 3, fraction = 5, message = "max = 3,5")
         private BigDecimal lnMidrtnFeeRate;
         private Boolean lnMidrtnFeeYn;
         private Boolean endAllrtnAblYn;

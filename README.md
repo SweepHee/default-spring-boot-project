@@ -61,6 +61,23 @@
 - API 를 사용하는 경우: ApiXxxController
 
 
+### Service Method 네이밍
+- Method
+  * list, xxxList
+  * detail, xxxDetail
+  * add, xxxAdd
+  * update, xxxUpdate
+  * remove, xxxRemove
+
+
+- URL Mapping
+  * list, xxx-list
+  * detail, xxx-detail
+  * add, xxx-add
+  * update, xxx-update
+  * remove, xxx-remove
+
+
 ### 쿠콘 API 개발 참조
 - URI
   * Send: `/user/api/v1/coocon/...`
