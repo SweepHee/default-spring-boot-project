@@ -51,12 +51,6 @@ public interface InqrsltLstMapper
             "       <when test='sortOrder == \"rateUp\"'>" +
             " ORDER BY TIL.LST_LN_RATE ASC, TIL.LST_LN_LMT_AMT DESC" +
             "       </when>" +
-            "       <when test='sortOrder == \"rateDown\"'>" +
-            " ORDER BY TIL.LST_LN_RATE DESC, TIL.LST_LN_LMT_AMT DESC" +
-            "       </when>" +
-            "       <when test='sortOrder == \"amtUp\"'>" +
-            " ORDER BY TIL.LST_LN_LMT_AMT ASC, TIL.LST_LN_RATE ASC" +
-            "       </when>" +
             "       <when test='sortOrder == \"amtDown\"'>" +
             " ORDER BY TIL.LST_LN_LMT_AMT DESC, TIL.LST_LN_RATE ASC" +
             "       </when>" +
