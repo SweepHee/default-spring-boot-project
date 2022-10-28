@@ -51,8 +51,8 @@ spring:
   datasource:
     driverClassName: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
     url: jdbc:log4jdbc:mariadb://211.184.225.81:3306/bankpindb?characterEncoding=UTF-8&serverTimezone=Asia/Seoul
-    username: ENC(CR4V6mQp8V32+wNNWZBwDA==)
-    password: ENC(JTGUiqp/XIl8cUbQzl9bG9SnkQz/lxof)
+    username: ENC(cDHA7G+0gyL4Km6tWaukWQ==)
+    password: ENC(5DW5BtvDS4SrmOlNCsU5AKZTNhBmiqzl)
 
 ---
 server:
