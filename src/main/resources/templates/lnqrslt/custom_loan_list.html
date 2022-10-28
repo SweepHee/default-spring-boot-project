@@ -139,7 +139,7 @@
 
 		const loan_column_handleWrap = new HandleWrapper();
 		function search_loan_column() {
-			axios.get('/user/api/v1/inqrslt/progress')
+			axios.get('/user/api/v1/inqrslt/progress-detail')
 				.then(function(request) {
 					if (request.status == 200) {
 						if (!request.data.error) {

@@ -48,8 +48,8 @@ public class ApiInqrsltLstController
                         .build());
     }
 
-    @GetMapping("/progress")
-    public ResponseEntity<ResponseData> progressInfo(Authentication authentication)
+    @GetMapping("/progress-detail")
+    public ResponseEntity<ResponseData> progressDetail(Authentication authentication)
     {
 //        UserAuth userAuth = (UserAuth) authentication.getPrincipal();
         InqrsltLstDTO.Progress item = InqrsltLstDTO.Progress.builder()
