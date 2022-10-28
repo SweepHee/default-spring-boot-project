@@ -1,11 +1,13 @@
 package com.bankpin.user.inq.controller;
 
+import com.bankpin.user.auth.model.dto.UserAuth;
 import com.bankpin.user.inq.model.dto.InqrsltLstDTO;
 import com.bankpin.user.inq.service.InqrsltLstService;
 import com.bankpin.user.model.dto.ResponseData;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -20,8 +22,12 @@ public class ApiInqrsltLstController
     private InqrsltLstService inqrsltLstService;
 
     @GetMapping("/list")
-    public ResponseEntity<ResponseData> list(@Valid InqrsltLstDTO.Param param)
+    public ResponseEntity<ResponseData> list(@Valid InqrsltLstDTO.Param param, Authentication authentication)
     {
+//        UserAuth userAuth = (UserAuth) authentication.getPrincipal();
+//        param.setCustCiNo(userAuth.getId());
+        param.setCustCiNo("f2633a08330511ed8b3a0242ac130003");
+
         List<InqrsltLstDTO.Item> list = inqrsltLstService.selectAll(param);
         return ResponseEntity.ok(
                 ResponseData.builder()
@@ -30,12 +36,33 @@ public class ApiInqrsltLstController
     }
 
     @GetMapping("/detail")
-    public ResponseEntity<ResponseData> detail(@Valid InqrsltLstDTO.Param param)
+    public ResponseEntity<ResponseData> detail(@Valid InqrsltLstDTO.Param param, Authentication authentication)
     {
+        UserAuth userAuth = (UserAuth) authentication.getPrincipal();
+        param.setCustCiNo(userAuth.getId());
+
         InqrsltLstDTO.Detail detail = inqrsltLstService.selectDetail(param);
         return ResponseEntity.ok(
                 ResponseData.builder()
                         .data(detail)
+                        .build());
+    }
+
+    @GetMapping("/progress")
+    public ResponseEntity<ResponseData> progressInfo(Authentication authentication)
+    {
+//        UserAuth userAuth = (UserAuth) authentication.getPrincipal();
+        InqrsltLstDTO.Progress item = InqrsltLstDTO.Progress.builder()
+                .progress(12)
+                .done(12)
+                .result(0)
+//                .custCiNo(userAuth.getId())
+                .custCiNo("f2633a08330511ed8b3a0242ac130003")
+                .build();
+
+        return ResponseEntity.ok(
+                ResponseData.builder()
+                        .data(item)
                         .build());
     }
 

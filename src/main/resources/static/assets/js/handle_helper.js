@@ -70,40 +70,44 @@ Handlebars.registerHelper("lnUseGbcdType", function (value) {
 
 
 const BANK_CODE_IMAGES = [
-    {"id": "bank01", "name": "sc제일은행", "image": "/bank01.svg"},
-    {"id": "bank02", "name": "sh수협은행", "image": "/bank02.svg"},
-    {"id": "bank03", "name": "대구은행", "image": "/bank03.svg"},
-    {"id": "bank04", "name": "부산은행", "image": "/bank04.svg"},
-    {"id": "bank05", "name": "광주은행", "image": "/bank05.svg"},
-    {"id": "bank06", "name": "부산저축은행", "image": "/bank06.svg"},
-    {"id": "bank07", "name": "ibk저축은행", "image": "/bank07.svg"},
-    {"id": "bank08", "name": "ok저축은행", "image": "/bank08.svg"},
-    {"id": "bank09", "name": "osb저축은행", "image": "/bank09.svg"},
-    {"id": "bank10", "name": "sbi저축은행", "image": "/bank10.svg"},
-    {"id": "bank11", "name": "다올저축은행", "image": "/bank11.svg"},
-    {"id": "bank12", "name": "웰컴저축은행", "image": "/bank12.svg"},
-    {"id": "bank13", "name": "키움저축은행", "image": "/bank13.svg"},
-    {"id": "bank14", "name": "하나저축은행", "image": "/bank14.svg"},
-    {"id": "bank15", "name": "고려저축은행", "image": "/bank15.svg"},
-    {"id": "bank16", "name": "동원제일저축은행", "image": "/bank16.svg"},
-    {"id": "bank17", "name": "모아저축은행", "image": "/bank17.svg"},
-    {"id": "bank18", "name": "상상인저축은행", "image": "/bank18.svg"},
-    {"id": "bank19", "name": "새마을금고", "image": "/bank19.svg"},
-    {"id": "bank20", "name": "수협", "image": "/bank20.svg"},
-    {"id": "bank21", "name": "신협", "image": "/bank21.svg"},
-    {"id": "bank22", "name": "한화생명", "image": "/bank22.svg"},
-    {"id": "bank23", "name": "삼성생명", "image": "/bank23.svg"},
-    {"id": "bank24", "name": "흥국생명", "image": "/bank24.svg"},
-    {"id": "bank25", "name": "교보생명", "image": "/bank25.svg"},
-    {"id": "bank26", "name": "우리카드", "image": "/bank26.svg"},
-    {"id": "bank27", "name": "BNK캐피탈", "image": "/bank27.svg"},
-    {"id": "bank28", "name": "JB우리캐피탈", "image": "/bank28.svg"},
-    {"id": "bank29", "name": "롯데캐피탈", "image": "/bank29.svg"},
-    {"id": "bank30", "name": "OK캐피탈", "image": "/bank30.svg"},
-    {"id": "bank31", "name": "하나캐피탈", "image": "/bank31.svg"}
+    {"id": "bnk01", "name": "sc제일은행", "image": "bank01.svg"},
+    {"id": "bnk02", "name": "sh수협은행", "image": "bank02.svg"},
+    {"id": "bnk03", "name": "대구은행", "image": "bank03.svg"},
+    {"id": "bnk04", "name": "부산은행", "image": "bank04.svg"},
+    {"id": "bnk05", "name": "광주은행", "image": "bank05.svg"},
+    {"id": "bnk06", "name": "부산저축은행", "image": "bank06.svg"},
+    {"id": "bnk07", "name": "ibk저축은행", "image": "bank07.svg"},
+    {"id": "bnk08", "name": "ok저축은행", "image": "bank08.svg"},
+    {"id": "bnk09", "name": "osb저축은행", "image": "bank09.svg"},
+    {"id": "bnk10", "name": "sbi저축은행", "image": "bank10.svg"},
+    {"id": "bnk11", "name": "다올저축은행", "image": "bank11.svg"},
+    {"id": "bnk12", "name": "웰컴저축은행", "image": "bank12.svg"},
+    {"id": "bnk13", "name": "키움저축은행", "image": "bank13.svg"},
+    {"id": "bnk14", "name": "하나저축은행", "image": "bank14.svg"},
+    {"id": "bnk15", "name": "고려저축은행", "image": "bank15.svg"},
+    {"id": "bnk16", "name": "동원제일저축은행", "image": "bank16.svg"},
+    {"id": "bnk17", "name": "모아저축은행", "image": "bank17.svg"},
+    {"id": "bnk18", "name": "상상인저축은행", "image": "bank18.svg"},
+    {"id": "bnk19", "name": "새마을금고", "image": "bank19.svg"},
+    {"id": "bnk20", "name": "수협", "image": "bank20.svg"},
+    {"id": "bnk21", "name": "신협", "image": "bank21.svg"},
+    {"id": "bnk22", "name": "한화생명", "image": "bank22.svg"},
+    {"id": "bnk23", "name": "삼성생명", "image": "bank23.svg"},
+    {"id": "bnk24", "name": "흥국생명", "image": "bank24.svg"},
+    {"id": "bnk25", "name": "교보생명", "image": "bank25.svg"},
+    {"id": "bnk26", "name": "우리카드", "image": "bank26.svg"},
+    {"id": "bnk27", "name": "BNK캐피탈", "image": "bank27.svg"},
+    {"id": "bnk28", "name": "JB우리캐피탈", "image": "bank28.svg"},
+    {"id": "bnk29", "name": "롯데캐피탈", "image": "bank29.svg"},
+    {"id": "bnk30", "name": "OK캐피탈", "image": "bank30.svg"},
+    {"id": "bnk31", "name": "하나캐피탈", "image": "bank31.svg"}
 ];
 Handlebars.registerHelper("bankImage", function (value) {
     const image = "/user/static/assets/images/common";
-    const image_url = BANK_CODE_IMAGES.find(o => o.id == value) || {"image": "/blank.svg"};
+    const image_url = BANK_CODE_IMAGES.find(o => o.id == value) || {"image": "blank.svg"};
     return image +"/"+ image_url.image;
+});
+Handlebars.registerHelper("bankName", function (value) {
+    const bank = BANK_CODE_IMAGES.find(o => o.id == value) || {"name": "은행"};
+    return bank.name;
 });

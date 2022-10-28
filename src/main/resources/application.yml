@@ -54,8 +54,8 @@ spring:
     username: ENC(iIMxdqR/dFfh0E1QC2gXpQ==)
     password: ENC(LY5Rq49nvJ1MqI9DBV8GQA==)
 #    url: jdbc:log4jdbc:mariadb://211.184.225.81:3306/bankpindb?characterEncoding=UTF-8&serverTimezone=Asia/Seoul
-#    username: ENC(CR4V6mQp8V32+wNNWZBwDA==)
-#    password: ENC(JTGUiqp/XIl8cUbQzl9bG9SnkQz/lxof)
+#    username: ENC(cDHA7G+0gyL4Km6tWaukWQ==)
+#    password: ENC(5DW5BtvDS4SrmOlNCsU5AKZTNhBmiqzl)
 
 ---
 server:
@@ -67,8 +67,8 @@ spring:
   datasource:
     driverClassName: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
     url: ENC(U+VESzvSUt1V4IBrWjh9Sv7o37ENBBPed8pbMawtTKYW1W0rnXml5PvIRDybnK1wrhCIDCePFeTW6l//fyF+hDGhJ2Qj6dmdG2+Sq0aWX6jwhmqXVKnjfMx/VSdr0EOZFOTiUO7v8kM=)
-    username: ENC(CR4V6mQp8V32+wNNWZBwDA==)
-    password: ENC(JTGUiqp/XIl8cUbQzl9bG9SnkQz/lxof)
+    username: ENC(cDHA7G+0gyL4Km6tWaukWQ==)
+    password: ENC(5DW5BtvDS4SrmOlNCsU5AKZTNhBmiqzl)
 
 ---
 spring:
@@ -78,5 +78,5 @@ spring:
   datasource:
     driverClassName: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
     url: ENC(U+VESzvSUt1V4IBrWjh9Sv7o37ENBBPed8pbMawtTKYW1W0rnXml5PvIRDybnK1wrhCIDCePFeTW6l//fyF+hDGhJ2Qj6dmdG2+Sq0aWX6jwhmqXVKnjfMx/VSdr0EOZFOTiUO7v8kM=)
-    username: ENC(CR4V6mQp8V32+wNNWZBwDA==)
-    password: ENC(JTGUiqp/XIl8cUbQzl9bG9SnkQz/lxof)
+    username: ENC(cDHA7G+0gyL4Km6tWaukWQ==)
+    password: ENC(5DW5BtvDS4SrmOlNCsU5AKZTNhBmiqzl)
