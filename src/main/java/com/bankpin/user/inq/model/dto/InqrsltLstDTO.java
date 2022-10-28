@@ -158,7 +158,7 @@ public class InqrsltLstDTO
         private int progress;
         private int done;
         private int result;
-        private String custCiNo;
+        private String custNm;
     }
 
     @Data

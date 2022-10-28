@@ -21,6 +21,7 @@ public class UserAuth implements UserDetails
     private String username;
     private String password;
     private String authority;
+    private String name;
 
     private Collection<? extends GrantedAuthority> authorities;
 

@@ -56,8 +56,8 @@ public class ApiInqrsltLstController
                 .progress(12)
                 .done(12)
                 .result(0)
-//                .custCiNo(userAuth.getId())
-                .custCiNo("f2633a08330511ed8b3a0242ac130003")
+//                .custNm(userAuth.getName())
+                .custNm("고객님")
                 .build();
 
         return ResponseEntity.ok(
