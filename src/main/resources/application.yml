@@ -64,8 +64,8 @@ spring:
   datasource:
     driverClassName: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
     url: ENC(U+VESzvSUt1V4IBrWjh9Sv7o37ENBBPed8pbMawtTKYW1W0rnXml5PvIRDybnK1wrhCIDCePFeTW6l//fyF+hDGhJ2Qj6dmdG2+Sq0aWX6jwhmqXVKnjfMx/VSdr0EOZFOTiUO7v8kM=)
-    username: ENC(CR4V6mQp8V32+wNNWZBwDA==)
-    password: ENC(JTGUiqp/XIl8cUbQzl9bG9SnkQz/lxof)
+    username: ENC(cDHA7G+0gyL4Km6tWaukWQ==)
+    password: ENC(5DW5BtvDS4SrmOlNCsU5AKZTNhBmiqzl)
 
 ---
 spring:
@@ -75,5 +75,5 @@ spring:
   datasource:
     driverClassName: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
     url: ENC(U+VESzvSUt1V4IBrWjh9Sv7o37ENBBPed8pbMawtTKYW1W0rnXml5PvIRDybnK1wrhCIDCePFeTW6l//fyF+hDGhJ2Qj6dmdG2+Sq0aWX6jwhmqXVKnjfMx/VSdr0EOZFOTiUO7v8kM=)
-    username: ENC(CR4V6mQp8V32+wNNWZBwDA==)
-    password: ENC(JTGUiqp/XIl8cUbQzl9bG9SnkQz/lxof)
+    username: ENC(cDHA7G+0gyL4Km6tWaukWQ==)
+    password: ENC(5DW5BtvDS4SrmOlNCsU5AKZTNhBmiqzl)
