@@ -26,7 +26,7 @@ public class UserAuth implements UserDetails
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singleton(new SimpleGrantedAuthority(AuthorityType.USER.getKey()));
+        return Collections.singleton(new SimpleGrantedAuthority(AuthorityType.USER_WRITE_REMOVE_PRINT.getKey()));
     }
 
     public void setAuthorities(Collection<? extends GrantedAuthority> authorities) {

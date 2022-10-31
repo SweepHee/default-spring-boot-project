@@ -46,7 +46,8 @@ public class NaverAuth {
             userInfoUri = userInfoUris;
         }
 
-        
+
+
         // 토큰요청주소 리턴
         public static String getAccessTokenUri(TokenReq tokenReq) {
 

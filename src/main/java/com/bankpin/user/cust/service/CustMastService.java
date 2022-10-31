@@ -24,16 +24,4 @@ public class CustMastService
         return custMasMapper.findAllByCustActvGbcd(Boolean.TRUE);
     }
 
-    public void insert() {
-        // TODO
-    }
-
-    public void update() {
-        // TODO
-    }
-
-    public void delete() {
-        // TODO
-    }
-
 }

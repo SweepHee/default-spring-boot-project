@@ -39,7 +39,7 @@ public class UserAuthService implements UserDetailsService
         }
 
         List<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority(AuthorityType.USER.getKey()));
+        authorities.add(new SimpleGrantedAuthority(AuthorityType.USER_WRITE_REMOVE_PRINT.getKey()));
         user.setAuthorities(authorities);
         return user;
 	}
