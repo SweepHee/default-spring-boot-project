@@ -166,6 +166,8 @@ public class InqrsltLstDTO
     @AllArgsConstructor
     public static class Param
     {
+        @Length(max = 5, message = "max = 5")
+        private String bankCd;
         @Length(max = 32, message = "max = 32")
         private String custCiNo;
         @Length(max = 14, message = "max = 14")

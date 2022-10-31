@@ -1,6 +1,8 @@
 package com.bankpin.user.inq.controller;
 
 import com.bankpin.user.auth.model.dto.UserAuth;
+import com.bankpin.user.code.model.dto.BankDTO;
+import com.bankpin.user.code.service.BankService;
 import com.bankpin.user.inq.model.dto.InqrsltLstDTO;
 import com.bankpin.user.inq.service.InqrsltLstService;
 import com.bankpin.user.model.dto.ResponseData;
@@ -21,6 +23,12 @@ public class ApiInqrsltLstController
     @Autowired
     private InqrsltLstService inqrsltLstService;
 
+    /**
+     * 맞춤상품비교
+     * @param param
+     * @param authentication
+     * @return
+     */
     @GetMapping("/list")
     public ResponseEntity<ResponseData> list(@Valid InqrsltLstDTO.Param param, Authentication authentication)
     {
@@ -35,11 +43,18 @@ public class ApiInqrsltLstController
                         .build());
     }
 
+    /**
+     * 맞춤상품비교 > 상품정보
+     * @param param
+     * @param authentication
+     * @return
+     */
     @GetMapping("/detail")
     public ResponseEntity<ResponseData> detail(@Valid InqrsltLstDTO.Param param, Authentication authentication)
     {
-        UserAuth userAuth = (UserAuth) authentication.getPrincipal();
-        param.setCustCiNo(userAuth.getId());
+//        UserAuth userAuth = (UserAuth) authentication.getPrincipal();
+//        param.setCustCiNo(userAuth.getId());
+        param.setCustCiNo("f2633a08330511ed8b3a0242ac130003");
 
         InqrsltLstDTO.Detail detail = inqrsltLstService.selectDetail(param);
         return ResponseEntity.ok(
@@ -48,10 +63,16 @@ public class ApiInqrsltLstController
                         .build());
     }
 
+    /**
+     * 맞춤상품비교 > 진행중, 완료, 검색결과
+     */
     @GetMapping("/progress-detail")
-    public ResponseEntity<ResponseData> progressDetail(Authentication authentication)
+    public ResponseEntity<ResponseData> progressDetail(@Valid InqrsltLstDTO.Param param, Authentication authentication)
     {
 //        UserAuth userAuth = (UserAuth) authentication.getPrincipal();
+//        param.setCustCiNo(userAuth.getId());
+        param.setCustCiNo("f2633a08330511ed8b3a0242ac130003");
+
         InqrsltLstDTO.Progress item = InqrsltLstDTO.Progress.builder()
                 .progress(12)
                 .done(12)
@@ -63,6 +84,23 @@ public class ApiInqrsltLstController
         return ResponseEntity.ok(
                 ResponseData.builder()
                         .data(item)
+                        .build());
+    }
+
+    /**
+     * 맞춤상품비교 > 상품정보 > 대출신청 정보확인
+     */
+    @GetMapping("/confirm-detail")
+    public ResponseEntity<ResponseData> loanDetail(@Valid InqrsltLstDTO.Param param, Authentication authentication)
+    {
+//        UserAuth userAuth = (UserAuth) authentication.getPrincipal();
+//        param.setCustCiNo(userAuth.getId());
+        param.setCustCiNo("f2633a08330511ed8b3a0242ac130003");
+        InqrsltLstDTO.Detail detail = inqrsltLstService.selectDetail(param);
+
+        return ResponseEntity.ok(
+                ResponseData.builder()
+                        .data(detail)
                         .build());
     }
 

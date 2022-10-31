@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 
 <head>
 	<meta charset="UTF-8">
@@ -34,9 +35,11 @@
 			<div class="content">
 
 				<div class="cuslon_top">
-					<div class="list_tit">
-						<span class="us_name">홍길동</span>고객님의<br>
+					<div class="list_tit" id="list_tit">
+						<script id="list_tit_template" type="text/x-handlebars-template">
+						<span class="us_name">{{custNm}}</span>고객님의<br>
 						<strong>맞춤 상품 결과</strong>입니다.
+						</script>
 					</div>
 
 					<div class="loan_column" id="loan_column">
@@ -73,7 +76,7 @@
 							<!--리스트 box-->
 							<script id="lon_box_dl_template" type="text/x-handlebars-template">
 							{{#items}}
-							<a>
+							<a href="/user/lnqrslt/detail?lnReqNo={{lnReqNo}}&fintecOrgMngno={{fintecOrgMngno}}">
 								<dt class="bank_info">
 									<img src="{{bankImage bankCd}}" alt="">
 									<p>
@@ -94,7 +97,7 @@
 											<strong>{{toCurrency lstLnLmtAmt}}</strong><em>원</em>
 										</li>
 									</ol>
-									<span><label>1금융</label> <label>오프라인 가능</label> <label>바로대출</label></span>
+									<span><label>{{bankType bankCd}}금융</label> <label>오프라인 가능</label> <label>바로대출</label></span>
 								</dd>
 							</a>
 							{{/items}}
@@ -125,8 +128,8 @@
 
 	<!--금리순/한도순-->
 	<script>
-		const handleWrapData = {
-			resource: {},
+		const wrapData = {
+			title: {},
 			board: {
 				progress: 0,
 				done: 0,
@@ -137,15 +140,17 @@
 			}
 		};
 
-		const loan_column_handleWrap = new HandleWrapper();
+		const list_tit_wrap = new HandleWrapper();
+		const loan_column_wrap = new HandleWrapper();
 		function search_loan_column() {
 			axios.get('/user/api/v1/inqrslt/progress-detail')
 				.then(function(request) {
 					if (request.status == 200) {
 						if (!request.data.error) {
-							handleWrapData.resource.custCiNo = request.data.data.custCiNo;
-							handleWrapData.board = request.data.data;
-							loan_column_handleWrap.put(handleWrapData.board);
+							wrapData.title.custNm = request.data.data.custNm;
+							wrapData.board = request.data.data;
+							list_tit_wrap.put(wrapData.title);
+							loan_column_wrap.put(wrapData.board);
 						} else {
 							console.log('error', request.data.message);
 						}
@@ -160,14 +165,17 @@
 				});
 		}
 
-		const lon_box_dl_handleWrap = new HandleWrapper();
+		const lon_box_dl_wrap = new HandleWrapper();
 		function search_lon_box_dl(sort) {
 			axios.get('/user/api/v1/inqrslt/list', {params: {sortOrder: sort}})
 				.then(function(request) {
 					if (request.status == 200) {
 						if (!request.data.error) {
-							handleWrapData.boxDl.items = request.data.data;
-							lon_box_dl_handleWrap.cleanFetch(handleWrapData.boxDl);
+							wrapData.boxDl.items = request.data.data;
+							lon_box_dl_wrap.cleanFetch(wrapData.boxDl);
+
+							wrapData.board.result = wrapData.boxDl.items.length;
+							loan_column_wrap.put(wrapData.board);
 						} else {
 							console.log('error', request.data.message);
 						}
@@ -197,13 +205,17 @@
 				search_lon_box_dl('amtDown');
 			});
 
-			loan_column_handleWrap.setTemplate($('#loan_column_template').html());
-			loan_column_handleWrap.setData(handleWrapData.board);
-			loan_column_handleWrap.compile($('#loan_column'));
+			list_tit_wrap.setTemplate($('#list_tit_template').html());
+			list_tit_wrap.setData(wrapData.title);
+			list_tit_wrap.compile($('#list_tit'));
 
-			lon_box_dl_handleWrap.setTemplate($('#lon_box_dl_template').html());
-			lon_box_dl_handleWrap.setData(handleWrapData.boxDl);
-			lon_box_dl_handleWrap.compile($('#lon_box_dl'));
+			loan_column_wrap.setTemplate($('#loan_column_template').html());
+			loan_column_wrap.setData(wrapData.board);
+			loan_column_wrap.compile($('#loan_column'));
+
+			lon_box_dl_wrap.setTemplate($('#lon_box_dl_template').html());
+			lon_box_dl_wrap.setData(wrapData.boxDl);
+			lon_box_dl_wrap.compile($('#lon_box_dl'));
 
 			search_loan_column();
 			search_lon_box_dl('rateUp');

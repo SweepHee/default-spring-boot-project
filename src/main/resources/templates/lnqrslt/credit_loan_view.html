@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 
 <head>
 	<meta charset="UTF-8">
@@ -18,7 +19,7 @@
 		<header id="header">
 			<div class="header_sub">
 				<div class="inner">
-					<button class="backBtn"><span class="blind">뒤로가기</span></button>
+					<button class="backBtn" onclick="previous()"><span class="blind">뒤로가기</span></button>
 					<h2 class="ttl">상품정보</h2>
 				</div>
 			</div>
@@ -30,17 +31,17 @@
 		<div id="container">
 
 			<!-- content -->
-			<div class="content">
-
+			<div class="content" id="loan">
+				<script id="loan_template" type="text/x-handlebars-template">
 				<div class="lon_box_list view">
 
 					<dl>
 						<!--info box-->
 						<div>
 							<dt class="bank_info">
-								<img src="/user/static/assets/images/common/bank01.svg" alt="">
+								<img src="{{bankImage bankCd}}" alt="">
 								<p>
-									<strong>한국씨티은행</strong>
+									<strong>{{bankName bankCd}}</strong>
 									<sub>살만한 신용대출</sub>
 									<label class="best">인기상품</label>
 								</p>
@@ -50,16 +51,14 @@
 								<ol>
 									<li>
 										<label>최저금리</label>
-										<em>연</em><strong>3.68</strong><b>%</b>
+										<em>연</em><strong>{{toFixed lstLnRate}}</strong><b>%</b>
 									</li>
 									<li>
 										<label>예상한도</label>
-										<strong>2.3</strong><em>억원</em>
+										<strong>{{toCurrency lstLnLmtAmt}}</strong><em>억원</em>
 									</li>
 								</ol>
-								
-<span><label>1금융</label> <label>오프라인 가능</label> <label>바로대출</label></span>
-
+								<span><label>{{bankType bankCd}}금융</label> <label>오프라인 가능</label> <label>바로대출</label></span>
 							</dd>
 						</div>
 						<!--info box e-->
@@ -148,22 +147,22 @@
 							<div class="rate_sel">
 								<ul class="radioBox clearfix">
 									<li class="radio">
-										<input type="radio" name="radio_01" id="r01" class="radioInput" title="인풋제목" checked="checked">
+										<input type="radio" name="radio_01" id="r01" class="radioInput" title="신용카드" checked="checked">
 										<label for="r01">신용카드</label>
 										<span>0.2%</span>
 									</li>
 									<li class="radio">
-										<input type="radio" name="radio_01" id="r02" class="radioInput" title="인풋제목" >
+										<input type="radio" name="radio_01" id="r02" class="radioInput" title="급여이체" >
 										<label for="r02">급여이체</label>
 										<span>0.2%</span>
 									</li>
 									<li class="radio">
-										<input type="radio" name="radio_01" id="r03" class="radioInput" title="인풋제목" >
+										<input type="radio" name="radio_01" id="r03" class="radioInput" title="예금평잔" >
 										<label for="r03">예금평잔</label>
 										<span>0.2%</span>
 									</li>
 									<li class="radio">
-										<input type="radio" name="radio_01" id="r04" class="radioInput" title="인풋제목" >
+										<input type="radio" name="radio_01" id="r04" class="radioInput" title="자동이체" >
 										<label for="r04">자동이체</label>
 										<span>0.2%</span>
 									</li>
@@ -172,7 +171,7 @@
 						</div>
 					</details>
 				</div>
-
+				</script>
 			</div>
 			<!-- content e -->
 
@@ -182,7 +181,7 @@
 		<!-- bottom button -->
 		<div class="bottom_btn wid50">
 			<button class="dis">금융사콜백요청 </button>
-			<button class="common">계속하기</button>
+			<button class="common" onclick="next()">계속하기</button>
 		</div>
 		<!-- bottom button e-->
 
@@ -192,19 +191,71 @@
 	<script type="text/javascript" src="/user/static/assets/js/jquery-3.1.0.min.js"></script>
 	<script type="text/javascript" src="/user/static/assets/js/jquery.easing.1.3.min.js"></script>
 	<script type="text/javascript" src="/user/static/assets/js/jquery-ui.js"></script>
-	<script type="text/javascript" src="/user/static/assets/js/default.js"></script>
 	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="/user/static/assets/js/handlebars.js"></script>
     <script src="/user/static/assets/js/handle_wrapper.js"></script>
     <script src="/user/static/assets/js/handle_helper.js"></script>
 
 	<!--금리순/한도순-->
+	<script th:inline="javascript">
+	/*<![CDATA[*/
+		const lnReqNo = /*[[${lnReqNo}]]*/;
+		const fintecOrgMngno = /*[[${fintecOrgMngno}]]*/;
+	/*]]>*/
+	</script>
+
 	<script>
+		const wrapData = {
+			loan: {
+				bankCd: "",
+				lstLnRate: 0,
+				lstLnLmtAmt: 0
+			}
+		};
+
+		function previous() {
+			window.history.back();
+		}
+
+		function next() {
+			window.location.href = `/user/lnqrslt/confirm-detail?lnReqNo=${lnReqNo}&fintecOrgMngno=${fintecOrgMngno}`;
+		}
+
+		const loan_wrap = new HandleWrapper();
+		function search_loan() {
+			axios.get('/user/api/v1/inqrslt/detail',
+				{params: {lnReqNo: lnReqNo, fintecOrgMngno: fintecOrgMngno}})
+				.then(function(request) {
+					if (request.status == 200) {
+						if (!request.data.error) {
+							wrapData.loan = request.data.data;
+							loan_wrap.put(wrapData.loan);
+						} else {
+							console.log('error', request.data.message);
+						}
+					} else {
+						console.log('error', request.data);
+					}
+				})
+				.catch(function(error) {
+					if (error.response) {
+						console.error(error);
+					}
+				});
+		}
+
+
 		$(document).ready(function() {
 			$('ul li a').click(function() {
 				$('li a').removeClass("active");
 				$(this).addClass("active");
 			});
+
+			loan_wrap.setTemplate($('#loan_template').html());
+			loan_wrap.setData(wrapData.loan);
+			loan_wrap.compile($('#loan'));
+
+			search_loan();
 		});
 	</script>
 
