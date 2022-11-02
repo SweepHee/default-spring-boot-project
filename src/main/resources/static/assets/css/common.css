@@ -846,6 +846,21 @@ ul.btnArea:after {
 	box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.1);
 }
 
+.mortgage_banner.loan {
+	width: calc(100% - 40px);
+	margin: 0 20px;
+	padding: 35px;
+	border: 1px solid #01C188;
+	box-sizing: border-box;
+	margin-top: -108px;
+	z-index: 10;
+	border-radius: 15px;
+	background: #fff;
+	line-height: 140%;
+	position: relative;
+	box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.1);
+}
+
 .mortgage_banner a {
 	width: 100%;
 	height: 100%;
@@ -863,6 +878,20 @@ ul.btnArea:after {
 	display: inline-block;
 	background: url(../images/main/main_loan_icon01.svg) no-repeat;
 	background-size: 100% auto;
+}
+
+.mortgage_banner.loan a:after {
+	content: "";
+	background: url(../images/main/main_loan_icon02.svg)no-repeat center #F3F5F5;
+	background-size: 43px auto;
+	width: 56.22px;
+	height: 56.22px;
+	border-radius: 100px;
+	display: inline-block;
+	position: absolute;
+	right: 24px;
+	top: 50%;
+	margin-top: -26px;
 }
 
 .tag {
@@ -913,6 +942,65 @@ ul.btnArea:after {
 	margin-left: 5px;
 }
 
+@media screen and (max-width: 360px) {
+	.mortgage_banner.loan a:after {
+		display: none;
+	}
+
+	.mortgage_banner.loan a:before {
+		content: "";
+		background: url(../images/main/main_loan_icon02.svg)no-repeat center #F3F5F5;
+		background-size: 50px auto;
+		width: 70px;
+		height: 70px;
+		border-radius: 100px;
+		display: inline-block;
+		position: relative;
+		display: block;
+		margin-bottom: 10px;
+	}
+	
+	.mortgage_banner strong:after {
+		content: "";
+		width: 35.5px;
+		height: 5.5px;
+		display: inline-block;
+		background: url(../images/main/banner_arrow.svg) no-repeat center bottom;
+		margin-left:0;
+		position: absolute;
+		right: 20px;
+		bottom: 24px;
+	}
+
+	.mortgage_banner.loan strong:after {
+		content: "";
+		width: 35.5px;
+		height: 5.5px;
+		display: inline-block;
+		background: url(../images/main/banner_arrow.svg) no-repeat center bottom;
+		margin-left: 5px;
+		position: absolute;
+		right: 35px;
+		bottom: 35px;
+	}
+
+	.mortgage_banner a:after {
+		display: none;
+	}
+	
+	.mortgage_banner a:before {
+		content: "";
+		background: url(../images/main/main_loan_icon01.svg) no-repeat center;
+		background-size: 60px auto;
+		width: 100%;
+		height: 90px;
+		display: inline-block;
+		position: relative;
+		display: block;
+		margin-bottom: 15px;
+	}
+
+}
 
 @media screen and (max-width: 320px) {
 	.tag {
@@ -925,12 +1013,6 @@ ul.btnArea:after {
 		border-radius: 0;
 		background: none;
 		font-size: 13px;
-	}
-
-	.mortgage_banner a:after {
-		top: 25px;
-		width: 37px;
-		height: 62.5px;
 	}
 
 	.mortgage_banner strong {
@@ -1113,6 +1195,15 @@ ul.btnArea:after {
 	margin-bottom: 20px;
 	display: block;
 }
+
+.my_loan.mt0 {
+	margin: 20px 20px 0;
+}
+
+.my_loan.mt0.mb100 {
+	margin: 20px 20px 100px;
+}
+
 
 .my_loan.sub {
 	width: calc(100% - 40px);
@@ -1356,6 +1447,8 @@ ul.btnArea:after {
 	display: block;
 	width: calc(100% - 40px);
 	margin: 0 20px;
+	padding: 10px 0;
+	border-bottom: 1px solid #efefef;
 }
 
 .my_credit_score.sub {

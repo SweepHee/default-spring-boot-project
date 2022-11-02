@@ -35,11 +35,9 @@
 			<div class="content">
 
 				<div class="cuslon_top">
-					<div class="list_tit" id="list_tit">
-						<script id="list_tit_template" type="text/x-handlebars-template">
-						<span class="us_name">{{custNm}}</span>고객님의<br>
+					<div class="list_tit">
+						<span class="us_name" th:text="${name}">우대</span>고객님의<br>
 						<strong>맞춤 상품 결과</strong>입니다.
-						</script>
 					</div>
 
 					<div class="loan_column" id="loan_column">
@@ -76,12 +74,12 @@
 							<!--리스트 box-->
 							<script id="lon_box_dl_template" type="text/x-handlebars-template">
 							{{#items}}
-							<a href="/user/lnqrslt/detail?lnReqNo={{lnReqNo}}&fintecOrgMngno={{fintecOrgMngno}}">
+							<a href="/user/inqrslt/detail?lnReqNo={{lnReqNo}}&fintecOrgMngno={{fintecOrgMngno}}">
 								<dt class="bank_info">
 									<img src="{{bankImage bankCd}}" alt="">
 									<p>
 										<strong>{{bankName bankCd}}</strong>
-										<sub>살만한 신용대출</sub>
+										<sub>{{lnPrdtNm}}</sub>
 										<label class="lowest">최저금리</label>
 									</p>
 								</dt>
@@ -121,15 +119,16 @@
 	<script type="text/javascript" src="/user/static/assets/js/jquery.easing.1.3.min.js"></script>
 	<script type="text/javascript" src="/user/static/assets/js/jquery-ui.js"></script>
 	<script type="text/javascript" src="/user/static/assets/js/default.js"></script>
+	<script src="/user/static/assets/js/mobile.js"></script>
 	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="/user/static/assets/js/handlebars.js"></script>
     <script src="/user/static/assets/js/handle_wrapper.js"></script>
     <script src="/user/static/assets/js/handle_helper.js"></script>
+    <script src="/user/static/assets/js/handle_loan_helper.js"></script>
 
 	<!--금리순/한도순-->
 	<script>
 		const wrapData = {
-			title: {},
 			board: {
 				progress: 0,
 				done: 0,
@@ -140,14 +139,12 @@
 			}
 		};
 
-		const list_tit_wrap = new HandleWrapper();
 		const loan_column_wrap = new HandleWrapper();
 		function search_loan_column() {
 			axios.get('/user/api/v1/inqrslt/progress-detail')
 				.then(function(request) {
 					if (request.status == 200) {
 						if (!request.data.error) {
-							wrapData.title.custNm = request.data.data.custNm;
 							wrapData.board = request.data.data;
 							list_tit_wrap.put(wrapData.title);
 							loan_column_wrap.put(wrapData.board);
@@ -204,10 +201,6 @@
 				search_loan_column();
 				search_lon_box_dl('amtDown');
 			});
-
-			list_tit_wrap.setTemplate($('#list_tit_template').html());
-			list_tit_wrap.setData(wrapData.title);
-			list_tit_wrap.compile($('#list_tit'));
 
 			loan_column_wrap.setTemplate($('#loan_column_template').html());
 			loan_column_wrap.setData(wrapData.board);

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 
 <head>
 	<meta charset="UTF-8">
@@ -305,7 +306,8 @@
 	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="/user/static/assets/js/handlebars.js"></script>
     <script src="/user/static/assets/js/handle_wrapper.js"></script>
-    <script src="/user/static/assets/js/handle_helper.js"></script>
+	<script src="/user/static/assets/js/handle_helper.js"></script>
+    <script src="/user/static/assets/js/handle_loan_helper.js"></script>
 
 	<script>
 		const appr_list_data = {items: []};
@@ -334,7 +336,7 @@
 				});
 		}
 
-		const loan_bank_list_data = {items: [{id:"adf"}, {id:"adfd"}, {id:"adfg"}]};
+		const loan_bank_list_data = {items: [{id:""}, {id:""}, {id:""}]};
 		const loan_bank_list_handleWrap = new HandleWrapper();
 		function loan_bank_list() {
 			loan_bank_list_handleWrap.setTemplate($('#loan_bank_list_template').html());

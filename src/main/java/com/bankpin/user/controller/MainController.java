@@ -14,12 +14,13 @@ public class MainController
     @GetMapping(value = {"/", "/index"})
     public String index()
     {
-        return "main";
+        return "main_new";  // 실사관련 임시적용
     }
 
     @GetMapping("/main")
-    public String main() {
-        return "main";
+    public String main()
+    {
+        return "main_new";  // 실사관련 임시적용
     }
 
 }

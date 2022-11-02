@@ -216,10 +216,12 @@
 	<script type="text/javascript" src="/user/static/assets/js/jquery-3.1.0.min.js"></script>
 	<script type="text/javascript" src="/user/static/assets/js/jquery.easing.1.3.min.js"></script>
 	<script type="text/javascript" src="/user/static/assets/js/jquery-ui.js"></script>
+	<script src="/user/static/assets/js/mobile.js"></script>
 	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="/user/static/assets/js/handlebars.js"></script>
     <script src="/user/static/assets/js/handle_wrapper.js"></script>
-    <script src="/user/static/assets/js/handle_helper.js"></script>
+	<script src="/user/static/assets/js/handle_helper.js"></script>
+    <script src="/user/static/assets/js/handle_loan_helper.js"></script>
 
 
 	<!--금리순/한도순-->
@@ -246,11 +248,11 @@
 		};
 
 		function previous() {
-			window.history.back();
+			window.location.href = `/user/inqrslt/detail?lnReqNo=${lnReqNo}&fintecOrgMngno=${fintecOrgMngno}`;
 		}
 
 		function next() {
-			window.location.href = `/user/lnqrslt/register-detail?lnReqNo=${lnReqNo}&fintecOrgMngno=${fintecOrgMngno}`;
+			window.location.href = `/user/inqrslt/register-detail?lnReqNo=${lnReqNo}&fintecOrgMngno=${fintecOrgMngno}`;
 		}
 
 		const loan_wrap = new HandleWrapper();

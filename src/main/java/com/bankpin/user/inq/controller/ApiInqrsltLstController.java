@@ -1,8 +1,6 @@
 package com.bankpin.user.inq.controller;
 
 import com.bankpin.user.auth.model.dto.UserAuth;
-import com.bankpin.user.code.model.dto.BankDTO;
-import com.bankpin.user.code.service.BankService;
 import com.bankpin.user.inq.model.dto.InqrsltLstDTO;
 import com.bankpin.user.inq.service.InqrsltLstService;
 import com.bankpin.user.model.dto.ResponseData;
@@ -77,8 +75,6 @@ public class ApiInqrsltLstController
                 .progress(12)
                 .done(12)
                 .result(0)
-//                .custNm(userAuth.getName())
-                .custNm("고객님")
                 .build();
 
         return ResponseEntity.ok(
