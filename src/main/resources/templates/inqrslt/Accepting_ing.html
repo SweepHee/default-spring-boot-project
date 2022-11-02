@@ -34,6 +34,17 @@
 	</div>
 	<!-- //wrap e-->
 
+	<script src="/user/static/assets/js/mobile.js"></script>
+	<script>
+		function next() {
+			Bankpin.pageLink('/user');  // TODO Call ?
+		}
+
+		document.addEventListener("DOMContentLoaded", function() {
+			setTimeout(() => next(), 3000);
+		});
+	</script>
+
 </body>
 
 </html>

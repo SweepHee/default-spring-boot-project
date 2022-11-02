@@ -202,17 +202,7 @@
     <script src="/user/static/assets/js/handle_loan_helper.js"></script>
 	<script>
 		function go_credit_loan() {
-			try {
-				if (isMobile) {
-					if (isPlatform.aOS()) {
-						android.bridge.pageLink('');
-					} else if (isPlatform.iOS()) {
-						webkit.messageHandlers.pageLink.postMessage('');
-					}
-				}
-			} catch(error) {
-				console.error(error);
-			}
+			Bankpin.pageLink('/user/inqrslt/list');
 		}
 
 		document.addEventListener("DOMContentLoaded", function() {

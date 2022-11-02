@@ -79,16 +79,17 @@ Handlebars.registerHelper("lnUseGbcdType", function (value) {
 });
 
 
+// TODO storage
 const BANK_CODE_IMAGES = [
-    {"id": "bnk01", "type": 1, "name": "sc제일은행", "image": "bank01.svg"},
-    {"id": "bnk02", "type": 1, "name": "sh수협은행", "image": "bank02.svg"},
-    {"id": "bnk03", "type": 1, "name": "대구은행", "image": "bank03.svg"},
-    {"id": "bnk04", "type": 1, "name": "부산은행", "image": "bank04.svg"},
-    {"id": "bnk05", "type": 1, "name": "광주은행", "image": "bank05.svg"},
-    {"id": "bnk06", "type": 2, "name": "부산저축은행", "image": "bank06.svg"},
-    {"id": "bnk07", "type": 2, "name": "ibk저축은행", "image": "bank07.svg"},
-    {"id": "bnk08", "type": 2, "name": "ok저축은행", "image": "bank08.svg"},
-    {"id": "bnk09", "type": 2, "name": "osb저축은행", "image": "bank09.svg"},
+    {"id": "00023", "type": 1, "name": "SC제일은행", "image": "bank01.svg"},
+    {"id": "00007", "type": 1, "name": "SH수협은행", "image": "bank02.svg"},
+    {"id": "00031", "type": 1, "name": "대구은행", "image": "bank03.svg"},
+    {"id": "00039", "type": 1, "name": "부산은행", "image": "bank04.svg"},
+    {"id": "00032", "type": 1, "name": "광주은행", "image": "bank05.svg"},
+    {"id": "00034", "type": 1, "name": "부산저축은행", "image": "bank06.svg"},
+    {"id": "00502", "type": 2, "name": "IBK저축은행", "image": "bank07.svg"},
+    {"id": "00503", "type": 2, "name": "OK저축은행", "image": "bank08.svg"},
+    {"id": "00504", "type": 2, "name": "OSB저축은행", "image": "bank09.svg"},
     {"id": "bnk10", "type": 2, "name": "sbi저축은행", "image": "bank10.svg"},
     {"id": "bnk11", "type": 2, "name": "다올저축은행", "image": "bank11.svg"},
     {"id": "bnk12", "type": 2, "name": "웰컴저축은행", "image": "bank12.svg"},
@@ -100,17 +101,17 @@ const BANK_CODE_IMAGES = [
     {"id": "bnk18", "type": 2, "name": "상상인저축은행", "image": "bank18.svg"},
     {"id": "bnk19", "type": 2, "name": "새마을금고", "image": "bank19.svg"},
     {"id": "bnk20", "type": 2, "name": "수협", "image": "bank20.svg"},
-    {"id": "bnk21", "type": 2, "name": "신협", "image": "bank21.svg"},
-    {"id": "bnk22", "type": 2, "name": "한화생명", "image": "bank22.svg"},
-    {"id": "bnk23", "type": 2, "name": "삼성생명", "image": "bank23.svg"},
-    {"id": "bnk24", "type": 2, "name": "흥국생명", "image": "bank24.svg"},
-    {"id": "bnk25", "type": 2, "name": "교보생명", "image": "bank25.svg"},
-    {"id": "bnk26", "type": 2, "name": "우리카드", "image": "bank26.svg"},
-    {"id": "bnk27", "type": 2, "name": "BNK캐피탈", "image": "bank27.svg"},
-    {"id": "bnk28", "type": 2, "name": "JB우리캐피탈", "image": "bank28.svg"},
-    {"id": "bnk29", "type": 2, "name": "롯데캐피탈", "image": "bank29.svg"},
+    {"id": "00048", "type": 2, "name": "신협", "image": "bank21.svg"},
+    {"id": "00432", "type": 2, "name": "한화생명", "image": "bank22.svg"},
+    {"id": "00452", "type": 2, "name": "삼성생명", "image": "bank23.svg"},
+    {"id": "00403", "type": 2, "name": "흥국생명", "image": "bank24.svg"},
+    {"id": "00436", "type": 2, "name": "교보생명", "image": "bank25.svg"},
+    {"id": "00401", "type": 2, "name": "우리카드", "image": "bank26.svg"},
+    {"id": "00302", "type": 2, "name": "BNK캐피탈", "image": "bank27.svg"},
+    {"id": "00305", "type": 2, "name": "JB우리캐피탈", "image": "bank28.svg"},
+    {"id": "00303", "type": 2, "name": "롯데캐피탈", "image": "bank29.svg"},
     {"id": "bnk30", "type": 2, "name": "OK캐피탈", "image": "bank30.svg"},
-    {"id": "bnk31", "type": 2, "name": "하나캐피탈", "image": "bank31.svg"}
+    {"id": "00310", "type": 2, "name": "하나캐피탈", "image": "bank31.svg"}
 ];
 Handlebars.registerHelper("bankImage", function (value) {
     const image = "/user/static/assets/images/common";

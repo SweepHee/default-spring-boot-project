@@ -95,7 +95,7 @@
 											<strong>{{toCurrency lstLnLmtAmt}}</strong><em>원</em>
 										</li>
 									</ol>
-									<span><label>{{bankType bankCd}}금융</label> <label>오프라인 가능</label> <label>바로대출</label></span>
+									<span><label>{{bankType bankCd}}금융</label> <!--label>오프라인 가능</label> <label>바로대출</label--></span>
 								</dd>
 							</a>
 							{{/items}}
@@ -171,7 +171,9 @@
 							wrapData.boxDl.items = request.data.data;
 							lon_box_dl_wrap.cleanFetch(wrapData.boxDl);
 
-							wrapData.board.result = wrapData.boxDl.items.length;
+							wrapData.board.progress = wrapData.boxDl.items.length;
+							wrapData.board.done = wrapData.board.progress;
+							wrapData.board.result = wrapData.board.progress;
 							loan_column_wrap.put(wrapData.board);
 						} else {
 							console.log('error', request.data.message);
@@ -194,11 +196,11 @@
 			});
 
 			jQuery('#btn_sort_rate').on("click", function() {
-				search_loan_column();
+				// search_loan_column();
 				search_lon_box_dl('rateUp');
 			});
 			jQuery('#btn_sort_amount').on("click", function() {
-				search_loan_column();
+				// search_loan_column();
 				search_lon_box_dl('amtDown');
 			});
 
@@ -210,7 +212,7 @@
 			lon_box_dl_wrap.setData(wrapData.boxDl);
 			lon_box_dl_wrap.compile($('#lon_box_dl'));
 
-			search_loan_column();
+			// search_loan_column();
 			search_lon_box_dl('rateUp');
 		});
 	</script>

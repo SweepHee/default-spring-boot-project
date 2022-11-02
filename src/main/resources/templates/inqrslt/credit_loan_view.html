@@ -58,7 +58,7 @@
 										<strong>{{toCurrency lstLnLmtAmt}}</strong><em>억원</em>
 									</li>
 								</ol>
-								<span><label>{{bankType bankCd}}금융</label> <label>오프라인 가능</label> <label>바로대출</label></span>
+								<span><label>{{bankType bankCd}}금융</label> <!--label>오프라인 가능</label> <label>바로대출</label--></span>
 							</dd>
 						</div>
 						<!--info box e-->
@@ -147,22 +147,22 @@
 							<div class="rate_sel">
 								<ul class="radioBox clearfix">
 									<li class="radio">
-										<input type="radio" name="radio_01" id="r01" class="radioInput" title="신용카드" checked="checked">
+										<input type="radio" name="radio_special_rate" id="r01" class="radioInput" title="신용카드" checked="checked" value="r01">
 										<label for="r01">신용카드</label>
 										<span>0.2%</span>
 									</li>
 									<li class="radio">
-										<input type="radio" name="radio_01" id="r02" class="radioInput" title="급여이체" >
+										<input type="radio" name="radio_special_rate" id="r02" class="radioInput" title="급여이체" value="r02">
 										<label for="r02">급여이체</label>
 										<span>0.2%</span>
 									</li>
 									<li class="radio">
-										<input type="radio" name="radio_01" id="r03" class="radioInput" title="예금평잔" >
+										<input type="radio" name="radio_special_rate" id="r03" class="radioInput" title="예금평잔" value="r03">
 										<label for="r03">예금평잔</label>
 										<span>0.2%</span>
 									</li>
 									<li class="radio">
-										<input type="radio" name="radio_01" id="r04" class="radioInput" title="자동이체" >
+										<input type="radio" name="radio_special_rate" id="r04" class="radioInput" title="자동이체" value="r04">
 										<label for="r04">자동이체</label>
 										<span>0.2%</span>
 									</li>
@@ -220,7 +220,8 @@
 		}
 
 		function next() {
-			window.location.href = `/user/inqrslt/confirm-detail?lnReqNo=${lnReqNo}&fintecOrgMngno=${fintecOrgMngno}`;
+			const special_rate = jQuery("input[name='radio_special_rate']:checked").val();
+			window.location.href = `/user/inqrslt/confirm-detail?lnReqNo=${lnReqNo}&fintecOrgMngno=${fintecOrgMngno}&specialRate=${special_rate}`;
 		}
 
 		const loan_wrap = new HandleWrapper();
