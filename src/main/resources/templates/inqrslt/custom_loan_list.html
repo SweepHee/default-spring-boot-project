@@ -19,7 +19,7 @@
 		<header id="header">
 			<div class="header_sub">
 				<div class="inner">
-					<button class="backBtn" id="btn_back"><span class="blind">뒤로가기</span></button>
+					<button class="backBtn" id="btn_previous"><span class="blind">뒤로가기</span></button>
 					<h2 class="ttl">맞춤 상품 비교</h2>
 				</div>
 			</div>
@@ -140,7 +140,7 @@
 		};
 
 		function previous() {
-			Bankpin.pageLink('/user');
+			Bankpin.pageLink('/user');  // to Native
 		}
 
 		const loan_column_wrap = new HandleWrapper();
@@ -199,7 +199,7 @@
 				$(this).addClass("active");
 			});
 
-			jQuery('#btn_back').on("click", function() {
+			jQuery('#btn_previous').on("click", function() {
 				previous();
 			});
 

@@ -216,12 +216,12 @@
 		};
 
 		function previous() {
-			Bankpin.pageLink('/user/inqrslt/list');
+			window.location.href = '/user/inqrslt/list';
 		}
 
 		function next() {
 			const special_rate = jQuery("input[name='radio_special_rate']:checked").val();
-			Bankpin.pageLink(`/user/inqrslt/confirm-detail?lnReqNo=${lnReqNo}&fintecOrgMngno=${fintecOrgMngno}&specialRate=${special_rate}`);
+			window.location.href = `/user/inqrslt/confirm-detail?lnReqNo=${lnReqNo}&fintecOrgMngno=${fintecOrgMngno}&specialRate=${special_rate}`;
 		}
 
 		const loan_wrap = new HandleWrapper();

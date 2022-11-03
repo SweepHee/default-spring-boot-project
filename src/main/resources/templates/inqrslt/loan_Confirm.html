@@ -248,11 +248,11 @@
 		};
 
 		function previous() {
-			Bankpin.pageLink(`/user/inqrslt/detail?lnReqNo=${lnReqNo}&fintecOrgMngno=${fintecOrgMngno}`);
+			window.location.href = `/user/inqrslt/detail?lnReqNo=${lnReqNo}&fintecOrgMngno=${fintecOrgMngno}`;
 		}
 
 		function next() {
-			Bankpin.pageLink(`/user/inqrslt/register-detail?lnReqNo=${lnReqNo}&fintecOrgMngno=${fintecOrgMngno}`);
+			window.location.href = `/user/inqrslt/register-detail?lnReqNo=${lnReqNo}&fintecOrgMngno=${fintecOrgMngno}`;
 		}
 
 		const loan_wrap = new HandleWrapper();
