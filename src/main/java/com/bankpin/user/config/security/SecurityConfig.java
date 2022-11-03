@@ -36,8 +36,7 @@ public class SecurityConfig
         http
             .csrf().disable()
             .authorizeRequests()
-            .antMatchers("/", "/index", "/main", "/auth/**", "/coocon/**",
-                    "/inqrslt/**", "/api/**").permitAll()
+            .antMatchers("/", "/index", "/main", "/auth/**", "/coocon/**", "/inqrslt/**", "/api/**").permitAll()
             .anyRequest().authenticated()
             .and()
             .formLogin()

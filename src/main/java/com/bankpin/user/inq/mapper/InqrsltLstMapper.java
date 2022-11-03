@@ -44,7 +44,8 @@ public interface InqrsltLstMapper
             " INNER JOIN (" +
             "       SELECT S_TIM.CUST_CI_NO, MAX(S_TIM.LN_REQ_NO) AS LN_REQ_NO" +
             "         FROM TBLNS_INQ_MAS S_TIM" +
-            "        WHERE S_TIM.CUST_CI_NO = #{custCiNo, jdbcType=VARCHAR}" +
+            "        WHERE S_TIM.LN_GBCD = #{lnGbcd, jdbcType=VARCHAR}" +
+            "          AND S_TIM.CUST_CI_NO = #{custCiNo, jdbcType=VARCHAR}" +
             "        GROUP BY S_TIM.CUST_CI_NO" +
             "     ) TIM ON (TIL.LN_REQ_NO = TIM.LN_REQ_NO)" +
             "   <choose>" +

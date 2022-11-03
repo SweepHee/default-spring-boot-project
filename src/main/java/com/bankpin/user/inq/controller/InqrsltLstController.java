@@ -25,9 +25,9 @@ public class InqrsltLstController
     @GetMapping("/list")
     public String list(Model model, Authentication authentication)
     {
-//        UserAuth userAuth = (UserAuth) authentication.getPrincipal();
-//        model.addAttribute("name", userAuth.getName());
-        model.addAttribute("name", "고객님");
+        UserAuth userAuth = (UserAuth) authentication.getPrincipal();
+        model.addAttribute("name", userAuth.getName());
+//        model.addAttribute("name", "ABC");
 
         return "inqrslt/custom_loan_list";
     }

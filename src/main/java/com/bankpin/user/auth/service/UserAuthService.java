@@ -29,6 +29,10 @@ public class UserAuthService implements UserDetailsService
     {
         return authMapper.findByUsername(username);
     }
+    public UserDTO.Detail selectCustCiNo(String custCiNo)
+    {
+        return authMapper.findByCustCiNo(custCiNo);
+    }
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException

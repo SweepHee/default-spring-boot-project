@@ -39,6 +39,7 @@ public class ApiInqMasController
     {
         UserAuth userAuth = (UserAuth) authentication.getPrincipal();
         param.setCustCiNo(userAuth.getId());
+
         InqMasDTO.Detail detail = inqMasService.selectDetail(param);
         return ResponseEntity.ok(
                 ResponseData.builder()

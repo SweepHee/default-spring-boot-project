@@ -19,7 +19,7 @@
 		<header id="header">
 			<div class="header_sub">
 				<div class="inner">
-					<button class="backBtn" onclick="previous()"><span class="blind">뒤로가기</span></button>
+					<button class="backBtn" id="btn_previous"><span class="blind">뒤로가기</span></button>
 					<h2 class="ttl">대출신청 정보확인</h2>
 				</div>
 			</div>
@@ -206,7 +206,7 @@
 		<!-- bottom button -->
 		<div class="bottom_btn wid50">
 			<button class="dis">금융사콜백요청 </button>
-			<button class="common" onclick="next()">신청하기</button>
+			<button class="common" id="btn_next">신청하기</button>
 		</div>
 		<!-- bottom button e-->
 
@@ -248,11 +248,11 @@
 		};
 
 		function previous() {
-			window.location.href = `/user/inqrslt/detail?lnReqNo=${lnReqNo}&fintecOrgMngno=${fintecOrgMngno}`;
+			Bankpin.pageLink(`/user/inqrslt/detail?lnReqNo=${lnReqNo}&fintecOrgMngno=${fintecOrgMngno}`);
 		}
 
 		function next() {
-			window.location.href = `/user/inqrslt/register-detail?lnReqNo=${lnReqNo}&fintecOrgMngno=${fintecOrgMngno}`;
+			Bankpin.pageLink(`/user/inqrslt/register-detail?lnReqNo=${lnReqNo}&fintecOrgMngno=${fintecOrgMngno}`);
 		}
 
 		const loan_wrap = new HandleWrapper();
@@ -283,6 +283,13 @@
 			$('ul li a').click(function() {
 				$('li a').removeClass("active");
 				$(this).addClass("active");
+			});
+
+			jQuery('#btn_previous').on("click", function() {
+				previous();
+			});
+			jQuery('#btn_next').on("click", function() {
+				next();
 			});
 
 			loan_wrap.setTemplate($('#loan_template').html());

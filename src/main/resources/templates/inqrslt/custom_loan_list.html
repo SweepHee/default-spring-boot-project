@@ -19,7 +19,7 @@
 		<header id="header">
 			<div class="header_sub">
 				<div class="inner">
-					<button class="backBtn"><span class="blind">뒤로가기</span></button>
+					<button class="backBtn" id="btn_back"><span class="blind">뒤로가기</span></button>
 					<h2 class="ttl">맞춤 상품 비교</h2>
 				</div>
 			</div>
@@ -139,6 +139,10 @@
 			}
 		};
 
+		function previous() {
+			Bankpin.pageLink('/user');
+		}
+
 		const loan_column_wrap = new HandleWrapper();
 		function search_loan_column() {
 			axios.get('/user/api/v1/inqrslt/progress-detail')
@@ -193,6 +197,10 @@
 			$('ul li a').click(function() {
 				$('li a').removeClass("active");
 				$(this).addClass("active");
+			});
+
+			jQuery('#btn_back').on("click", function() {
+				previous();
 			});
 
 			jQuery('#btn_sort_rate').on("click", function() {
