@@ -235,14 +235,17 @@
 							loan_wrap.put(wrapData.loan);
 						} else {
 							console.log('error', request.data.message);
+							alert('요청이 실패 하였습니다. 잠시 후 다시 요청하세요.');
 						}
 					} else {
 						console.log('error', request.data);
+						alert('요청이 실패 하였습니다. 잠시 후 다시 요청하세요.');
 					}
 				})
 				.catch(function(error) {
 					if (error.response) {
 						console.error(error);
+						alert('요청이 실패 하였습니다. 관리자에게 문의 하세요.');
 					}
 				});
 		}
