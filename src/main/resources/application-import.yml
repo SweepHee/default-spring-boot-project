@@ -1,0 +1,27 @@
+spring:
+  mail:
+    naver:
+      protocol: smtp
+      host: smtp.naver.com
+      port: 587
+      username: ENC(R2pB0ybvRxOgxMJ/S/Bk17Vy9R0bWhNLjtenipHwdW8=)
+      password: ENC(AaUnIdpcqPP0bpuQ6rx1s6mFb1apcfcV)
+      properties:
+        mail.smtp.auth: true
+        mail.smtp.starttls.enable: true
+        mail.smtp.ssl.trust: smtp.naver.com
+        mail.smtp.ssl.protocols: TLSv1.2
+    hiworks:
+      host: smtps.hiworks.com
+      port: 465
+      username: ENC(W4pUqcRGW9sHLzQIEOPPx9vkxjXro8wQwa024/DiJDc=)
+      password: ENC(AaUnIdpcqPP0bpuQ6rx1s6mFb1apcfcV)
+      properties:
+        mail.smtp.auth: true
+        mail.smtp.ssl.enable: true
+        mail.smtp.ssl.protocols: TLSv1.2
+
+
+environments:
+  kcb:
+    company-code: V59000000000

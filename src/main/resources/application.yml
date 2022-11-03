@@ -31,7 +31,7 @@ spring:
   config:
     import:
       - classpath:/application-oauth.yml
-      - classpath:/application-mail.yml
+      - classpath:/application-import.yml
   profiles:
     active: local
     group:
@@ -51,9 +51,12 @@ spring:
       enabled: true
   datasource:
     driverClassName: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
-    url: jdbc:log4jdbc:mariadb://211.184.225.81:3306/bankpindb?characterEncoding=UTF-8&serverTimezone=Asia/Seoul
-    username: ENC(cDHA7G+0gyL4Km6tWaukWQ==)
-    password: ENC(5DW5BtvDS4SrmOlNCsU5AKZTNhBmiqzl)
+#    url: jdbc:log4jdbc:mariadb://211.184.225.81:3306/bankpindb?characterEncoding=UTF-8&serverTimezone=Asia/Seoul
+#    username: ENC(cDHA7G+0gyL4Km6tWaukWQ==)
+#    password: ENC(5DW5BtvDS4SrmOlNCsU5AKZTNhBmiqzl)
+    url: jdbc:log4jdbc:mariadb://127.0.0.1:3306/abc?characterEncoding=UTF-8&serverTimezone=Asia/Seoul
+    username: root
+    password: rkwlakfk1!
 
 ---
 server:
