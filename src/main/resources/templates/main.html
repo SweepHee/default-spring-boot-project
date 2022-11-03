@@ -313,7 +313,7 @@
 		const appr_list_data = {items: []};
 		const appr_list_handleWrap = new HandleWrapper();
 		function appr_list() {
-			axios.get('/user/api/v1/appr-list')
+			axios.get('/user/api/v1/main/appr-list')
 				.then(function(request) {
 					if (request.status == 200) {
 						if (!request.data.error) {

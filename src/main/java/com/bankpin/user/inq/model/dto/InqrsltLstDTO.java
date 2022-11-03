@@ -179,6 +179,7 @@ public class InqrsltLstDTO
         private String lnGbcd;
         @Length(max = 8, message = "max = 8")
         private String sortOrder;
+        private String specialRate;
     }
 
 }

@@ -147,7 +147,7 @@
 						<span>
 							<strong>금리정보</strong>
 						</span>
-						<button>조회하기</button>
+						<button id="btn_search_rate">조회하기</button>
 					</p>
 
 				</div>
@@ -204,10 +204,16 @@
 		function go_credit_loan() {
 			Bankpin.pageLink('/user/inqrslt/list');  // to Native
 		}
+		function go_search_rate() {
+			window.location.href = '/user/main/rate-info-list';
+		}
 
 		document.addEventListener("DOMContentLoaded", function() {
 			jQuery('#btn_credit_loan').on("click", function() {
 				go_credit_loan();
+			});
+			jQuery('#btn_search_rate').on("click", function() {
+				go_search_rate();
 			});
 		});
 	</script>

@@ -23,4 +23,10 @@ public class MainController
         return "main_new";  // 실사관련 임시적용
     }
 
+    @GetMapping("/main/rate-info-list")
+    public String rateInfoList()
+    {
+        return "main/rate_info_list";  // 실사관련 임시적용
+    }
+
 }

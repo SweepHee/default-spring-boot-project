@@ -1,5 +1,6 @@
 package com.bankpin.user.service;
 
+import com.bankpin.user.inq.model.dto.InqrsltLstDTO;
 import com.bankpin.user.model.dto.MainDTO;
 import com.bankpin.user.model.mapper.MainMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,10 @@ public class MainService
     public List<MainDTO.FastItem> selectListSpeedLoan(MainDTO.Param param)
     {
         return mainMapper.findByLnReqGbcd(param);
+    }
+
+    public List<InqrsltLstDTO.Item> selectAll(InqrsltLstDTO.Param param) {
+        return mainMapper.findAllByLnReqNo(param);
     }
 
 }

@@ -25,9 +25,9 @@ public class InqrsltLstController
     @GetMapping("/list")
     public String list(Model model, Authentication authentication)
     {
-        UserAuth userAuth = (UserAuth) authentication.getPrincipal();
-        model.addAttribute("name", userAuth.getName());
-//        model.addAttribute("name", "ABC");
+//        UserAuth userAuth = (UserAuth) authentication.getPrincipal();
+//        model.addAttribute("name", userAuth.getName());
+        model.addAttribute("name", "ABC");
 
         return "inqrslt/custom_loan_list";
     }
@@ -52,6 +52,7 @@ public class InqrsltLstController
     {
         model.addAttribute("lnReqNo", param.getLnReqNo());
         model.addAttribute("fintecOrgMngno", param.getFintecOrgMngno());
+        model.addAttribute("specialRate", param.getSpecialRate());  // 거래실적 우대금리
 
         return "inqrslt/loan_Confirm";
     }
