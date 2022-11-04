@@ -1,6 +1,7 @@
 package com.bankpin.user.ext.kcb.service;
 
 
+import com.bankpin.user.cust.mapper.CustAuthDtlMapper;
 import com.bankpin.user.ext.kcb.model.dto.PassAppCertDTO;
 import com.bankpin.user.ext.kcb.model.dto.PassAppDTO;
 import com.bankpin.user.ext.kcb.model.dto.SmsCertDTO;
@@ -17,6 +18,8 @@ import javax.servlet.http.HttpServletRequest;
 @Service
 @RequiredArgsConstructor
 public class KcbCertService {
+
+    private final CustAuthDtlMapper custAuthDtlMapper;
 
     private final String target = "PROD"; // 테스트="TEST", 운영="PROD"
 
@@ -87,6 +90,8 @@ public class KcbCertService {
         String resultStr = okcert.callOkCert(target, param.getCpCd(), svcNAME, license,  reqJson.toString());
 
         JSONObject resJson = new JSONObject(resultStr);
+        System.out.println(resJson);
+
         return SmsCertDTO.ReturnData.toReturnData(resJson);
 
     }

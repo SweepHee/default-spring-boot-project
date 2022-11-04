@@ -41,17 +41,33 @@ public class SmsCertDTO {
 
         private ResultCodeType rsltCd;
         private String rsltMsg;
-        private String ci;
+        private String cpCd;
+        private String txSeqNo;
         private String di;
+        private String ci;
+        private String ci2;
         private String ciUpdate;
+        private String rsltName;
+        private String telNo;
+        private String telComCd;
+        private String rsltBirthday;
+        private String rsltSexCd;
+        private String rsltNtvFrnrCd;
 
         public static ReturnData toReturnData(JSONObject jsonObject) {
             return ReturnData.builder()
                     .rsltCd(ResultCodeType.of(jsonObject.getString("RSLT_CD")))
-                    .rsltMsg(jsonObject.getString("RSLT_MSG"))
-                    .ci("CI")
-                    .di("DI")
-                    .ciUpdate("CI_UPDATE")
+                    .rsltMsg(jsonObject.has("RSLT_MSG") ? jsonObject.getString("RSLT_MSG") : null)
+                    .txSeqNo(jsonObject.has("TX_SEQ_NO") ? jsonObject.getString("TX_SEQ_NO") : null)
+                    .di(jsonObject.has("DI") ? jsonObject.getString("DI") : null)
+                    .ci(jsonObject.has("CI") ? jsonObject.getString("CI") : null)
+                    .ciUpdate(jsonObject.has("CI_UPDATE") ? jsonObject.getString("CI_UPDATE") : null)
+                    .rsltName(jsonObject.has(("RSLT_NAME")) ? jsonObject.getString(("RSLT_NAME")) : null)
+                    .telNo(jsonObject.has("TEL_NO") ? jsonObject.getString("TEL_NO") : null)
+                    .telComCd(jsonObject.has("TEL_COM_CD") ? jsonObject.getString("TEL_COM_CD") : null)
+                    .rsltBirthday(jsonObject.has("RSLT_BIRTHDAY") ? jsonObject.getString("RSLT_BIRTHDAY") : null)
+                    .rsltSexCd(jsonObject.has(("RSLT_SEX_CD")) ? jsonObject.getString(("RSLT_SEX_CD")) : null)
+                    .rsltNtvFrnrCd(jsonObject.has(("RSLT_NTV_FRNR_CD")) ? jsonObject.getString(("RSLT_NTV_FRNR_CD")) : null)
                     .build();
         }
     }

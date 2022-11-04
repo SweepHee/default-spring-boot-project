@@ -101,11 +101,11 @@ public class PassAppDTO {
 
             return ReturnData.builder()
                     .rsltCd(ResultCodeType.of(jsonObject.getString("RSLT_CD")))
-                    .rsltMsg(jsonObject.getString("RSLT_MSG"))
-                    .cpCd(jsonObject.getString("CP_CD"))
-                    .txSeqNo(jsonObject.getString("TX_SEQ_NO"))
-                    .appToken(jsonObject.getString("APP_TOKEN"))
-                    .tid(jsonObject.getString("TID"))
+                    .rsltMsg(jsonObject.has("RSLT_MSG") ? jsonObject.getString("RSLT_MSG") : null)
+                    .cpCd(jsonObject.has("CP_CD") ? jsonObject.getString("CP_CD") : null)
+                    .txSeqNo(jsonObject.has("TX_SEQ_NO") ? jsonObject.getString("TX_SEQ_NO") : null)
+                    .appToken(jsonObject.has("APP_TOKEN") ? jsonObject.getString("APP_TOKEN") : null)
+                    .tid(jsonObject.has("TID") ? jsonObject.getString("TID") : null)
                     .deviceType(deviceType)
                     .build();
 

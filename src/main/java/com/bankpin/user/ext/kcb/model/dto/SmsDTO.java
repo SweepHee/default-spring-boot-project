@@ -96,13 +96,13 @@ public class SmsDTO {
 
             return ReturnData.builder()
                     .rsltCd(ResultCodeType.of(jsonObject.getString("RSLT_CD")))
-                    .rsltMsg(StringUtils.hasText(jsonObject.getString("RSLT_MSG")) ? jsonObject.getString("RSLT_MSG") : "")
-                    .cpCd(StringUtils.hasText(jsonObject.getString("CP_CD"))? jsonObject.getString("CP_CD") : "")
-                    .txSeqNo(StringUtils.hasText(jsonObject.getString("TX_SEQ_NO"))? jsonObject.getString("TX_SEQ_NO") : "")
-                    .telComCd(StringUtils.hasText(jsonObject.getString("TEL_COM_CD"))? jsonObject.getString("TEL_COM_CD") : "")
-                    .telComResCd(StringUtils.hasText(jsonObject.getString("TEL_COM_RES_CD"))? jsonObject.getString("TEL_COM_RES_CD") : "")
-                    .resendCnt(jsonObject.has("RESEND_CNT") ? jsonObject.getString("RESEND_CNT") : "")
-                    .telNo(StringUtils.hasText(jsonObject.getString("TEL_NO")) ? jsonObject.getString("TEL_NO") : "")
+                    .rsltMsg(jsonObject.has("RSLT_MSG") ? jsonObject.getString("RSLT_MSG") : null)
+                    .cpCd(jsonObject.has("CP_CD") ? jsonObject.getString("CP_CD") : null)
+                    .txSeqNo(jsonObject.has("TX_SEQ_NO") ? jsonObject.getString("TX_SEQ_NO") : null)
+                    .telComCd(jsonObject.has("TEL_COM_CD")? jsonObject.getString("TEL_COM_CD") : null)
+                    .telComResCd(jsonObject.has("TEL_COM_RES_CD") ? jsonObject.getString("TEL_COM_RES_CD") : null)
+                    .resendCnt(jsonObject.has("RESEND_CNT") ? jsonObject.getString("RESEND_CNT") : null)
+                    .telNo(jsonObject.has("TEL_NO") ? jsonObject.getString("TEL_NO") : null)
                     .build();
 
         }
