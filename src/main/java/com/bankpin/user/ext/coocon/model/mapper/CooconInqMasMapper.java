@@ -26,11 +26,11 @@ public interface CooconInqMasMapper {
              ", LN_RATE_CYCLE_CD = #{lnRateCycleCd, jdbcType=VARCHAR}"+
              ", RECOVER_HIS_YN = #{recoverHisYn, jdbcType=VARCHAR}"+
              ", RECOVER_PAY_CMPL_YN = #{recoverPayCmplYn, jdbcType=VARCHAR}"+
-             ", CUST_RRNO = #{custRrno, jdbcType=VARCHAR}"+
-             ", CUST_EMAIL = #{custEmail, jdbcType=VARCHAR}"+
-             ", CUST_BUSI_REGNO = #{custBusiRegno, jdbcType=VARCHAR}"+
-             ", CUST_BUSIPLC_MNGNO = #{custBusiplcMngno, jdbcType=VARCHAR}"+
-             ", CUST_CMPY_NM = #{custCmpyNm, jdbcType=VARCHAR}"+
+             ", CUST_RRNO = FN_ENCRYPT(#{custRrno, jdbcType=VARCHAR})"+
+             ", CUST_EMAIL = FN_ENCRYPT(#{custEmail, jdbcType=VARCHAR})"+
+             ", CUST_BUSI_REGNO = FN_ENCRYPT(#{custBusiRegno, jdbcType=VARCHAR})"+
+             ", CUST_BUSIPLC_MNGNO = FN_ENCRYPT(#{custBusiplcMngno, jdbcType=VARCHAR})"+
+             ", CUST_CMPY_NM = FN_ENCRYPT(#{custCmpyNm, jdbcType=VARCHAR})"+
              ", CUST_YEAR_INCOM_AMT = #{custYearIncomAmt, jdbcType=VARCHAR}"+
              ", CUST_JOB_CLSCD = #{custJobClscd, jdbcType=VARCHAR}"+
              ", CUST_NHIS_MEM_GBCD = #{custNhisMemGbcd, jdbcType=VARCHAR}"+

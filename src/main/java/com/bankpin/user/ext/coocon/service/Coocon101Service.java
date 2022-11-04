@@ -1,5 +1,6 @@
 package com.bankpin.user.ext.coocon.service;
 
+import com.bankpin.user.auth.model.dto.UserAuth;
 import com.bankpin.user.ext.coocon.model.dto.*;
 import com.bankpin.user.ext.coocon.model.mapper.CooconCustAgreeLstMapper;
 import com.bankpin.user.ext.coocon.model.mapper.CooconInqMasMapper;
@@ -13,8 +14,9 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.reactive.function.client.WebClient;
-import org.thymeleaf.util.StringUtils;
+
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -50,23 +52,23 @@ public class Coocon101Service {
     * 101전문 API 보내기 파라미터 세팅
     * */
     public InqMasDTO.RequestParams setParameter (
-            SnsUserDTO.Column cust, CooconCustAuthDtlDTO.Detail authDetail, InqMasDTO.RequestParams param) {
+            UserAuth userAuth, CooconCustAuthDtlDTO.Detail authDetail, InqMasDTO.RequestParams param) {
 
-        if (StringUtils.isEmptyOrWhitespace(cust.getCustNm())
-            || StringUtils.isEmptyOrWhitespace(cust.getCustEmail())
-            || StringUtils.isEmptyOrWhitespace(cust.getCustBirth())
-            || StringUtils.isEmptyOrWhitespace(authDetail.getCustCphoneNo())
+        if (!StringUtils.hasText(userAuth.getName())
+            || !StringUtils.hasText(userAuth.getEmail())
+            || !StringUtils.hasText(userAuth.getBirthday())
+            || !StringUtils.hasText(authDetail.getCustCphoneNo())
         ) {
             return null;
         }
 
-        String cstmNm = snsAuthMapper.fnDecrypt(cust.getCustNm());
+        String cstmNm = snsAuthMapper.fnDecrypt(userAuth.getName());
         String custCphoneNo = snsAuthMapper.fnDecrypt(authDetail.getCustCphoneNo());
-        String email = snsAuthMapper.fnDecrypt(cust.getCustEmail());
-        String rrno = cust.getCustBirth().replace(".", "").substring(2);
+        String email = snsAuthMapper.fnDecrypt(userAuth.getEmail());
+        String rrno = userAuth.getBirthday().replace(".", "").substring(2);
 
         // INLIST1 만들기 (TBCOM_CUSTAGREE_LST)
-        List<CooconCustAgreeLstDTO.Create> agreeList = cooconCustAgreeLstMapper.findByCustCiNo(cust.getCustCiNo());
+        List<CooconCustAgreeLstDTO.Create> agreeList = cooconCustAgreeLstMapper.findByCustCiNo(userAuth.getId());
         List<InqMasDTO.RequestParams.InList1> inlist1Lists = new ArrayList<>();
         for (CooconCustAgreeLstDTO.Create agree : agreeList) {
             inlist1Lists.add(InqMasDTO.RequestParams.InList1.agreeLstToInList(agree));
@@ -120,7 +122,7 @@ public class Coocon101Service {
     }
 
 
-    public void eachInsertIfNotExists(SnsUserDTO.Column cust, InqMasDTO.RequestParams param) {
+    public void eachInsertIfNotExists(UserAuth userAuth, InqMasDTO.RequestParams param) {
 
         for (InqMasDTO.RequestParams.InList2 inlist2 : param.getInList2()) {
 
@@ -150,7 +152,7 @@ public class Coocon101Service {
                     .custEnterYyyymm(param.getJnDt())
                     .custHousOwnGbcd(param.getHsOwTpbs())
                     .custHousTypecd(param.getHsTp())
-                    .custCiNo(cust.getCustCiNo())
+                    .custCiNo(userAuth.getId())
                     //                        .lnHopeDt() // 대출 희망일
                     //                        .custCarownYn() // 고객 차량 보유여부 1:자차, 2:렌탈, 3:무소유
                     //                        .housOwnCnt() // 주택소유건수

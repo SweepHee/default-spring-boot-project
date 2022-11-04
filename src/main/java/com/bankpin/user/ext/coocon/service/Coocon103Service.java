@@ -1,6 +1,5 @@
 package com.bankpin.user.ext.coocon.service;
 
-import com.bankpin.user.ext.coocon.model.dto.CooconApiOutput;
 import com.bankpin.user.ext.coocon.model.dto.CooconDTO;
 import com.bankpin.user.ext.coocon.model.dto.ReqLstDTO;
 import com.bankpin.user.ext.coocon.model.mapper.CooconReqLstMapper;

@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Length;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,9 +21,9 @@ public class InqRsltLstDTO {
         private String lnReqNo;
         private String fintecOrgMngno;
         @Builder.Default
-        private String bankCd = "01"; // Todo 나중에 고쳐야 함
+        private String bankCd = "01"; // FIXME
         @Builder.Default
-        private String bankBrchCd = "01"; // Todo 나중에 고쳐야 함
+        private String bankBrchCd = "01"; // FIXME
         private String lnReqGbcd;
         private String lnPrdtCd;
         private String lnPrdtNm;

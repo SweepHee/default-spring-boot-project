@@ -37,27 +37,6 @@ public class CooconDTO {
 
         private String comApiCd;
 
-        // API RESPONSE DTO -> DB DTO 변경
-        public static Create commonToCconMas(CooconDTO.Common commonDTO) {
-
-            return Create.builder()
-                    .lnReqNo(commonDTO.getLnReqNo())
-                    .comNo(commonDTO.getIsTuno())
-                    .comDt(commonDTO.getTsymd())
-                    .comTm(commonDTO.getTrtm())
-                    .comIp(commonDTO.getIpInfo())
-                    .comCallback(commonDTO.getRtnUrl())
-                    .comAsyncYn(commonDTO.getAsyncYn())
-                    .finGbcd(commonDTO.getFisDscd())
-                    .finCd(commonDTO.getFisCd())
-                    .finDvcCd(commonDTO.getFintechMarkChnlCd())
-                    .resCd(commonDTO.getRpcd())
-                    .resMsg(commonDTO.getRsms())
-                    .comApiCd(commonDTO.getApiNm().toString())
-                    .build();
-
-        }
-
     }
 
     @Data
@@ -68,18 +47,18 @@ public class CooconDTO {
     public static class Common {
 
         @Builder.Default
-        private String fintechIsatk = "mEnP9U4pSKVXo8ZQiaxx";
+        private String fintechIsatk = "3gP97b0RENCIwu3C2Hfl"; // 인증키
         @Builder.Default
-        private String fintechIscd = "999000";
+        private String fintechIscd = "000036"; // 기관코드
         @Builder.Default
         private String fintechApsno = "001";
 
         private ApiProperties apiNm;
         private String apiSvcCd;
         @Builder.Default
-        private String fisDscd = "01";
+        private String fisDscd = "01"; // FIXME 쿠콘에서 전달
         @Builder.Default
-        private String fisCd = "999";
+        private String fisCd = "999"; // FIXME 쿠콘에서 전달
 
         @Builder.Default
         private String tsymd = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
@@ -99,13 +78,6 @@ public class CooconDTO {
 
         private String lnReqNo;
 
-        public static JSONObject dtoToJsonObject(CooconDTO.Create commonDTO) throws JsonProcessingException, ParseException {
-            ObjectMapper objectMapper = new ObjectMapper();
-            String jsonStr = objectMapper.writeValueAsString(commonDTO);
-            JSONParser parser = new JSONParser();
-            Object obj = parser.parse( jsonStr );
-            return (JSONObject) obj;
-        }
 
     }
 
@@ -121,13 +93,6 @@ public class CooconDTO {
         private String bRpgUrl;
         private String cbTelNo;
         private String blank1;
-
-        // response로 오는 object -> dto 변경
-        public static CooconApiOutput.Body ObjectToDto(Object object) throws JsonProcessingException {
-            ObjectMapper mapper = new ObjectMapper();
-            String jsonInString = mapper.writeValueAsString(object);
-            return mapper.readValue(jsonInString, CooconApiOutput.Body.class);
-        }
 
     }
 

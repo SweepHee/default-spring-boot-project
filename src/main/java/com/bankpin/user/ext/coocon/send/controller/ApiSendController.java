@@ -1,6 +1,7 @@
 package com.bankpin.user.ext.coocon.send.controller;
 
 
+import com.bankpin.user.auth.model.dto.UserAuth;
 import com.bankpin.user.ext.coocon.model.dto.*;
 import com.bankpin.user.ext.coocon.service.CooconInqRsltLstService;
 import com.bankpin.user.ext.coocon.model.type.ApiProperties;
@@ -52,8 +53,8 @@ public class ApiSendController {
                 .rtnUrl("http://localhost:8507/user/coocon/callback/102") // Todo 특정 기관에서만 사용된다고 되어있음 물어보기
                 .build();
 
-        SnsUserDTO.Column cust = userSnsAuthService.findByCustCiNo(authentication.getName());
-        CooconCustAuthDtlDTO.Detail authDetail = cooconCustAuthService.findAuthDtlByCustCiNo(cust.getCustCiNo());
+        UserAuth userAuth = (UserAuth) authentication.getPrincipal();
+        CooconCustAuthDtlDTO.Detail authDetail = cooconCustAuthService.findAuthDtlByCustCiNo(userAuth.getId());
 
         if (authDetail == null) {
             return ResponseEntity.ok(
@@ -65,7 +66,7 @@ public class ApiSendController {
         }
 
         param.setCommon(common);
-        InqMasDTO.RequestParams apiParam = coocon101Service.setParameter(cust, authDetail, param);
+        InqMasDTO.RequestParams apiParam = coocon101Service.setParameter(userAuth, authDetail, param);
 
         if (apiParam == null) {
 
@@ -77,11 +78,13 @@ public class ApiSendController {
                             .build());
         }
 
+        CooconDTO.ApiOutput body;
+
         try {
 
-            // Todo INLIST2의 은행종류별로 발송해야 한다고 들었음. 쿠콘 개발자한테 물어봐야 함
-            CooconDTO.ApiOutput body = coocon101Service.request(param);
-            coocon101Service.eachInsertIfNotExists(cust, apiParam);
+            // FIXME INLIST2의 은행종류별로 발송해야 한다고 들었음. 쿠콘 개발자한테 물어봐야 함
+            body = coocon101Service.request(param);
+            coocon101Service.eachInsertIfNotExists(userAuth, apiParam);
 
 
         } catch (Exception e) {
@@ -101,6 +104,7 @@ public class ApiSendController {
                         .error(false)
                         .code(HttpCodeType.OK.getCode())
                         .message("")
+                        .data(body)
                         .build());
     }
 
@@ -108,7 +112,7 @@ public class ApiSendController {
      * 대출신청접수
      * */
     @PostMapping("/103")
-    public ResponseEntity<ResponseData> request103 (@RequestBody ReqLstDTO.RequestParams param, Authentication authentication) {
+    public ResponseEntity<ResponseData> request103(@RequestBody ReqLstDTO.RequestParams param, Authentication authentication) {
 
         // 대출신청번호가 파라미터로 넘어올거라 예상
 
@@ -120,7 +124,8 @@ public class ApiSendController {
                 .rtnUrl("http://localhost:8507/user/coocon/callback/104") // Todo 특정 기관에서만 사용된다고 되어있음 물어보기
                 .build();
 
-        Validator.Property basicValidate = basicValidator(authentication.getName(), param.getLoReqtNo());
+        UserAuth userAuth = (UserAuth) authentication.getPrincipal();
+        Validator.Property basicValidate = basicValidator(userAuth, param.getLoReqtNo());
         if (basicValidate.responseData != null) {
             return ResponseEntity.ok(basicValidate.responseData);
         }
@@ -129,8 +134,8 @@ public class ApiSendController {
         param.setFinEnMnNo(basicValidate.getResult().getFintecOrgMngno());
         param.setLoPrdCd(basicValidate.getResult().getLnPrdtCd());
         param.setCstmCipn(basicValidate.getAuthDetail().getCustCphoneNo()); // Todo 전화번호, 이메일, 이름 암호화필요
-        param.setCstmEml(basicValidate.getCustomer().getCustEmail());
-        param.setCstmNm(basicValidate.getCustomer().getCustNm());
+        param.setCstmEml(userAuth.getEmail());
+        param.setCstmNm(userAuth.getName());
 
         try {
 
@@ -180,7 +185,8 @@ public class ApiSendController {
                 .rtnUrl("") // Todo 특정기관만 사용한다고 함 물어보기
                 .build();
 
-        Validator.Property basicValidate = basicValidator(authentication.getName(), param.getLoAplcMmNo());
+        UserAuth userAuth = (UserAuth) authentication.getPrincipal();
+        Validator.Property basicValidate = basicValidator(userAuth, param.getLoAplcMmNo());
         if (basicValidate.responseData != null) {
             return ResponseEntity.ok(basicValidate.responseData);
         }
@@ -235,7 +241,8 @@ public class ApiSendController {
                 .rtnUrl("")
                 .build();
 
-        Validator.Property basicValidate = basicValidator(authentication.getName(), param.getLoAplcMmNo());
+        UserAuth userAuth = (UserAuth) authentication.getPrincipal();
+        Validator.Property basicValidate = basicValidator(userAuth, param.getLoAplcMmNo());
         if (basicValidate.responseData != null) {
             return ResponseEntity.ok(basicValidate.responseData);
         }
@@ -295,7 +302,6 @@ public class ApiSendController {
         @AllArgsConstructor
         public static class Property {
 
-            public SnsUserDTO.Column customer;
             public CooconCustAuthDtlDTO.Detail authDetail;
             public InqRsltLstDTO.Create result;
             public ResponseData responseData;
@@ -305,10 +311,9 @@ public class ApiSendController {
     }
 
 
-    private Validator.Property basicValidator(String name, String lnReqNo) {
+    private Validator.Property basicValidator(UserAuth userAuth, String lnReqNo) {
 
-        SnsUserDTO.Column customer = userSnsAuthService.findByCustCiNo(name);
-        CooconCustAuthDtlDTO.Detail authDetail = cooconCustAuthService.findAuthDtlByCustCiNoAndLnReqNo(customer.getCustCiNo(), lnReqNo);
+        CooconCustAuthDtlDTO.Detail authDetail = cooconCustAuthService.findAuthDtlByCustCiNoAndLnReqNo(userAuth.getId(), lnReqNo);
 
         if (authDetail == null) {
             return Validator.Property.builder()
@@ -330,11 +335,9 @@ public class ApiSendController {
                             .message("대출조회 및 결과내역 없음")
                             .build())
                     .build();
-
         }
 
         return Validator.Property.builder()
-                .customer(customer)
                 .authDetail(authDetail)
                 .result(result)
                 .build();
