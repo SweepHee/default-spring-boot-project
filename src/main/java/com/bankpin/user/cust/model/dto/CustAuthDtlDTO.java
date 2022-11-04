@@ -1,10 +1,12 @@
 package com.bankpin.user.cust.model.dto;
 
+import lombok.Builder;
 import lombok.Data;
 
 public class CustAuthDtlDTO
 {
     @Data
+    @Builder
     public static class Create
     {
         private String custCiNo;

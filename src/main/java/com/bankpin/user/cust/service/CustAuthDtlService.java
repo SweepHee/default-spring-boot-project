@@ -1,7 +1,9 @@
 package com.bankpin.user.cust.service;
 
+import com.bankpin.user.auth.model.dto.UserAuth;
 import com.bankpin.user.cust.mapper.CustAuthDtlMapper;
 import com.bankpin.user.cust.model.dto.CustAuthDtlDTO;
+import com.bankpin.user.ext.kcb.model.dto.SmsCertDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -56,4 +58,11 @@ public class CustAuthDtlService
         return custAuthDtlMapper.update(custAuthDtlDTO);
     }
 
+    public String findByMaxLnReqNo() {
+        return custAuthDtlMapper.findByMaxLnReqNo();
+    }
+
+    public CustAuthDtlDTO.Detail findByCustCiNoAndSelfAuthMethCd(String custCiNo, String selfAuthMethCd) {
+        return custAuthDtlMapper.findByCustCiNoAndSelfAuthMethCd(custCiNo, selfAuthMethCd);
+    }
 }
