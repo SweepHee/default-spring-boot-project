@@ -262,4 +262,11 @@ public interface InqrsltLstMapper
             "</script>")
     int remove(InqrsltLstDTO.Param param);
 
+    @Select("SELECT COUNT(*) AS TOTAL" +
+            "  FROM TBLNS_INQ_MAS TIM" +
+            " INNER JOIN TBLNS_INQRSLT_LST TIL ON (TIM.LN_REQ_NO = TIL.LN_REQ_NO)" +
+            " WHERE TIM.LN_GBCD = 1" +
+            "   AND TIM.CUST_CI_NO = #{custCiNo, jdbcType=VARCHAR}")
+    int countByCustCiNo(InqrsltLstDTO.Param param);
+
 }

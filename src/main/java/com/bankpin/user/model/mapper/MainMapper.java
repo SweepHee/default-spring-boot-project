@@ -1,6 +1,5 @@
 package com.bankpin.user.model.mapper;
 
-import com.bankpin.user.inq.model.dto.InqrsltLstDTO;
 import com.bankpin.user.model.dto.MainDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -69,48 +68,33 @@ public interface MainMapper
             " ORDER BY TIL.LN_REQ_NO ASC")
     List<MainDTO.LoanItem> findByCustCiNoAndLnRsltStcd(MainDTO.LoanParam param);
 
-    @Select("<script>" +
-            "SELECT" +
-            "       TIL.LN_REQ_NO" +
-            "     , TIL.FINTEC_ORG_MNGNO" +
-            "     , TIL.BANK_CD" +
-            "     , TIL.BANK_BRCH_CD" +
-            "     , TIL.LN_REQ_GBCD" +
-            "     , TIL.LN_PRDT_CD" +
-            "     , TIL.LN_PRDT_NM" +
-            "     , TIL.LN_RSLT_STCD" +
-            "     , TIL.NRSLT_RSN_CNTN" +
-            "     , TIL.LST_LN_LMT_AMT" +
-            "     , TIL.LST_LN_RATE" +
-            "     , TIL.LST_LN_TERM_MM" +
-            "     , TIL.LN_RTN_MTH_CD" +
-            "     , TIL.LN_RATE_KIND_GBCD" +
-            "     , TIL.STRD_RATE" +
-            "     , TIL.APPLY_RATE" +
-            "     , TIL.PRI_RATE_YN" +
-            "     , TIL.PRI_RATE_RSN_CNTN" +
-            "     , TIL.PRI_LMT_AMT" +
-            "     , TIL.PRI_RATE" +
-            "     , TIL.LN_VALID_DTTM" +
-            "     , TIL.LN_RATE_CYCLE_CD" +
-            "     , TIL.LN_MIDRTN_FEE_RATE" +
-            "     , TIL.LN_MIDRTN_FEE_YN" +
-            "     , TIL.END_ALLRTN_ABL_YN" +
-            "     , TIL.IM_DEPOT_ABL_YN" +
-            "     , TIL.HOLI_DEPOT_ABLE_YN" +
-            "     , TIL.PRINITR_EQ_RTN_ABL_YN" +
-            "     , TIL.PRIN_EQ_RTN_ABL_YN" +
-            "     , TIL.MINUS_BBOOK_ABL_YN" +
-            "  FROM TBLNS_INQRSLT_LST TIL" +
-            " INNER JOIN (" +
-            "       SELECT S_TIM.CUST_CI_NO, MAX(S_TIM.LN_REQ_NO) AS LN_REQ_NO" +
-            "         FROM TBLNS_INQ_MAS S_TIM" +
-            "        WHERE S_TIM.LN_GBCD = #{lnGbcd, jdbcType=VARCHAR}" +
-            "        GROUP BY S_TIM.CUST_CI_NO" +
-            "     ) TIM ON (TIL.LN_REQ_NO = TIM.LN_REQ_NO)" +
-            " ORDER BY TIL.LST_LN_RATE ASC, TIL.LST_LN_LMT_AMT DESC" +
-            "</script>")
-    List<InqrsltLstDTO.Item> findAllByLnReqNo(InqrsltLstDTO.Param param);
+    @Select("SELECT" +
+            "       MIN(B.MIN_LST_LN_RATE) AS MIN_LST_LN_RATE" +
+            "     , MAX(B.MAX_LST_LN_RATE) AS MAX_LST_LN_RATE" +
+            "     , SUM((B.MIN_LST_LN_RATE + (B.MAX_LST_LN_RATE - B.MIN_LST_LN_RATE) / 2)) / COUNT(*) AS CALC_LST_LN_RATE" +
+            "  FROM (SELECT MIN(TIM.LST_LN_RATE) AS MIN_LST_LN_RATE" +
+            "             , MAX(TIM.LST_LN_RATE) AS MAX_LST_LN_RATE" +
+            "          FROM (SELECT S_TIL.*" +
+            "                  FROM TBLNS_INQ_MAS S_TIM" +
+            "                 INNER JOIN TBLNS_INQRSLT_LST S_TIL ON (S_TIM.LN_REQ_NO = S_TIL.LN_REQ_NO)" +
+            "         WHERE S_TIM.LN_GBCD = #{lnGbcd, jdbcType=INTEGER}) TIM" +
+            "     ) B")
+    MainDTO.RateSummary findRageSummary(MainDTO.Param param);
 
-    // TODO findByGroupByBankCd(MainDTO.Param);
+    @Select("SELECT" +
+            "      TIL.LN_REQ_NO" +
+            " 	 , TIL.FINTEC_ORG_MNGNO" +
+            " 	 , TIL.BANK_CD" +
+            " 	 , TIL.LST_LN_RATE" +
+            " 	 , TIL.LST_LN_LMT_AMT" +
+            "    , TIL.LN_PRDT_CD" +
+            "    , TIL.LN_PRDT_NM" +
+            " FROM (SELECT S_TIL.*" +
+            " 		  FROM TBLNS_INQ_MAS S_TIM" +
+            " 		 INNER JOIN TBLNS_INQRSLT_LST S_TIL ON (S_TIM.LN_REQ_NO = S_TIL.LN_REQ_NO)" +
+            " 		 WHERE S_TIM.LN_GBCD = #{lnGbcd, jdbcType=INTEGER}" +
+            "    ) TIL " +
+            "ORDER BY TIL.LST_LN_RATE ASC, TIL.LST_LN_LMT_AMT DESC")
+    List<MainDTO.RateInfo> findAllGroupByBankCd(MainDTO.Param param);
+
 }

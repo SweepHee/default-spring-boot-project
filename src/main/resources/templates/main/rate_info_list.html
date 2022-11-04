@@ -40,20 +40,20 @@
 						<small>금융감독원에서 제고하는 정보기준(2022년 10월 1일자)</small>
 					</div>
 
-					<div class="loan_column" id="loan_column">
-						<script id="loan_column_template" type="text/x-handlebars-template">
+					<div class="loan_column" id="rate_summary">
+						<script id="rate_summary_template" type="text/x-handlebars-template">
 						<ol>
 							<li>
 								<label>최저금리</label>
-								<strong>{{progress}}<em>건</em></strong>
+								<strong>{{toFixed minLstLnRate}}<em>%</em></strong>
 							</li>
 							<li>
 								<label>전세자금대출</label>
-								<strong>{{done}}<em>건</em></strong>
+								<strong>{{toFixed maxLstLnRate}}<em>%</em></strong>
 							</li>
 							<li>
 								<label>개인신용대출</label>
-								<strong class="yellow">{{result}}<em>건</em></strong>
+								<strong class="yellow">{{toFixed calcLstLnRate}}<em>%</em></strong>
 							</li>
 						</ol>
 						</script>
@@ -71,9 +71,9 @@
 
 					<div class="lon_box_list">
 						<small>* 금리순<br>&nbsp;</small>
-						<dl id="lon_box_dl">
+						<dl id="rate_list">
 							<!--리스트 box-->
-							<script id="lon_box_dl_template" type="text/x-handlebars-template">
+							<script id="rate_list_template" type="text/x-handlebars-template">
 							{{#items}}
 							<a>
 								<dt class="bank_info">
@@ -119,7 +119,6 @@
 	<script type="text/javascript" src="/user/static/assets/js/jquery-3.1.0.min.js"></script>
 	<script type="text/javascript" src="/user/static/assets/js/jquery.easing.1.3.min.js"></script>
 	<script type="text/javascript" src="/user/static/assets/js/jquery-ui.js"></script>
-	<script type="text/javascript" src="/user/static/assets/js/default.js"></script>
 	<script src="/user/static/assets/js/mobile.js"></script>
 	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="/user/static/assets/js/handlebars.js"></script>
@@ -130,12 +129,12 @@
 	<!--금리순/한도순-->
 	<script>
 		const wrapData = {
-			board: {
-				progress: 0,
-				done: 0,
-				result: 0
+			summary: {
+				minLstLnRate: 0,
+				maxLstLnRate: 0,
+				calcLstLnRate: 0
 			},
-			boxDl:{
+			list:{
 				items: []
 			}
 		};
@@ -144,15 +143,14 @@
 			Bankpin.pageLink('/user');  // to Native
 		}
 
-		const loan_column_wrap = new HandleWrapper();
-		function search_loan_column() {
-			axios.get('/user/api/v1/main/progress-detail')
+		const rate_summary_wrap = new HandleWrapper();
+		function search_rate_summary() {
+			axios.get('/user/api/v1/main/rate-info-summary')
 				.then(function(request) {
 					if (request.status == 200) {
 						if (!request.data.error) {
-							wrapData.board = request.data.data;
-							list_tit_wrap.put(wrapData.title);
-							loan_column_wrap.put(wrapData.board);
+							wrapData.summary = request.data.data;
+							rate_summary_wrap.put(wrapData.summary);
 						} else {
 							console.log('error', request.data.message);
 							alert('요청이 실패 하였습니다. 잠시 후 다시 요청하세요.');
@@ -170,19 +168,14 @@
 				});
 		}
 
-		const lon_box_dl_wrap = new HandleWrapper();
-		function search_lon_box_dl(sort) {
+		const rate_list_wrap = new HandleWrapper();
+		function search_rate_list() {
 			axios.get('/user/api/v1/main/rate-info-list')
 				.then(function(request) {
 					if (request.status == 200) {
 						if (!request.data.error) {
-							wrapData.boxDl.items = request.data.data;
-							lon_box_dl_wrap.cleanFetch(wrapData.boxDl);
-
-							wrapData.board.progress = wrapData.boxDl.items.length;
-							wrapData.board.done = wrapData.board.progress;
-							wrapData.board.result = wrapData.board.progress;
-							loan_column_wrap.put(wrapData.board);
+							wrapData.list.items = request.data.data;
+							rate_list_wrap.cleanFetch(wrapData.list);
 						} else {
 							console.log('error', request.data.message);
 							alert('요청이 실패 하였습니다. 잠시 후 다시 요청하세요.');
@@ -210,16 +203,16 @@
 				previous();
 			});
 
-			loan_column_wrap.setTemplate($('#loan_column_template').html());
-			loan_column_wrap.setData(wrapData.board);
-			loan_column_wrap.compile($('#loan_column'));
+			rate_summary_wrap.setTemplate($('#rate_summary_template').html());
+			rate_summary_wrap.setData(wrapData.summary);
+			rate_summary_wrap.compile($('#rate_summary'));
 
-			lon_box_dl_wrap.setTemplate($('#lon_box_dl_template').html());
-			lon_box_dl_wrap.setData(wrapData.boxDl);
-			lon_box_dl_wrap.compile($('#lon_box_dl'));
+			rate_list_wrap.setTemplate($('#rate_list_template').html());
+			rate_list_wrap.setData(wrapData.list);
+			rate_list_wrap.compile($('#rate_list'));
 
-			// search_loan_column();
-			search_lon_box_dl('rateUp');
+			search_rate_summary();
+			search_rate_list();
 		});
 	</script>
 

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>뱅크핀</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no, viewport-fit=cover">
+	<link rel="stylesheet" type="text/css" href="/user/static/assets/css/common.css" />
+</head>
+
+<body>
+
+	<!-- wrap -->
+	<div id="wrap">
+
+		<!-- container -->
+		<div id="container">
+
+			<!-- content -->
+			<div class="content">
+				
+				<div class="gui_txt">
+					<p><b th:text="${total}">5</b>개 금융사로부터 <b th:text="${name}"></b>님의<br>대출조건을 받아오고 있어요.</p>
+					<span><b>88% </b>진행중</span>
+				</div>
+				
+				<div class="ready_common">
+					<img src="/user/static/assets/images/contents/search_ing.gif" alt="검색중" class="ready_img">
+					<strong>상품 검색 중</strong>
+					<sub>고객님께 맞는 상품을 찾고 있어요!!!</sub>
+					
+					<p class="re_gui_txt">
+						<strong>걱정하지 마세요.</strong>
+						<span>
+							금융사에서  한도산출 목적으로 사용이 되고<br>
+							뱅크핀  제휴등록으로<br>  
+							신용조회는 <b>1건만 처리</b>가 됩니다.
+						</span>
+					</p>
+				</div>
+			</div>
+			<!-- content e -->
+
+		</div>
+		<!-- //container e -->
+
+	</div>
+	<!-- //wrap e-->
+
+
+	<script>
+		function next() {
+			window.location.href = "/user/inqrslt/list";
+		}
+
+		document.addEventListener("DOMContentLoaded", function() {
+			setTimeout(() => next(), 3000);
+		});
+	</script>
+
+</body>
+
+</html>

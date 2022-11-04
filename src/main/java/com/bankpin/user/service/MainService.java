@@ -1,6 +1,5 @@
 package com.bankpin.user.service;
 
-import com.bankpin.user.inq.model.dto.InqrsltLstDTO;
 import com.bankpin.user.model.dto.MainDTO;
 import com.bankpin.user.model.mapper.MainMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +23,12 @@ public class MainService
         return mainMapper.findByLnReqGbcd(param);
     }
 
-    public List<InqrsltLstDTO.Item> selectAll(InqrsltLstDTO.Param param) {
-        return mainMapper.findAllByLnReqNo(param);
+    public List<MainDTO.RateInfo> selectAllRateInfoList(MainDTO.Param param) {
+        return mainMapper.findAllGroupByBankCd(param);
+    }
+
+    public MainDTO.RateSummary selectRateSummary(MainDTO.Param param) {
+        return mainMapper.findRageSummary(param);
     }
 
 }
