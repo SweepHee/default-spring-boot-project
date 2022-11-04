@@ -9,6 +9,7 @@ public interface AuthMapper
 {
     @Select({"SELECT ",
             " CUST_CI_NO as id, CUST_SIMPLE_PWD as password, CUST_ID as username, CUST_AUTH_CD as authority",
+            ",FN_DECRYPT(CUST_NM) as name, FN_DECRYPT(CUST_EMAIL) as email, CUST_BIRTH as birthday",
             " FROM TBCOM_CUSTMAS",
             " WHERE CUST_ID = #{id, jdbcType=VARCHAR}"})
     UserAuth findByUsername(@Param("id") String id);
