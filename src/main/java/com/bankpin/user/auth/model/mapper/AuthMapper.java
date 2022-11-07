@@ -15,6 +15,14 @@ public interface AuthMapper
             "    AND CUST_ACTV_GBCD = 1"})
     UserAuth findByUsername(@Param("id") String id);
 
+    @Select({"SELECT",
+            "        CUST_CI_NO, CUST_ID, CUST_AUTH_CD, FN_DECRYPT(CUST_NM) AS CUST_NM",
+            "      , FN_DECRYPT(CUST_EMAIL) AS CUST_EMAIL, CUST_BIRTH, CUST_GENDER",
+            "   FROM TBCOM_CUSTMAS",
+            "  WHERE CUST_CI_NO = #{custCiNo, jdbcType=VARCHAR}",
+            "    AND CUST_ACTV_GBCD = 1"})
+    UserDTO.Detail findByCustCiNo(@Param("custCiNo") String custCiNo);
+
     @Insert({"INSERT INTO TBCOM_CUSTMAS (",
             " CUST_CI_NO, CUST_SIMPLE_PWD,",
             " CUST_ID,",
