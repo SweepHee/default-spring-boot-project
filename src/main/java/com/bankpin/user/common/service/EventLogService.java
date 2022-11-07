@@ -1,7 +1,7 @@
 package com.bankpin.user.common.service;
 
 import com.bankpin.user.common.model.dto.EventLogDTO;
-import com.bankpin.user.common.model.mapper.EventLogMapper;
+import com.bankpin.user.common.mapper.EventLogMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

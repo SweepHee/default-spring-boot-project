@@ -10,53 +10,53 @@ public interface InqrsltLstMapper
 {
     @Select("<script>" +
             "SELECT" +
-            "       LN_REQ_NO" +
-            "     , FINTEC_ORG_MNGNO" +
-            "     , BANK_CD" +
-            "     , BANK_BRCH_CD" +
-            "     , LN_REQ_GBCD" +
-            "     , LN_PRDT_CD" +
-            "     , LN_PRDT_NM" +
-            "     , LN_RSLT_STCD" +
-            "     , NRSLT_RSN_CNTN" +
-            "     , LST_LN_LMT_AMT" +
-            "     , LST_LN_RATE" +
-            "     , LST_LN_TERM_MM" +
-            "     , LN_RTN_MTH_CD" +
-            "     , LN_RATE_KIND_GBCD" +
-            "     , STRD_RATE" +
-            "     , APPLY_RATE" +
-            "     , PRI_RATE_YN" +
-            "     , PRI_RATE_RSN_CNTN" +
-            "     , PRI_LMT_AMT" +
-            "     , PRI_RATE" +
-            "     , LN_VALID_DTTM" +
-            "     , LN_RATE_CYCLE_CD" +
-            "     , LN_MIDRTN_FEE_RATE" +
-            "     , LN_MIDRTN_FEE_YN" +
-            "     , END_ALLRTN_ABL_YN" +
-            "     , IM_DEPOT_ABL_YN" +
-            "     , HOLI_DEPOT_ABLE_YN" +
-            "     , PRINITR_EQ_RTN_ABL_YN" +
-            "     , PRIN_EQ_RTN_ABL_YN" +
-            "     , MINUS_BBOOK_ABL_YN" +
-            "  FROM TBLNS_INQRSLT_LST" +
-            " WHERE LN_REQ_NO = #{lnReqNo, jdbcType=VARCHAR}" +
+            "       TIL.LN_REQ_NO" +
+            "     , TIL.FINTEC_ORG_MNGNO" +
+            "     , TIL.BANK_CD" +
+            "     , TIL.BANK_BRCH_CD" +
+            "     , TIL.LN_REQ_GBCD" +
+            "     , TIL.LN_PRDT_CD" +
+            "     , TIL.LN_PRDT_NM" +
+            "     , TIL.LN_RSLT_STCD" +
+            "     , TIL.NRSLT_RSN_CNTN" +
+            "     , TRUNCATE(TIL.LST_LN_LMT_AMT / 10000, -1) AS LST_LN_LMT_AMT" +
+            "     , TIL.LST_LN_RATE" +
+            "     , TIL.LST_LN_TERM_MM" +
+            "     , TIL.LN_RTN_MTH_CD" +
+            "     , TIL.LN_RATE_KIND_GBCD" +
+            "     , TIL.STRD_RATE" +
+            "     , TIL.APPLY_RATE" +
+            "     , TIL.PRI_RATE_YN" +
+            "     , TIL.PRI_RATE_RSN_CNTN" +
+            "     , TIL.PRI_LMT_AMT" +
+            "     , TIL.PRI_RATE" +
+            "     , TIL.LN_VALID_DTTM" +
+            "     , TIL.LN_RATE_CYCLE_CD" +
+            "     , TIL.LN_MIDRTN_FEE_RATE" +
+            "     , TIL.LN_MIDRTN_FEE_YN" +
+            "     , TIL.END_ALLRTN_ABL_YN" +
+            "     , TIL.IM_DEPOT_ABL_YN" +
+            "     , TIL.HOLI_DEPOT_ABLE_YN" +
+            "     , TIL.PRINITR_EQ_RTN_ABL_YN" +
+            "     , TIL.PRIN_EQ_RTN_ABL_YN" +
+            "     , TIL.MINUS_BBOOK_ABL_YN" +
+            "  FROM TBLNS_INQRSLT_LST TIL" +
+            " INNER JOIN (" +
+            "       SELECT S_TIM.CUST_CI_NO, MAX(S_TIM.LN_REQ_NO) AS LN_REQ_NO" +
+            "         FROM TBLNS_INQ_MAS S_TIM" +
+            "        WHERE S_TIM.LN_GBCD = #{lnGbcd, jdbcType=VARCHAR}" +
+            "          AND S_TIM.CUST_CI_NO = #{custCiNo, jdbcType=VARCHAR}" +
+            "        GROUP BY S_TIM.CUST_CI_NO" +
+            "     ) TIM ON (TIL.LN_REQ_NO = TIM.LN_REQ_NO)" +
             "   <choose>" +
             "       <when test='sortOrder == \"rateUp\"'>" +
-            " ORDER BY LST_LN_RATE ASC, LST_LN_LMT_AMT DESC" +
-            "       </when>" +
-            "       <when test='sortOrder == \"rateDown\"'>" +
-            " ORDER BY LST_LN_RATE DESC, LST_LN_LMT_AMT DESC" +
-            "       </when>" +
-            "       <when test='sortOrder == \"amtUp\"'>" +
-            " ORDER BY LST_LN_LMT_AMT ASC, LST_LN_RATE ASC" +
+            " ORDER BY TIL.LST_LN_RATE ASC, TIL.LST_LN_LMT_AMT DESC" +
             "       </when>" +
             "       <when test='sortOrder == \"amtDown\"'>" +
-            " ORDER BY LST_LN_LMT_AMT DESC, LST_LN_RATE ASC" +
+            " ORDER BY TIL.LST_LN_LMT_AMT DESC, TIL.LST_LN_RATE ASC" +
             "       </when>" +
             "       <otherwise>" +
-            " ORDER BY LST_LN_RATE ASC, LST_LN_LMT_AMT DESC" +
+            " ORDER BY TIL.LST_LN_RATE ASC, TIL.LST_LN_LMT_AMT DESC" +
             "       </otherwise>" +
             "   </choose>" +
             "</script>")
@@ -261,5 +261,12 @@ public interface InqrsltLstMapper
             "   </if>" +
             "</script>")
     int remove(InqrsltLstDTO.Param param);
+
+    @Select("SELECT COUNT(*) AS TOTAL" +
+            "  FROM TBLNS_INQ_MAS TIM" +
+            " INNER JOIN TBLNS_INQRSLT_LST TIL ON (TIM.LN_REQ_NO = TIL.LN_REQ_NO)" +
+            " WHERE TIM.LN_GBCD = 1" +
+            "   AND TIM.CUST_CI_NO = #{custCiNo, jdbcType=VARCHAR}")
+    int countByCustCiNo(InqrsltLstDTO.Param param);
 
 }

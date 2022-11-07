@@ -1,0 +1,16 @@
+<svg width="107" height="113" viewBox="0 0 107 113" fill="none" xmlns="http://www.w3.org/2000/svg">
+<circle cx="82" cy="4" r="3" fill="white" stroke="#020202" stroke-width="2"/>
+<ellipse cx="53.5" cy="101" rx="53.5" ry="12" fill="#F4F4F4"/>
+<path d="M32.31 11.1H72.1C75.6 11.1 78.43 13.94 78.43 17.43V96.28C78.43 99.78 75.59 102.62 72.09 102.62H32.32C28.82 102.62 25.98 99.78 25.98 96.28V17.43C25.98 13.93 28.82 11.1 32.31 11.1V11.1Z" fill="white" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M48.05 19.25H56.37" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M85 32H66V54H85V32Z" fill="white" stroke="#020202" stroke-width="1.5"/>
+<path d="M57.0625 48.4899C57.0625 51.5177 54.7977 53.9688 52 53.9688C49.2023 53.9688 46.9375 51.5177 46.9375 48.4899C46.9375 45.4621 49.2023 43 52 43C54.7977 43 57.0625 45.4511 57.0625 48.4899Z" fill="#FFE327" stroke="#100C0D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M57.4867 56.5H46.5133C43.484 56.5 41.0312 58.9104 41.0312 61.8874V70H62.9688V61.8874C62.9688 58.9104 60.516 56.5 57.4867 56.5V56.5Z" fill="#FFE327" stroke="#100C0D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M46 89.5C46 99.1668 38.1668 107 28.5 107C18.8332 107 11 99.1668 11 89.5C11 79.8332 18.8332 72 28.5 72C38.1668 72 46 79.8332 46 89.5Z" fill="#BDF6FF" stroke="#020202" stroke-width="1.5"/>
+<path d="M25.7376 93.5191L21.1934 89.0114L19.1666 91.0219L25.7875 97.5897L25.8651 97.6667L25.9319 97.6004L27.8918 95.6561L39 84.637L36.8484 82.5027L36.8457 82.5L25.7376 93.5191Z" fill="black"/>
+<path d="M90.0416 26H71V48.3234H90.0416V26Z" fill="#30F38A" stroke="#020202" stroke-width="1.5"/>
+<path d="M77.2346 31.9055H83.8071" stroke="#020202" stroke-width="1.5"/>
+<path d="M77.2346 37.8198H83.8071" stroke="#020202" stroke-width="1.5"/>
+<path d="M89 8V16" stroke="#020202" stroke-width="2"/>
+<path d="M85 12H93" stroke="#020202" stroke-width="2"/>
+</svg>

@@ -31,8 +31,11 @@ public class AuthController
         boolean authenticate = Boolean.FALSE;
         boolean error = Boolean.parseBoolean(request.getParameter("error"));
         String message = request.getParameter("message");
+        UserDTO.Detail detail = null;
         if (authentication != null) {
             authenticate = authentication.isAuthenticated();
+            UserAuth userAuth = (UserAuth) authentication.getPrincipal();
+            detail = userAuthService.selectCustCiNo(userAuth.getUsername());
         } else {
             if (StringUtils.hasLength(message)) {
                 message = AuthErrorType.UNAUTHENTICATED.getKey() +", " + message;
@@ -45,6 +48,7 @@ public class AuthController
                     .error(!authenticate | error)
                     .code(authenticate ? HttpStatus.OK.value() : HttpStatus.UNAUTHORIZED.value())
                     .message(message)
+                    .data(detail)
                     .build());
     }
 

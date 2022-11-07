@@ -153,9 +153,22 @@ public class InqrsltLstDTO
     @Data
     @Builder
     @AllArgsConstructor
+    public static class Progress
+    {
+        private int progress;
+        private int done;
+        private int result;
+    }
+
+    @Data
+    @Builder
+    @AllArgsConstructor
     public static class Param
     {
-        @NotBlank(message = "not null")
+        @Length(max = 5, message = "max = 5")
+        private String bankCd;
+        @Length(max = 32, message = "max = 32")
+        private String custCiNo;
         @Length(max = 14, message = "max = 14")
         private String lnReqNo;
         @Length(max = 20, message = "max = 20")
@@ -166,6 +179,7 @@ public class InqrsltLstDTO
         private String lnGbcd;
         @Length(max = 8, message = "max = 8")
         private String sortOrder;
+        private String specialRate;
     }
 
 }

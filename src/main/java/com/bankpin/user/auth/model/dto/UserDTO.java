@@ -25,7 +25,6 @@ public class UserDTO
     public static class Detail
     {
         private String custCiNo;
-        private String custSimplePwd;
         private String custId;
         private String custNm;
         private String custAuthCd;

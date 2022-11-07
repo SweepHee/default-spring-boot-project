@@ -63,4 +63,24 @@ public class MainDTO
         private String lnRsltStcd;
     }
 
+    @Data
+    public static class RateInfo
+    {
+        private String lnReqNo;
+        private String fintecOrgMngno;
+        private String bankCd;
+        private String lstLnRate;
+        private String lstLnLmtAmt;
+        private String lnPrdtCd;
+        private String lnPrdtNm;
+    }
+
+    @Data
+    public static class RateSummary
+    {
+        private String minLstLnRate;
+        private String maxLstLnRate;
+        private String calcLstLnRate;
+    }
+
 }

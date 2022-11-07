@@ -2,7 +2,7 @@ package com.bankpin.user.sns.auth.service;
 
 
 import com.bankpin.user.auth.model.dto.UserAuth;
-import com.bankpin.user.auth.model.mapper.AuthMapper;
+import com.bankpin.user.auth.mapper.AuthMapper;
 import com.bankpin.user.sns.auth.model.dto.KakaoAuth;
 import com.bankpin.user.sns.auth.model.dto.NaverAuth;
 import com.bankpin.user.sns.auth.model.dto.SnsUserDTO;

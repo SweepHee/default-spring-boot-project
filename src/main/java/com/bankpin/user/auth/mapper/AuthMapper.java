@@ -1,4 +1,4 @@
-package com.bankpin.user.auth.model.mapper;
+package com.bankpin.user.auth.mapper;
 
 import com.bankpin.user.auth.model.dto.UserAuth;
 import com.bankpin.user.auth.model.dto.UserDTO;
@@ -7,12 +7,21 @@ import org.apache.ibatis.annotations.*;
 @Mapper
 public interface AuthMapper
 {
-    @Select({"SELECT ",
-            " CUST_CI_NO as id, CUST_SIMPLE_PWD as password, CUST_ID as username, CUST_AUTH_CD as authority",
-            ",FN_DECRYPT(CUST_NM) as name, FN_DECRYPT(CUST_EMAIL) as email, CUST_BIRTH as birthday",
-            " FROM TBCOM_CUSTMAS",
-            " WHERE CUST_ID = #{id, jdbcType=VARCHAR}"})
+    @Select({"SELECT",
+            "        CUST_CI_NO as id, CUST_SIMPLE_PWD as password, CUST_ID as username",
+            "      , CUST_AUTH_CD as authority, FN_DECRYPT(CUST_NM) AS name",
+            "   FROM TBCOM_CUSTMAS",
+            "  WHERE CUST_ID = #{id, jdbcType=VARCHAR}",
+            "    AND CUST_ACTV_GBCD = 1"})
     UserAuth findByUsername(@Param("id") String id);
+
+    @Select({"SELECT",
+            "        CUST_CI_NO, CUST_ID, CUST_AUTH_CD, FN_DECRYPT(CUST_NM) AS CUST_NM",
+            "      , FN_DECRYPT(CUST_EMAIL) AS CUST_EMAIL, CUST_BIRTH, CUST_GENDER",
+            "   FROM TBCOM_CUSTMAS",
+            "  WHERE CUST_CI_NO = #{custCiNo, jdbcType=VARCHAR}",
+            "    AND CUST_ACTV_GBCD = 1"})
+    UserDTO.Detail findByCustCiNo(@Param("custCiNo") String custCiNo);
 
     @Insert({"INSERT INTO TBCOM_CUSTMAS (",
             " CUST_CI_NO, CUST_SIMPLE_PWD,",

@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Slf4j
-@RestControllerAdvice(basePackages = "com.bankpin.user.inq.controller")
+@RestControllerAdvice(basePackages = "com.bankpin.user.*.controller")
 public class RestExceptionAdvice
 {
     @ExceptionHandler(MethodArgumentNotValidException.class)

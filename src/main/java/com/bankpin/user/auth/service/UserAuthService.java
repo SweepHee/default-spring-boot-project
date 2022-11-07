@@ -1,9 +1,9 @@
 package com.bankpin.user.auth.service;
 
-import com.bankpin.user.auth.model.mapper.AuthMapper;
-import com.bankpin.user.auth.model.type.AuthorityType;
 import com.bankpin.user.auth.model.dto.UserAuth;
 import com.bankpin.user.auth.model.dto.UserDTO;
+import com.bankpin.user.auth.mapper.AuthMapper;
+import com.bankpin.user.auth.model.type.AuthorityType;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -15,6 +15,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,6 +29,10 @@ public class UserAuthService implements UserDetailsService
     public UserAuth selectUser(String username)
     {
         return authMapper.findByUsername(username);
+    }
+    public UserDTO.Detail selectCustCiNo(String custCiNo)
+    {
+        return authMapper.findByCustCiNo(custCiNo);
     }
 
 	@Override

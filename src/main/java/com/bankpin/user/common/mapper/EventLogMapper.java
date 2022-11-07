@@ -1,4 +1,4 @@
-package com.bankpin.user.common.model.mapper;
+package com.bankpin.user.common.mapper;
 
 import com.bankpin.user.common.model.dto.EventLogDTO;
 import org.apache.ibatis.annotations.Insert;

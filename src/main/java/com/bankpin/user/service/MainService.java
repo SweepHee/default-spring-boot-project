@@ -1,7 +1,7 @@
 package com.bankpin.user.service;
 
 import com.bankpin.user.model.dto.MainDTO;
-import com.bankpin.user.model.mapper.MainMapper;
+import com.bankpin.user.mapper.MainMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +21,14 @@ public class MainService
     public List<MainDTO.FastItem> selectListSpeedLoan(MainDTO.Param param)
     {
         return mainMapper.findByLnReqGbcd(param);
+    }
+
+    public List<MainDTO.RateInfo> selectAllRateInfoList(MainDTO.Param param) {
+        return mainMapper.findAllGroupByBankCd(param);
+    }
+
+    public MainDTO.RateSummary selectRateSummary(MainDTO.Param param) {
+        return mainMapper.findRageSummary(param);
     }
 
 }

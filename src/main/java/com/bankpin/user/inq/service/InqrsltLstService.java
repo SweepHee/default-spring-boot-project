@@ -16,6 +16,10 @@ public class InqrsltLstService
     @Autowired
     private InqrsltLstMapper inqrsltLstMapper;
 
+    public int selectCountCustCiNo(InqrsltLstDTO.Param param) {
+        return inqrsltLstMapper.countByCustCiNo(param);
+    }
+
     public InqrsltLstDTO.Detail selectDetail(InqrsltLstDTO.Param param) {
         return inqrsltLstMapper.findByLnReqNoAndFintecOrgMngno(param);
     }
