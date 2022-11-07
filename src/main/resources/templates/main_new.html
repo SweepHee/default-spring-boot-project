@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>뱅크핀</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no, viewport-fit=cover">
+	<link rel="stylesheet" type="text/css" href="/user/static/assets/css/common.css" />
+	<link rel="stylesheet" type="text/css" href="/user/static/assets/css/slick.css">
+</head>
+
+<body>
+
+	<!-- wrap -->
+	<div id="wrap">
+
+		<!-- header -->
+		<header id="header" class="header">
+			<div class="inner">
+				<h1><a href="javascript:;" class="logo"><img src="/user/static/assets/images/common/logo.svg"></a></h1>
+
+				<button class="more_btn"><span class="blind">더보기</span></button>
+
+				<p class="main_vis_txt">
+					손 안에 있는 대출<br>
+					<strong>이제 어디서든 <b>뱅크핀</b>하세요.</strong>
+				</p>
+
+			</div>
+		</header>
+		<!-- //header -->
+
+
+
+		<!-- container -->
+		<div id="container">
+
+			<!-- content -->
+			<div class="content">
+
+				<!-- mortgage_banner -->
+				<div class="mortgage_banner loan">
+					<a id="btn_credit_loan">
+						<em>조회 한번으로 끝내는</em>
+						<strong><b>맞춤</b> 신용 대출</strong>
+					</a>
+				</div>
+				<!-- //mortgage_banner e-->
+
+				<!-- notic -->
+				<div class="notic">
+					<label>공지</label>
+
+					<div class="animated-title">
+						<div class="track">
+							<a class="notice_tit" href="">오픈이벤트 안녕하세요 뱅크핀입니다. 오픈이벤트 안녕하세요 뱅크핀입니다. 오픈이벤트 안녕하세요 뱅크핀입니다. 오픈이벤트 안녕하세요 뱅크핀입니다. 오픈이벤트 안녕하세요 뱅크핀입니다. 오픈이벤트 안녕하세요 뱅크핀입니다. 오픈이벤트 안녕하세요 뱅크핀입니다.</a>
+						</div>
+					</div>
+
+				</div>
+				<!-- //notic e-->
+
+
+				<!-- my_loan -->
+				<div class="my_loan">
+
+					<p class="view_more">
+						<span>
+							<strong>내 대출</strong>
+							<!--대출 신청한 이력이 없을 때
+							<em>대출 신청한 이력이 없습니다.</em>-->
+						</span>
+						<button>조회하기</button>
+					</p>
+
+					<!--조회 후 대출 이력 리스트-->
+					<div class="loan_list">
+
+						<div class="loan_total">
+							<em>현재 보유한 대출 정보입니다.</em>
+							<ul>
+								<li>
+									<label>총 원금</label>
+									<span class="all"><b>0</b>원</span>
+								</li>
+								<li>
+									<label>총 잔액</label>
+									<span class="balance"><b>0</b>원</span>
+								</li>
+							</ul>
+						</div>
+
+						<dl id="loan_list">
+							<!--div>
+								<dt><img src="/user/static/assets/images/common/bank01.svg"></dt>
+								<dd>
+									<p class="bank">
+										<span>한국씨티은행</span>
+										<em>살만한 신용대출</em>
+									</p>
+									<p class="pay">
+										<em>16.3%</em>
+										<span><b>5,000</b>만원</span>
+									</p>
+								</dd>
+							</div-->
+						</dl>
+					</div>
+					<!--조회 후 대출 이력 리스트 e-->
+
+				</div>
+				<!-- my_loan e -->
+
+				<!--my_credit_score-->
+				<div class="my_credit_score">
+
+					<p class="view_more">
+						<span>
+							<strong>내 신용점수</strong>
+							<em><span th:text="${#calendars.format(#calendars.createNow(), 'yyyy.MM.dd')}">2022.11.01</span> 기준 / 0점</em>
+						</span>
+						<!--조회 후 다시 조회할 때 텍스트 변경-->
+						<button>다시 조회하기</button>
+					</p>
+
+					<!--조회 후 신용점수 영역
+					<div class="score">
+						<strong><b>985</b>점</strong>
+						<p>
+							<span>상위 <b>2%</b></span>
+							<span>연체 가능 <b>0.09%</b></span>
+						</p>
+						<div class="progress-bar">
+							<div class="progress"></div>
+						</div>
+					</div>-->
+
+				</div>
+				<!--my_credit_score e-->
+
+				<!-- my_loan -->
+				<div class="my_loan mt0 mb100">
+
+					<p class="view_more">
+						<span>
+							<strong>금리정보</strong>
+						</span>
+						<button id="btn_search_rate">조회하기</button>
+					</p>
+
+				</div>
+
+
+			</div>
+			<!-- content e -->
+
+		</div>
+		<!-- //container e -->
+
+		<!-- bottomMemu -->
+		<div class="bottomMemu">
+			<div class="inner">
+				<ul class="clearfix">
+					<li class="botIcon01 on">
+						<a href="javascript:;"><span></span>
+							<p>HOME</p>
+						</a>
+					</li>
+					<li class="botIcon02">
+						<a href="javascript:;"><span></span>
+							<p>주변은행</p>
+						</a>
+					</li>
+					<li class="botIcon03">
+						<a href="javascript:;"><span></span>
+							<p>신청내역</p>
+						</a>
+					</li>
+					<li class="botIcon04">
+						<a href="javascript:;"><span></span>
+							<p>MY</p>
+						</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<!-- bottomMemu e-->
+
+	</div>
+	<!-- //wrap e-->
+
+	<script type="text/javascript" src="/user/static/assets/js/jquery-3.1.0.min.js"></script>
+	<script type="text/javascript" src="/user/static/assets/js/jquery.easing.1.3.min.js"></script>
+	<script type="text/javascript" src="/user/static/assets/js/jquery-ui.js"></script>
+	<script src="/user/static/assets/js/mobile.js"></script>
+	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="/user/static/assets/js/handlebars.js"></script>
+    <script src="/user/static/assets/js/handle_wrapper.js"></script>
+	<script src="/user/static/assets/js/handle_helper.js"></script>
+    <script src="/user/static/assets/js/handle_loan_helper.js"></script>
+	<script>
+		function go_credit_loan() {
+			Bankpin.pageLink('/user/inqrslt/list');  // to Native
+		}
+		function go_search_rate() {
+			window.location.href = '/user/main/rate-info-list';
+		}
+
+		document.addEventListener("DOMContentLoaded", function() {
+			jQuery('#btn_credit_loan').on("click", function() {
+				go_credit_loan();
+			});
+			jQuery('#btn_search_rate').on("click", function() {
+				go_search_rate();
+			});
+		});
+	</script>
+
+</body>
+
+</html>

@@ -42,7 +42,27 @@ class HandleWrapper {
     }
 
     fetch(data) {
-        this.#data.items = this.#data.items.concat(data);
+        this.#data = this.#data.concat(data);
+        if (this.#template && this.#data) {
+            if (!this.#compile) {
+                this.#compile = Handlebars.compile(this.#template);
+            }
+            this.#target.html(this.#compile(this.#data));
+        }
+    }
+
+    cleanFetch(data) {
+        this.#data = data;
+        if (this.#template && this.#data) {
+            if (!this.#compile) {
+                this.#compile = Handlebars.compile(this.#template);
+            }
+            this.#target.html(this.#compile(this.#data));
+        }
+    }
+
+    put(data) {
+        this.#data = data;
         if (this.#template && this.#data) {
             if (!this.#compile) {
                 this.#compile = Handlebars.compile(this.#template);

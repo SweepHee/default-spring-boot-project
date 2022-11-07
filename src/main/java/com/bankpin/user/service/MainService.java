@@ -23,4 +23,12 @@ public class MainService
         return mainMapper.findByLnReqGbcd(param);
     }
 
+    public List<MainDTO.RateInfo> selectAllRateInfoList(MainDTO.Param param) {
+        return mainMapper.findAllGroupByBankCd(param);
+    }
+
+    public MainDTO.RateSummary selectRateSummary(MainDTO.Param param) {
+        return mainMapper.findRageSummary(param);
+    }
+
 }

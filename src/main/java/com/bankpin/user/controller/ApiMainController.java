@@ -8,9 +8,9 @@ import com.bankpin.user.service.MainService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
@@ -20,7 +20,7 @@ import java.util.Map;
 
 @Slf4j
 @RestController
-@RequestMapping(value = "/api/v1")
+@RequestMapping(value = "/api/v1/main")
 public class ApiMainController
 {
     @Autowired
@@ -30,8 +30,7 @@ public class ApiMainController
      * 메인 빠른 대출 승인
      * @return 대출 승인 리스트
      */
-    @GetMapping("appr-list")
-    @ResponseBody
+    @GetMapping("/appr-list")
     public ResponseEntity<ResponseData> apprList()
     {
         List<MainDTO.FastItem> items = mainService.selectListSpeedLoan(
@@ -46,8 +45,7 @@ public class ApiMainController
                         .build());
     }
 
-    @GetMapping("my-credit-score")
-    @ResponseBody
+    @GetMapping("/my-credit-score")
     public ResponseEntity<ResponseData> myCreditScore()
     {
         /*
@@ -75,8 +73,7 @@ public class ApiMainController
                         .build());
     }
 
-    @GetMapping("loan-total")
-    @ResponseBody
+    @GetMapping("/loan-total")
     public ResponseEntity<ResponseData> loanTotal()
     {
         // 총 원금, 총 잔액
@@ -88,8 +85,7 @@ public class ApiMainController
                         .build());
     }
 
-    @GetMapping("loan-list")
-    @ResponseBody
+    @GetMapping("/loan-list")
     public ResponseEntity<ResponseData> loanList()
     {
         /*
@@ -107,6 +103,28 @@ public class ApiMainController
         return ResponseEntity.ok(
                 ResponseData.builder()
                         .data(items)
+                        .build());
+    }
+
+    @GetMapping("/rate-info-summary")
+    public ResponseEntity<ResponseData> rateInfoSummary(MainDTO.Param param)
+    {
+        param.setLnGbcd(LnGbcdType.CREDIT.getValue());  // 신용
+        MainDTO.RateSummary summary = mainService.selectRateSummary(param);
+        return ResponseEntity.ok(
+                ResponseData.builder()
+                        .data(summary)
+                        .build());
+    }
+
+    @GetMapping("/rate-info-list")
+    public ResponseEntity<ResponseData> rateInfoList(MainDTO.Param param)
+    {
+        param.setLnGbcd(LnGbcdType.CREDIT.getValue());  // 신용
+        List<MainDTO.RateInfo> list = mainService.selectAllRateInfoList(param);
+        return ResponseEntity.ok(
+                ResponseData.builder()
+                        .data(list)
                         .build());
     }
 

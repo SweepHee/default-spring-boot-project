@@ -38,11 +38,13 @@ public interface CustAuthDtlMapper
     List<CustAuthDtlDTO.Item> findAllByCustCiNo(String custCiNo);
 
     @Insert("INSERT INTO TBCOM_CUSTAUTH_DTL ("+
-            " CUST_CI_NO, LN_REQ_NO, SELF_AUTH_METH_CD, SELF_AGREE_DTTM, SELF_AGREE_YN, TELE_CD, AUTH_ORG_UNICD, CUST_CPHONE_NO"+
-            " ) VALUES ("+
-            " #{custCiNo, jdbcType=VARCHAR}, #{lnReqNo, jdbcType=VARCHAR}, #{selfAuthMethCd, jdbcType=VARCHAR},"+
-            " #{selfAgreeDttm, jdbcType=VARCHAR}, #{selfAgreeYn, jdbcType=VARCHAR}, #{teleCd, jdbcType=VARCHAR},"+
-            " #{authOrgUnicd, jdbcType=VARCHAR}, FN_ENCRYPT(#{custCphoneNo, jdbcType=VARCHAR})"+
+            "     CUST_CI_NO, LN_REQ_NO, SELF_AUTH_METH_CD" +
+            "   , SELF_AGREE_DTTM, SELF_AGREE_YN, TELE_CD" +
+            "   , AUTH_ORG_UNICD, CUST_CPHONE_NO" +
+            " ) VALUES (" +
+            "     #{custCiNo, jdbcType=VARCHAR}, #{lnReqNo, jdbcType=VARCHAR}, #{selfAuthMethCd, jdbcType=VARCHAR}" +
+            "   , #{selfAgreeDttm, jdbcType=VARCHAR}, #{selfAgreeYn, jdbcType=VARCHAR}, #{teleCd, jdbcType=VARCHAR}" +
+            "   , #{authOrgUnicd, jdbcType=VARCHAR}, #{custCphoneNo, jdbcType=VARCHAR}"+
             " )")
     int save(CustAuthDtlDTO.Create create);
 

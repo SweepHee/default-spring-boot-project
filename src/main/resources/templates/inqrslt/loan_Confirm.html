@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>뱅크핀</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no, viewport-fit=cover">
+	<link rel="stylesheet" type="text/css" href="/user/static/assets/css/common.css" />
+</head>
+
+<body>
+
+	<!-- wrap -->
+	<div id="wrap">
+
+		<!-- header -->
+		<header id="header">
+			<div class="header_sub">
+				<div class="inner">
+					<button class="backBtn" id="btn_previous"><span class="blind">뒤로가기</span></button>
+					<h2 class="ttl">대출신청 정보확인</h2>
+				</div>
+			</div>
+			<!-- //header_sub e -->
+		</header>
+		<!-- //header e -->
+
+		<!-- container -->
+		<div id="container">
+
+			<!-- content -->
+			<div class="content" id="loan">
+				<script id="loan_template" type="text/x-handlebars-template">
+				<div class="dt-container mt0">
+					<details open>
+						<summary>
+							대출 기본 정보
+							<img src="/user/static/assets/images/common/icon_list_arrow.svg" alt="" class="icon">
+						</summary>
+						<div class="details-info">
+							<ul class="confirm_list">
+								<li>
+									<label>대출유형</label>
+									<p>{{lnReqGbcdType lnReqGbcd}}</p>
+								</li>
+								<li>
+									<label>은행명</label>
+									<p>{{bankName bankCd}}</p>
+								</li>
+								<li>
+									<label>상품명</label>
+									<p>{{lnPrdtNm}}</p>
+								</li>
+								<li>
+									<label>예상한도</label>
+									<p><b>{{toCurrency lstLnLmtAmt}}</b>원</p>
+								</li>
+								<li>
+									<label>예상금리</label>
+									<p>{{toFixed lstLnRate}}%</p>
+								</li>
+							</ul>
+						</div>
+					</details>
+
+					<details open>
+						<summary>
+							고객정보
+							<img src="/user/static/assets/images/common/icon_list_arrow.svg" alt="" class="icon">
+						</summary>
+						<div class="details-info">
+							<ul class="confirm_list">
+								<li>
+									<label>주택유형</label>
+									<p>아파트</p>
+								</li>
+								<li>
+									<label>소재지</label>
+									<p>
+										<span>부산광역시 수영구 광안해변로 359</span>
+										<span>진로비치아파트 2단지</span>
+										<span>
+											<em>76.62㎡</em>
+											<em>4억 2000만원</em><em>5층 이상</em>
+										</span>
+									</p>
+								</li>
+								<li>
+									<label>규제지역</label>
+									<p>조정대상지역</p>
+								</li>
+								<li>
+									<label>대출용도</label>
+									<p>주택구입</p>
+								</li>
+							</ul>
+						</div>
+					</details>
+
+					<details open>
+						<summary>
+							직업소득 정보
+							<img src="/user/static/assets/images/common/icon_list_arrow.svg" alt="" class="icon">
+						</summary>
+						<div class="details-info">
+							<ul class="confirm_list">
+								<li>
+									<label>직군분류</label>
+									<p>직장인</p>
+								</li>
+								<li>
+									<label>직장명</label>
+									<p>으뜸뱅크핀(주)</p>
+								</li>
+								<li>
+									<label>4대보험가입여부</label>
+									<p>가입</p>
+								</li>
+								<li>
+									<label>입사년월</label>
+									<p>2022년 8월</p>
+								</li>
+								<li>
+									<label>연소득</label>
+									<p><b>10,000</b>만원</p>
+								</li>
+							</ul>
+						</div>
+					</details>
+
+					<details open>
+						<summary>
+							부가정보
+							<img src="/user/static/assets/images/common/icon_list_arrow.svg" alt="" class="icon">
+						</summary>
+						<div class="details-info">
+							<ul class="confirm_list">
+								<li>
+									<label>주택보유수</label>
+									<p>무주택</p>
+								</li>
+								<li>
+									<label>결혼여부</label>
+									<p>기혼</p>
+								</li>
+								<li>
+									<label>자녀수</label>
+									<p>없음</p>
+								</li>
+								<li>
+									<label>처분예정여부</label>
+									<p>처분예정없음</p>
+								</li>
+								<li>
+									<label>신용평점</label>
+									<p><b>900</b>점</p>
+								</li>
+								<li>
+									<label>기대출금액(전체)</label>
+									<p><b>3,000</b>만원</p>
+								</li>
+							</ul>
+						</div>
+					</details>
+
+					<details open>
+						<summary>
+							대출희망정보
+							<img src="/user/static/assets/images/common/icon_list_arrow.svg" alt="" class="icon">
+						</summary>
+						<div class="details-info">
+							<ul class="confirm_list">
+								<li>
+									<label>대출 희망 금액</label>
+									<p><b>3,000</b>만원</p>
+								</li>
+								<li>
+									<label>대출 희망 기간</label>
+									<p><b>24</b>개월</p>
+								</li>
+								<li>
+									<label>대출 희망일</label>
+									<p>2022년 11월 30일</p>
+								</li>
+							</ul>
+						</div>
+					</details>
+
+					<div class="loan_text">
+						<p>알려드립니다.</p>
+						<br>
+					</div>
+					
+				</div>
+				</script>
+
+
+			</div>
+			<!-- content e -->
+
+		</div>
+		<!-- //container e -->
+
+		<!-- bottom button -->
+		<div class="bottom_btn wid50">
+			<button class="dis">금융사콜백요청 </button>
+			<button class="common" id="btn_next">신청하기</button>
+		</div>
+		<!-- bottom button e-->
+
+	</div>
+	<!-- //wrap e-->
+
+	<script type="text/javascript" src="/user/static/assets/js/jquery-3.1.0.min.js"></script>
+	<script type="text/javascript" src="/user/static/assets/js/jquery.easing.1.3.min.js"></script>
+	<script type="text/javascript" src="/user/static/assets/js/jquery-ui.js"></script>
+	<script src="/user/static/assets/js/mobile.js"></script>
+	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="/user/static/assets/js/handlebars.js"></script>
+    <script src="/user/static/assets/js/handle_wrapper.js"></script>
+	<script src="/user/static/assets/js/handle_helper.js"></script>
+    <script src="/user/static/assets/js/handle_loan_helper.js"></script>
+
+
+	<!--금리순/한도순-->
+	<script th:inline="javascript">
+	/*<![CDATA[*/
+		const lnReqNo = /*[[${lnReqNo}]]*/;
+		const fintecOrgMngno = /*[[${fintecOrgMngno}]]*/;
+	/*]]>*/
+	</script>
+
+	<script>
+		const wrapData = {
+			loan: {
+				bankCd: "",
+				lstLnRate: 0,
+				lstLnLmtAmt: 0,
+				lnReqGbcd: "",
+				lnPrdtNm: ""
+			},
+			cust: {
+				houseType: "",
+				addr: ""
+			}
+		};
+
+		function previous() {
+			window.location.href = `/user/inqrslt/detail?lnReqNo=${lnReqNo}&fintecOrgMngno=${fintecOrgMngno}`;
+		}
+
+		function next() {
+			window.location.href = `/user/inqrslt/register-detail?lnReqNo=${lnReqNo}&fintecOrgMngno=${fintecOrgMngno}`;
+		}
+
+		const loan_wrap = new HandleWrapper();
+		function search_loan() {
+			axios.get('/user/api/v1/inqrslt/confirm-detail',
+				{params: {lnReqNo: lnReqNo, fintecOrgMngno: fintecOrgMngno}})
+				.then(function(request) {
+					if (request.status == 200) {
+						if (!request.data.error) {
+							wrapData.loan = request.data.data;
+							loan_wrap.put(wrapData.loan);
+						} else {
+							console.log('error', request.data.message);
+							alert('요청이 실패 하였습니다. 잠시 후 다시 요청하세요.');
+						}
+					} else {
+						console.log('error', request.data);
+						alert('요청이 실패 하였습니다. 잠시 후 다시 요청하세요.');
+					}
+				})
+				.catch(function(error) {
+					if (error.response) {
+						console.error(error);
+						alert('요청이 실패 하였습니다. 관리자에게 문의 하세요.');
+					}
+				});
+		}
+
+
+		$(document).ready(function() {
+			$('ul li a').click(function() {
+				$('li a').removeClass("active");
+				$(this).addClass("active");
+			});
+
+			jQuery('#btn_previous').on("click", function() {
+				previous();
+			});
+			jQuery('#btn_next').on("click", function() {
+				next();
+			});
+
+			loan_wrap.setTemplate($('#loan_template').html());
+			loan_wrap.setData(wrapData.loan);
+			loan_wrap.compile($('#loan'));
+
+			search_loan();
+		});
+	</script>
+
+</body>
+
+</html>
