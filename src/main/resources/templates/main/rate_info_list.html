@@ -36,7 +36,7 @@
 
 				<div class="cuslon_top">
 					<div class="list_tit">
-						<span class="us_name"><small>다양한 금리를 한눈에 비교해주세요.</small></span><br>
+						<span class="us_name">다양한 금리를 한눈에 비교해주세요.</span><br>
 						<sub><sub>금융감독원에서 제고하는 정보기준(2022년 10월 1일자)</sub></sub>
 					</div>
 
@@ -80,7 +80,7 @@
 									<img src="{{bankImage bankCd}}" alt="">
 									<p>
 										<strong>{{bankName bankCd}}</strong>
-										<sub>&nbsp;</sub>
+										<sub>{{lnPrdtNm}}</sub>
 										<label class="lowest">최저금리</label>
 									</p>
 								</dt>
@@ -88,7 +88,7 @@
 								<dd>
 									<ol>
 										<li>
-											<label>{{lnPrdtNm}}</label>
+											<label>최저금리</label>
 											<em>연</em><strong>{{toFixed lstLnRate}}</strong><b>%</b>
 										</li>
 										<li>

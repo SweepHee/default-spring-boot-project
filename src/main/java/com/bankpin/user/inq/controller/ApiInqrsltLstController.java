@@ -72,9 +72,8 @@ public class ApiInqrsltLstController
     @GetMapping("/progress-detail")
     public ResponseEntity<ResponseData> progressDetail(@Valid InqrsltLstDTO.Param param, Authentication authentication)
     {
-//        UserAuth userAuth = (UserAuth) authentication.getPrincipal();
-//        param.setCustCiNo(userAuth.getId());
-        param.setCustCiNo("f2633a08330511ed8b3a0242ac130003");
+        UserAuth userAuth = (UserAuth) authentication.getPrincipal();
+        param.setCustCiNo(userAuth.getId());
 
         InqrsltLstDTO.Progress item = InqrsltLstDTO.Progress.builder()
                 .progress(12)
@@ -97,9 +96,8 @@ public class ApiInqrsltLstController
     @GetMapping("/confirm-detail")
     public ResponseEntity<ResponseData> loanDetail(@Valid InqrsltLstDTO.Param param, Authentication authentication)
     {
-//        UserAuth userAuth = (UserAuth) authentication.getPrincipal();
-//        param.setCustCiNo(userAuth.getId());
-        param.setCustCiNo("f2633a08330511ed8b3a0242ac130003");
+        UserAuth userAuth = (UserAuth) authentication.getPrincipal();
+        param.setCustCiNo(userAuth.getId());
 
         InqrsltLstDTO.Detail detail = inqrsltLstService.selectDetail(param);
         return ResponseEntity.ok(

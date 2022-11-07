@@ -19,7 +19,7 @@ public interface InqrsltLstMapper
             "     , TIL.LN_PRDT_NM" +
             "     , TIL.LN_RSLT_STCD" +
             "     , TIL.NRSLT_RSN_CNTN" +
-            "     , TIL.LST_LN_LMT_AMT" +
+            "     , TRUNCATE(TIL.LST_LN_LMT_AMT / 10000, -1) AS LST_LN_LMT_AMT" +
             "     , TIL.LST_LN_RATE" +
             "     , TIL.LST_LN_TERM_MM" +
             "     , TIL.LN_RTN_MTH_CD" +

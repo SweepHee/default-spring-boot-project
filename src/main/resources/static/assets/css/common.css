@@ -2746,6 +2746,11 @@ ul.btnArea:after {
 	}
 }
 
+.us_name {
+	font-size: 18px;
+	font-weight: 400;
+}
+
 /*금리, 한도, 검색*/
 .loan_column {
 	width: 100%;

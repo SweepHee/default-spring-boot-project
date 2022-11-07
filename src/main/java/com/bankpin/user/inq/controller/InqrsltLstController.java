@@ -25,9 +25,8 @@ public class InqrsltLstController
     @GetMapping("/list")
     public String list(Model model, Authentication authentication)
     {
-//        UserAuth userAuth = (UserAuth) authentication.getPrincipal();
-//        model.addAttribute("name", userAuth.getName());
-        model.addAttribute("name", "ABC");
+        UserAuth userAuth = (UserAuth) authentication.getPrincipal();
+        model.addAttribute("name", userAuth.getName());
 
         return "inqrslt/custom_loan_list";
     }
@@ -58,7 +57,7 @@ public class InqrsltLstController
     }
 
     /**
-     * 맞춤상품비교 > 상품정보 > 대출신청 정보확인 > 대출 신청 접수 중
+     * 맞춤상품비교 > 상품정보 > 대출신청 정보확인 > 금융사 링크
      */
     @GetMapping("/register-detail")
     public String registerDetail(InqrsltLstDTO.Param param, Model model)
@@ -70,7 +69,7 @@ public class InqrsltLstController
     }
 
     /**
-     * 맞춤상품비교 > 상품정보 > 대출신청 정보확인 > 대출 신청 접수 중 > 대출 신청 접수 중(잠시만 기다려주세요)
+     * 맞춤상품비교 > 상품정보 > 대출신청 정보확인 > 금융사 링크 > 접수중(잠시만 기다려주세요)
      */
     @GetMapping("/accepting-detail")
     public String acceptingDetail(InqrsltLstDTO.Param param, Model model)
@@ -79,6 +78,26 @@ public class InqrsltLstController
         model.addAttribute("fintecOrgMngno", param.getFintecOrgMngno());
 
         return "inqrslt/Accepting_ing";
+    }
+
+    /**
+     * 검색중
+     */
+    @GetMapping("/searching-detail")
+    public String searchingDetail(Model model, Authentication authentication)
+    {
+        UserAuth userAuth = (UserAuth) authentication.getPrincipal();
+        model.addAttribute("name", userAuth.getName());
+//        model.addAttribute("name", "ABC");
+
+        int total = inqrsltLstService.selectCountCustCiNo(
+                InqrsltLstDTO.Param.builder()
+                        .custCiNo(userAuth.getId())
+                        .build());
+
+        model.addAttribute("total", total);
+
+        return "inqrslt/search_ing";
     }
 
 }

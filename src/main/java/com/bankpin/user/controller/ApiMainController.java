@@ -1,6 +1,5 @@
 package com.bankpin.user.controller;
 
-import com.bankpin.user.inq.model.dto.InqrsltLstDTO;
 import com.bankpin.user.inq.model.type.LnGbcdType;
 import com.bankpin.user.inq.model.type.LnRsltStcdType;
 import com.bankpin.user.model.dto.MainDTO;
@@ -12,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
@@ -108,11 +106,22 @@ public class ApiMainController
                         .build());
     }
 
-    @GetMapping("/rate-info-list")
-    public ResponseEntity<ResponseData> rateInfoList(InqrsltLstDTO.Param param, Authentication authentication)
+    @GetMapping("/rate-info-summary")
+    public ResponseEntity<ResponseData> rateInfoSummary(MainDTO.Param param)
     {
         param.setLnGbcd(LnGbcdType.CREDIT.getValue());  // 신용
-        List<InqrsltLstDTO.Item> list = mainService.selectAll(param);
+        MainDTO.RateSummary summary = mainService.selectRateSummary(param);
+        return ResponseEntity.ok(
+                ResponseData.builder()
+                        .data(summary)
+                        .build());
+    }
+
+    @GetMapping("/rate-info-list")
+    public ResponseEntity<ResponseData> rateInfoList(MainDTO.Param param)
+    {
+        param.setLnGbcd(LnGbcdType.CREDIT.getValue());  // 신용
+        List<MainDTO.RateInfo> list = mainService.selectAllRateInfoList(param);
         return ResponseEntity.ok(
                 ResponseData.builder()
                         .data(list)

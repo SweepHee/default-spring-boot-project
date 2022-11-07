@@ -82,19 +82,19 @@ public interface MainMapper
     MainDTO.RateSummary findRageSummary(MainDTO.Param param);
 
     @Select("SELECT" +
-            "      TIL.LN_REQ_NO" +
-            " 	 , TIL.FINTEC_ORG_MNGNO" +
-            " 	 , TIL.BANK_CD" +
-            " 	 , TIL.LST_LN_RATE" +
-            " 	 , TRUNCATE(TIL.LST_LN_LMT_AMT / 10000, -1) AS LST_LN_LMT_AMT" +
-            "    , TIL.LN_PRDT_CD" +
-            "    , TIL.LN_PRDT_NM" +
-            " FROM (SELECT S_TIL.*" +
-            " 		  FROM TBLNS_INQ_MAS S_TIM" +
-            " 		 INNER JOIN TBLNS_INQRSLT_LST S_TIL ON (S_TIM.LN_REQ_NO = S_TIL.LN_REQ_NO)" +
-            " 		 WHERE S_TIM.LN_GBCD = #{lnGbcd, jdbcType=INTEGER}" +
-            "    ) TIL " +
-            "ORDER BY TIL.LST_LN_RATE ASC, TIL.LST_LN_LMT_AMT DESC")
+            "       TIL.LN_REQ_NO" +
+            " 	  , TIL.FINTEC_ORG_MNGNO" +
+            " 	  , TIL.BANK_CD" +
+            " 	  , TIL.LST_LN_RATE" +
+            " 	  , TRUNCATE(TIL.LST_LN_LMT_AMT / 10000, -1) AS LST_LN_LMT_AMT" +
+            "     , TIL.LN_PRDT_CD" +
+            "     , TIL.LN_PRDT_NM" +
+            "  FROM (SELECT S_TIL.*" +
+            " 		   FROM TBLNS_INQ_MAS S_TIM" +
+            " 		  INNER JOIN TBLNS_INQRSLT_LST S_TIL ON (S_TIM.LN_REQ_NO = S_TIL.LN_REQ_NO)" +
+            "  		  WHERE S_TIM.LN_GBCD = #{lnGbcd, jdbcType=INTEGER}" +
+            "     ) TIL" +
+            " ORDER BY TIL.LST_LN_RATE ASC, TIL.LST_LN_LMT_AMT DESC")
     List<MainDTO.RateInfo> findAllGroupByBankCd(MainDTO.Param param);
 
 }
