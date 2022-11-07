@@ -31,9 +31,8 @@ public class ApiInqrsltLstController
     @GetMapping("/list")
     public ResponseEntity<ResponseData> list(@Valid InqrsltLstDTO.Param param, Authentication authentication)
     {
-//        UserAuth userAuth = (UserAuth) authentication.getPrincipal();
-//        param.setCustCiNo(userAuth.getId());
-        param.setCustCiNo("f2633a08330511ed8b3a0242ac130003");
+        UserAuth userAuth = (UserAuth) authentication.getPrincipal();
+        param.setCustCiNo(userAuth.getId());
 
         param.setLnGbcd(LnGbcdType.CREDIT.getValue());  // 신용
         List<InqrsltLstDTO.Item> list = inqrsltLstService.selectAll(param);
@@ -52,9 +51,8 @@ public class ApiInqrsltLstController
     @GetMapping("/detail")
     public ResponseEntity<ResponseData> detail(@Valid InqrsltLstDTO.Param param, Authentication authentication)
     {
-//        UserAuth userAuth = (UserAuth) authentication.getPrincipal();
-//        param.setCustCiNo(userAuth.getId());
-        param.setCustCiNo("f2633a08330511ed8b3a0242ac130003");
+        UserAuth userAuth = (UserAuth) authentication.getPrincipal();
+        param.setCustCiNo(userAuth.getId());
 
         InqrsltLstDTO.Detail detail = inqrsltLstService.selectDetail(param);
         return ResponseEntity.ok(

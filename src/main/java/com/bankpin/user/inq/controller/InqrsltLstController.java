@@ -88,7 +88,6 @@ public class InqrsltLstController
     {
         UserAuth userAuth = (UserAuth) authentication.getPrincipal();
         model.addAttribute("name", userAuth.getName());
-//        model.addAttribute("name", "ABC");
 
         int total = inqrsltLstService.selectCountCustCiNo(
                 InqrsltLstDTO.Param.builder()
