@@ -31,8 +31,9 @@ public class ApiInqrsltLstController
     @GetMapping("/list")
     public ResponseEntity<ResponseData> list(@Valid InqrsltLstDTO.Param param, Authentication authentication)
     {
-        UserAuth userAuth = (UserAuth) authentication.getPrincipal();
-        param.setCustCiNo(userAuth.getId());
+//        UserAuth userAuth = (UserAuth) authentication.getPrincipal();
+//        param.setCustCiNo(userAuth.getId());
+        param.setCustCiNo("f2633a08330511ed8b3a0242ac130003");
 
         param.setLnGbcd(LnGbcdType.CREDIT.getValue());  // 신용
         List<InqrsltLstDTO.Item> list = inqrsltLstService.selectAll(param);
@@ -51,8 +52,9 @@ public class ApiInqrsltLstController
     @GetMapping("/detail")
     public ResponseEntity<ResponseData> detail(@Valid InqrsltLstDTO.Param param, Authentication authentication)
     {
-        UserAuth userAuth = (UserAuth) authentication.getPrincipal();
-        param.setCustCiNo(userAuth.getId());
+//        UserAuth userAuth = (UserAuth) authentication.getPrincipal();
+//        param.setCustCiNo(userAuth.getId());
+        param.setCustCiNo("f2633a08330511ed8b3a0242ac130003");
 
         InqrsltLstDTO.Detail detail = inqrsltLstService.selectDetail(param);
         return ResponseEntity.ok(
@@ -70,8 +72,9 @@ public class ApiInqrsltLstController
     @GetMapping("/progress-detail")
     public ResponseEntity<ResponseData> progressDetail(@Valid InqrsltLstDTO.Param param, Authentication authentication)
     {
-        UserAuth userAuth = (UserAuth) authentication.getPrincipal();
-        param.setCustCiNo(userAuth.getId());
+//        UserAuth userAuth = (UserAuth) authentication.getPrincipal();
+//        param.setCustCiNo(userAuth.getId());
+        param.setCustCiNo("f2633a08330511ed8b3a0242ac130003");
 
         InqrsltLstDTO.Progress item = InqrsltLstDTO.Progress.builder()
                 .progress(12)
@@ -94,8 +97,9 @@ public class ApiInqrsltLstController
     @GetMapping("/confirm-detail")
     public ResponseEntity<ResponseData> loanDetail(@Valid InqrsltLstDTO.Param param, Authentication authentication)
     {
-        UserAuth userAuth = (UserAuth) authentication.getPrincipal();
-        param.setCustCiNo(userAuth.getId());
+//        UserAuth userAuth = (UserAuth) authentication.getPrincipal();
+//        param.setCustCiNo(userAuth.getId());
+        param.setCustCiNo("f2633a08330511ed8b3a0242ac130003");
 
         InqrsltLstDTO.Detail detail = inqrsltLstService.selectDetail(param);
         return ResponseEntity.ok(
