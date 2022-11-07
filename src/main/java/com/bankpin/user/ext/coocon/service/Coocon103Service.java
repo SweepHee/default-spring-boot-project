@@ -20,7 +20,7 @@ public class Coocon103Service {
     private final CooconReqLstMapper cooconReqLstMapper;
 
 
-    public CooconDTO.ApiOutput request(ReqLstDTO.RequestParams param) throws ParseException, JsonProcessingException {
+    public CooconDTO.Output request(ReqLstDTO.RequestParams param) throws ParseException, JsonProcessingException {
 
         JSONObject jsonReq = Util.dtoToJsonObjectPascal(param);
 
@@ -31,12 +31,12 @@ public class Coocon103Service {
                 .contentType(MediaType.APPLICATION_JSON)
                 .bodyValue(jsonReq)
                 .retrieve()
-                .bodyToMono(CooconDTO.ApiOutput.class)
+                .bodyToMono(CooconDTO.Output.class)
                 .block();
 
     }
 
-    public void save(CooconDTO.ApiOutput body) {
+    public void save(CooconDTO.Output body) {
 
         ReqLstDTO.Create create = ReqLstDTO.Create.builder()
                 .lnReqNo(body.getLoReqtNo())

@@ -5,6 +5,7 @@ import com.bankpin.user.terms.model.mapper.TermsAgreeMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -12,6 +13,12 @@ import java.util.Objects;
 public class TermsService {
 
     private final TermsAgreeMapper termsAgreeMapper;
+
+
+    public List<TermsAgreeDTO.Create> findAllByUserId(String userId) {
+        return termsAgreeMapper.findAllByUserId(userId);
+    }
+
 
     public void create(TermsAgreeDTO.Create create) {
         termsAgreeMapper.save(create);
@@ -24,7 +31,7 @@ public class TermsService {
 
             TermsAgreeDTO.Create create = TermsAgreeDTO.Create.builder()
                     .userId(parameter.getUserId())
-                    .termsType(agree.getTermsType())
+                    .termsType(agree.getTermsType().getKey())
                     .accept(agree.getAccept())
                     .build();
 
@@ -39,9 +46,13 @@ public class TermsService {
 
             TermsAgreeDTO.Create create = TermsAgreeDTO.Create.builder()
                     .userId(parameter.getUserId())
-                    .termsType(agree.getTermsType())
+                    .termsType(agree.getTermsType().getKey())
                     .accept(Objects.equals(agree.getAccept().toUpperCase(), "Y") ? "Y" : "N")
                     .build();
+
+            if ("N".equals(create.getAccept())) {
+                continue;
+            }
 
             if (termsAgreeMapper.existsByUserIdAndTermsType(create)) {
                 termsAgreeMapper.update(create);
@@ -60,7 +71,7 @@ public class TermsService {
 
             TermsAgreeDTO.Create create = TermsAgreeDTO.Create.builder()
                     .userId(parameter.getUserId())
-                    .termsType(agree.getTermsType())
+                    .termsType(agree.getTermsType().getKey())
                     .build();
 
             termsAgreeMapper.deleteByIdAndTermsType(create);

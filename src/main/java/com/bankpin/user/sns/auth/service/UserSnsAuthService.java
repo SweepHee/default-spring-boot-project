@@ -3,7 +3,6 @@ package com.bankpin.user.sns.auth.service;
 
 import com.bankpin.user.auth.model.dto.UserAuth;
 import com.bankpin.user.auth.model.mapper.AuthMapper;
-import com.bankpin.user.cust.model.dto.CustAuthDtlDTO;
 import com.bankpin.user.sns.auth.model.dto.KakaoAuth;
 import com.bankpin.user.sns.auth.model.dto.NaverAuth;
 import com.bankpin.user.sns.auth.model.dto.SnsUserDTO;
@@ -18,9 +17,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -36,7 +33,6 @@ public class UserSnsAuthService {
     private final SnsAuthMapper snsAuthMapper;
     private final SnsAuthDetailMapper snsAuthDetailMapper;
     private final AuthMapper authMapper;
-    private final BCryptPasswordEncoder passwordEncoder;
 
 
     /**
@@ -139,7 +135,7 @@ public class UserSnsAuthService {
 
 
 
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException
+    public UserAuth loadUserByUsername(String username) throws UsernameNotFoundException
     {
         UserAuth user = authMapper.findByUsername(username);
         if (ObjectUtils.isEmpty(user)) {
@@ -169,7 +165,5 @@ public class UserSnsAuthService {
                 .block();
 
     }
-
-
 
 }

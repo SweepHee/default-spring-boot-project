@@ -102,7 +102,7 @@ public class ApiKcbSmsController {
                     .custCphoneNo(returnData.getTelNo())
                     .build();
 
-            custAuthDtlService.insertCustAuthDtlDTO(create);
+            int save = custAuthDtlService.insertCustAuthDtlDTO(create);
 
         }
 

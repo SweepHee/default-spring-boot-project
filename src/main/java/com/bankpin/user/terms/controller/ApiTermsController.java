@@ -12,8 +12,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 
 
 @Slf4j
@@ -36,11 +38,25 @@ public class ApiTermsController {
                         .build());
     }
 
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ResponseData> handleMethodArgumentNotValidException(MethodArgumentNotValidException exception) {
+        log.error("MethodArgumentNotValidException: {}", exception.getMessage());
+        return ResponseEntity.ok().body(
+                ResponseData.builder()
+                        .error(true)
+                        .code(HttpCodeType.BAD_REQUEST.getCode())
+                        .message("유효성 검사에 실패했습니다")
+                        .data(exception.getFieldError())
+                        .build());
+    }
+
+
+
     /**
     * 약관동의
     * */
     @PostMapping("/agree")
-    public ResponseEntity<ResponseData> agree(@RequestBody TermsAgreeDTO.Param parameter, Authentication authentication) {
+    public ResponseEntity<ResponseData> agree(@RequestBody @Valid TermsAgreeDTO.Param parameter, Authentication authentication) {
 
         SnsUserDTO.Column user = userSnsAuthService.findByCustCiNo(authentication.getName());
         parameter.setUserId(user.getCustCiNo());

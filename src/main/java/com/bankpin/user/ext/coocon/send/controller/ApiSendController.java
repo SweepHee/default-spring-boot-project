@@ -8,7 +8,6 @@ import com.bankpin.user.ext.coocon.model.type.ApiProperties;
 import com.bankpin.user.ext.coocon.service.*;
 import com.bankpin.user.model.dto.ResponseData;
 import com.bankpin.user.model.type.HttpCodeType;
-import com.bankpin.user.sns.auth.model.dto.SnsUserDTO;
 import com.bankpin.user.sns.auth.service.UserSnsAuthService;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
@@ -43,7 +42,7 @@ public class ApiSendController {
     * */
     @PostMapping("/101")
     public ResponseEntity<ResponseData> request101
-        (@RequestBody InqMasDTO.RequestParams param, Authentication authentication) {
+        (@RequestBody Coocon101DTO.Request param, Authentication authentication) {
 
         ApiProperties apiNm = ApiProperties.ADL_101_IQ;
 
@@ -66,7 +65,7 @@ public class ApiSendController {
         }
 
         param.setCommon(common);
-        InqMasDTO.RequestParams apiParam = coocon101Service.setParameter(userAuth, authDetail, param);
+        Coocon101DTO.Request apiParam = coocon101Service.setParameter(userAuth, authDetail, param);
 
         if (apiParam == null) {
 
@@ -78,7 +77,7 @@ public class ApiSendController {
                             .build());
         }
 
-        CooconDTO.ApiOutput body;
+        CooconDTO.Output body;
 
         try {
 
@@ -139,7 +138,7 @@ public class ApiSendController {
 
         try {
 
-            CooconDTO.ApiOutput body = coocon103Service.request(param);
+            CooconDTO.Output body = coocon103Service.request(param);
             body.getCommon().setLnReqNo(param.getLoReqtNo());
 
             if (Objects.equals(body.getCommon().getRpcd(), "00000")) {

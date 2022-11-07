@@ -92,7 +92,7 @@ public class ApiKcbPassController {
                     .custCphoneNo(returnData.getTelNo())
                     .build();
 
-            custAuthDtlService.insertCustAuthDtlDTO(create);
+            int save = custAuthDtlService.insertCustAuthDtlDTO(create);
 
         }
 

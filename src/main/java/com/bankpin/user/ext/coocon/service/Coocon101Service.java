@@ -6,8 +6,9 @@ import com.bankpin.user.ext.coocon.model.mapper.CooconCustAgreeLstMapper;
 import com.bankpin.user.ext.coocon.model.mapper.CooconInqMasMapper;
 import com.bankpin.user.ext.coocon.model.type.ApiProperties;
 import com.bankpin.user.ext.coocon.util.Util;
-import com.bankpin.user.sns.auth.model.dto.SnsUserDTO;
 import com.bankpin.user.sns.auth.model.mapper.SnsAuthMapper;
+import com.bankpin.user.terms.model.dto.TermsAgreeDTO;
+import com.bankpin.user.terms.service.TermsService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONObject;
@@ -30,8 +31,9 @@ public class Coocon101Service {
     private final SnsAuthMapper snsAuthMapper;
     private final CooconCustAgreeLstMapper cooconCustAgreeLstMapper;
     private final CooconInqMasMapper cooconInqMasMapper;
+    private final TermsService termsService;
 
-    public CooconDTO.ApiOutput request(InqMasDTO.RequestParams param) throws ParseException, JsonProcessingException {
+    public CooconDTO.Output request(Coocon101DTO.Request param) throws ParseException, JsonProcessingException {
 
         JSONObject jsonReq = Util.dtoToJsonObjectPascal(param);
 
@@ -42,7 +44,7 @@ public class Coocon101Service {
                 .contentType(MediaType.APPLICATION_JSON)
                 .bodyValue(jsonReq)
                 .retrieve()
-                .bodyToMono(CooconDTO.ApiOutput.class)
+                .bodyToMono(CooconDTO.Output.class)
                 .block();
 
     }
@@ -51,8 +53,8 @@ public class Coocon101Service {
     /**
     * 101전문 API 보내기 파라미터 세팅
     * */
-    public InqMasDTO.RequestParams setParameter (
-            UserAuth userAuth, CooconCustAuthDtlDTO.Detail authDetail, InqMasDTO.RequestParams param) {
+    public Coocon101DTO.Request setParameter (
+            UserAuth userAuth, CooconCustAuthDtlDTO.Detail authDetail, Coocon101DTO.Request param) {
 
         if (!StringUtils.hasText(userAuth.getName())
             || !StringUtils.hasText(userAuth.getEmail())
@@ -62,36 +64,38 @@ public class Coocon101Service {
             return null;
         }
 
-        String cstmNm = snsAuthMapper.fnDecrypt(userAuth.getName());
-        String custCphoneNo = snsAuthMapper.fnDecrypt(authDetail.getCustCphoneNo());
-        String email = snsAuthMapper.fnDecrypt(userAuth.getEmail());
-        String rrno = userAuth.getBirthday().replace(".", "").substring(2);
+        String cstmNm = userAuth.getName();
+        String email = userAuth.getEmail();
+        String rrno = snsAuthMapper.fnEncrypt(userAuth.getBirthday().replace(".", "").substring(2));
 
-        // INLIST1 만들기 (TBCOM_CUSTAGREE_LST)
-        List<CooconCustAgreeLstDTO.Create> agreeList = cooconCustAgreeLstMapper.findByCustCiNo(userAuth.getId());
-        List<InqMasDTO.RequestParams.InList1> inlist1Lists = new ArrayList<>();
-        for (CooconCustAgreeLstDTO.Create agree : agreeList) {
-            inlist1Lists.add(InqMasDTO.RequestParams.InList1.agreeLstToInList(agree));
+        List<Coocon101DTO.Request.InList1> inlist1Lists = new ArrayList<>();
+        List<TermsAgreeDTO.Create> agrees = termsService.findAllByUserId(userAuth.getId());
+        for (TermsAgreeDTO.Create agree : agrees) {
+            inlist1Lists.add(Coocon101DTO.Request.InList1.termsAgreeToInList1(agree));
         }
 
-         return InqMasDTO.RequestParams.builder()
+        List<Coocon101DTO.Request.InList3> inlist3Lists = new ArrayList<>();
+        inlist3Lists.add((Coocon101DTO.Request.InList3) param.getInList3());
+
+
+        return Coocon101DTO.Request.builder()
                 .Common(param.getCommon())
                 .svcDs("1")
                 .cstmNm(cstmNm)
                 .rRNo(rrno)
 
-//                .cI() // 금융기관의 정책에 따라 사용
-//                .brNo() // 사업자등록번호
-//                .wpDsCd() // 사업장관리번호
-//                .wpNm() // 직장명
+                .cI(param.getCI()) // 금융기관의 정책에 따라 사용
+                .brNo(param.getBrNo()) // 사업자등록번호
+                .wpDsCd(param.getWpDsCd()) // 사업장관리번호
+                .wpNm(param.getWpNm()) // 직장명
 
                 .sCrtcMthd(authDetail.getSelfAuthMethCd()) // 본인인증방법 TBCOM_CUSTAUTH_DTL에서 가져옴
                 .sCrtcDtTm(authDetail.getSelfAgreeDttm()) // 본인인증일자시간
-                .cstmClPN(custCphoneNo) // 고객휴대폰번호
+                .cstmClPN(authDetail.getCustCphoneNo()) // 고객휴대폰번호
                 .cpCrtcTlcm(authDetail.getTeleCd()) // 통신사코드
                 .email(email) // 디비에서 가져옴 (TBCOM_CUSTMAS)
                 .sCrtcUNo(authDetail.getAuthOrgUnicd()) // 인증기관고유코드 (TBCOM_CUSTAUTH_DTL)
-                .listCnt1(agreeList.size()) // TBCOM_CUSTAGREE_LST
+                .listCnt1(inlist1Lists.size()) // TBCOM_CUSTAGREE_LST
                 .inList1(inlist1Lists) // TBCOM_CUSTAGREE_LST
 
                 .jonCls(param.getJonCls()) // 직군분류 디비에없음
@@ -114,19 +118,41 @@ public class Coocon101Service {
 
                 .listCnt2(param.getInList2().size())
                 .inList2(param.getInList2()) // 반복부2, 대출신청번호(우리가 관리하는 신청번호PK), 대출상품코드. 쿠콘에 물어봐야 함. 은행마다 따로 발송
-                .scrpInfoYN("N") // 안한다고 했음.
-                // 건보관련 안함 NHISQY...
+                .scrpInfoYN(param.getScrpInfoYN()) // 안한다고 했음. N
+
+                // 건보관련 안함 NHISQY, 나머지 다 널
+                .nHISQYNCIsNo(param.getNHISQYNCIsNo())
+                .nHISQYNCIsYMD(param.getNHISQYNCIsYMD())
+                .nHISQYNCCWNm(param.getNHISQYNCCWNm())
+                .nHISQYNCCWMDCd(param.getNHISQYNCCWMDCd())
+                .nHISQYNCCWQGYMD(param.getNHISQYNCCWQGYMD())
+                .nHISQYNCCWQLYMD(param.getNHISQYNCCWQLYMD())
+                .blank3(param.getBlank3())
+                .nHISPCIqSYM(param.getNHISPCIqSYM())
+                .nHISPCIqEYM(param.getNHISPCIqEYM())
+                .nHISPCBrNoTY(param.getNHISPCBrNoTY())
+                .nHISPCWPNmTY(param.getNHISPCWPNmTY())
+                .nHISPCPyrNoTY(param.getNHISPCPyrNoTY())
+                .blank4(param.getBlank4())
+                .listCnt3(inlist3Lists.size())
+                .inList3(inlist3Lists)
+                .gr1(param.getGr1())
+                .sc1(param.getSc1())
+                .gr2(param.getGr2())
+                .sc2(param.getSc2())
+                .carNo(param.getCarNo())
+                .fillerI(param.getFillerI())
 
                 .build();
 
     }
 
 
-    public void eachInsertIfNotExists(UserAuth userAuth, InqMasDTO.RequestParams param) {
+    public void eachInsertIfNotExists(UserAuth userAuth, Coocon101DTO.Request param) {
 
-        for (InqMasDTO.RequestParams.InList2 inlist2 : param.getInList2()) {
+        for (Coocon101DTO.Request.InList2 inlist2 : param.getInList2()) {
 
-            InqMasDTO.Column build = InqMasDTO.Column.builder()
+            InqMasDTO.Create build = InqMasDTO.Create.builder()
                     .lnReqNo(inlist2.getLoReqtNo())
                     .lnInqDttm(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
                     .lnGbcd("1")
@@ -171,6 +197,5 @@ public class Coocon101Service {
         }
 
     }
-
 
 }

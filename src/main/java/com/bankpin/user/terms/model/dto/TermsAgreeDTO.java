@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.*;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.util.List;
@@ -16,7 +17,7 @@ public class TermsAgreeDTO {
     public static class Create {
 
         private String userId;
-        private TermsType termsType;
+        private String termsType;
         private String accept;
         private String createdDate;
         private String updatedDate;
@@ -29,6 +30,8 @@ public class TermsAgreeDTO {
     public static class Param {
 
         private String userId;
+
+        @Valid
         private List<TermsAgree> termsTypes;
 
         @Builder
@@ -39,7 +42,7 @@ public class TermsAgreeDTO {
             private TermsType termsType;
 
             @NotNull
-            @Pattern(regexp = "/^Y$/i", message = "동의하지 않았습니다")
+            @Pattern(regexp = "^[Yy]$", message = "동의하지 않았습니다")
             private String accept;
 
         }

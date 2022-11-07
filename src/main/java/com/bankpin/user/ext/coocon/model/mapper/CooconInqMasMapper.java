@@ -48,7 +48,7 @@ public interface CooconInqMasMapper {
              ", AGO_LN_AMT = #{agoLnAmt, jdbcType=VARCHAR}"+
              ", LN_MRTG_NO = #{lnMrtgNo, jdbcType=VARCHAR}"
     )
-    void save(InqMasDTO.Column column);
+    void save(InqMasDTO.Create create);
 
     @Update(
             "UPDATE TBLNS_INQ_MAS SET"+
@@ -87,6 +87,6 @@ public interface CooconInqMasMapper {
             "WHERE" +
             "  LN_REQ_NO = #{lnReqNo, jdbcType=VARCHAR}"
     )
-    void update(InqMasDTO.Column column);
+    void update(InqMasDTO.Create create);
 
 }
