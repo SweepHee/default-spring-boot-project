@@ -1,7 +1,7 @@
 package com.bankpin.user.service;
 
 import com.bankpin.user.model.dto.MainDTO;
-import com.bankpin.user.model.mapper.MainMapper;
+import com.bankpin.user.mapper.MainMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

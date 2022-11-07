@@ -2,7 +2,7 @@ package com.bankpin.user.auth.service;
 
 import com.bankpin.user.auth.model.dto.UserAuth;
 import com.bankpin.user.auth.model.dto.UserDTO;
-import com.bankpin.user.auth.model.mapper.AuthMapper;
+import com.bankpin.user.auth.mapper.AuthMapper;
 import com.bankpin.user.auth.model.type.AuthorityType;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

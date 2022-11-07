@@ -1,4 +1,4 @@
-package com.bankpin.user.model.mapper;
+package com.bankpin.user.mapper;
 
 import com.bankpin.user.model.dto.MainDTO;
 import org.apache.ibatis.annotations.Mapper;

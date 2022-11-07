@@ -1,4 +1,4 @@
-package com.bankpin.user.auth.model.mapper;
+package com.bankpin.user.auth.mapper;
 
 import com.bankpin.user.auth.model.dto.UserAuth;
 import com.bankpin.user.auth.model.dto.UserDTO;
