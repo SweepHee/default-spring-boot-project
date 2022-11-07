@@ -25,7 +25,7 @@ class Bankpin
         try {
             if (this.isMobile()) {
                 if (this.isMobilePlatform.aOS()) {
-                    window.android.bridge.pageLink(link);
+                    window.android.pageLink(link);
                 } else if (this.isMobilePlatform.iOS()) {
                     window.webkit.messageHandlers.pageLink.postMessage(link);
                 }
@@ -41,7 +41,7 @@ class Bankpin
         try {
             if (this.isMobile()) {
                 if (this.isMobilePlatform.aOS()) {
-                    window.android.bridge.outLink(link);
+                    window.android.outLink(link);
                 } else if (this.isMobilePlatform.iOS()) {
                     window.webkit.messageHandlers.outLink.postMessage(link);
                 }
