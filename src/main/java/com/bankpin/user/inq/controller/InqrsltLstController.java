@@ -99,4 +99,14 @@ public class InqrsltLstController
         return "inqrslt/search_ing";
     }
 
+
+    /**
+     * 대출 신청이 접수되었습니다.
+     */
+    @GetMapping("/search-complete")
+    public String searchComplete()
+    {
+        return "inqrslt/app_com02";
+    }
+
 }

@@ -157,15 +157,3 @@ $(function () {
 		});
 	})
 })
-
-//*맞춤상품비교 고정*//
-$(document).ready(function () {
-	var jbOffset = $('.loan_column').offset();
-	$(window).scroll(function () {
-		if ($(document).scrollTop() > jbOffset.top) {
-			$('.loan_column').addClass('loan_column_Fixed ');
-		} else {
-			$('.loan_column').removeClass('loan_column_Fixed ');
-		}
-	});
-});

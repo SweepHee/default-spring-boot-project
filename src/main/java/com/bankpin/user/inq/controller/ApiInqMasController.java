@@ -67,7 +67,7 @@ public class ApiInqMasController
         int success = inqMasService.insert(create);
         return ResponseEntity.ok(
                 ResponseData.builder()
-                        .data(success)
+                        .data(maxLnReqNo)
                         .build());
     }
 

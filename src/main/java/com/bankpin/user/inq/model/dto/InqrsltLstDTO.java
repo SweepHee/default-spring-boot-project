@@ -1,9 +1,11 @@
 package com.bankpin.user.inq.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
@@ -103,6 +105,8 @@ public class InqrsltLstDTO
         private String priRateRsnCntn;
         private BigDecimal priLmtAmt;
         private BigDecimal priRate;
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+        @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
         private LocalDateTime lnValidDttm;
         private String lnRateCycleCd;
         private BigDecimal lnMidrtnFeeRate;
@@ -138,6 +142,8 @@ public class InqrsltLstDTO
         private String priRateRsnCntn;
         private BigDecimal priLmtAmt;
         private BigDecimal priRate;
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+        @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
         private LocalDateTime lnValidDttm;
         private String lnRateCycleCd;
         private BigDecimal lnMidrtnFeeRate;

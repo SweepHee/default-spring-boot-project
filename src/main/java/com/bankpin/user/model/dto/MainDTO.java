@@ -69,6 +69,7 @@ public class MainDTO
         private String lnReqNo;
         private String fintecOrgMngno;
         private String bankCd;
+        private String bankBrchCd;
         private String lstLnRate;
         private String lstLnLmtAmt;
         private String lnPrdtCd;

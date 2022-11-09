@@ -36,7 +36,7 @@
 
 				<div class="cuslon_top">
 					<div class="list_tit">
-						<span class="us_name" th:text="${name}">우대</span>고객님의<br>
+						<span class="us_name" th:text="${name}">우대</span>&nbsp;고객님의<br>
 						<strong>맞춤 상품 결과</strong>입니다.
 					</div>
 
@@ -76,9 +76,9 @@
 							{{#items}}
 							<a href="/user/inqrslt/detail?lnReqNo={{lnReqNo}}&fintecOrgMngno={{fintecOrgMngno}}">
 								<dt class="bank_info">
-									<img src="{{bankImage bankCd}}" alt="">
+									<img src="{{bankImage bankBrchCd}}" alt="">
 									<p>
-										<strong>{{bankName bankCd}}</strong>
+										<strong>{{bankName bankBrchCd}}</strong>
 										<sub>{{lnPrdtNm}}</sub>
 										<label class="lowest">최저금리</label>
 									</p>
@@ -120,7 +120,8 @@
 	<script type="text/javascript" src="/user/static/assets/js/jquery-ui.js"></script>
 	<script type="text/javascript" src="/user/static/assets/js/default.js"></script>
 	<script src="/user/static/assets/js/mobile.js"></script>
-	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<!--	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>-->
+	<script src="/user/static/assets/js/axios.min.js"></script>
     <script src="/user/static/assets/js/handlebars.js"></script>
     <script src="/user/static/assets/js/handle_wrapper.js"></script>
     <script src="/user/static/assets/js/handle_helper.js"></script>
@@ -140,7 +141,7 @@
 		};
 
 		function previous() {
-			Bankpin.pageLink('/user');  // to Native
+			Bankpin.pageLink('/user/inq');  // to Native
 		}
 
 		const loan_column_wrap = new HandleWrapper();
@@ -228,6 +229,20 @@
 
 			// search_loan_column();
 			search_lon_box_dl('rateUp');
+		});
+	</script>
+
+	<!--맞춤상품비교 고정-->
+	<script>
+		$(document).ready(function() {
+			var jbOffset = $('.loan_column').offset();
+			$(window).scroll(function() {
+				if ($(document).scrollTop() > jbOffset.top) {
+					$('.loan_column').addClass('loan_column_Fixed ');
+				} else {
+					$('.loan_column').removeClass('loan_column_Fixed ');
+				}
+			});
 		});
 	</script>
 

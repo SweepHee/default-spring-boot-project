@@ -85,6 +85,7 @@ public interface MainMapper
             "       TIL.LN_REQ_NO" +
             " 	  , TIL.FINTEC_ORG_MNGNO" +
             " 	  , TIL.BANK_CD" +
+            " 	  , TIL.BANK_BRCH_CD" +
             " 	  , TIL.LST_LN_RATE" +
             " 	  , TRUNCATE(TIL.LST_LN_LMT_AMT / 10000, -1) AS LST_LN_LMT_AMT" +
             "     , TIL.LN_PRDT_CD" +
