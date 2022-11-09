@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum ApiProperties {
+public enum ApiType {
 
     ADL_101_IQ("SDL_101_IQ", "대출금리한도 조회"),
     ADL_102_IF("SDL_102_IF", "대출금리한도 조회결과 통지"),

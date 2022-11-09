@@ -54,7 +54,6 @@ public class Coocon102Service {
                 cooconInqRsltLstMapper.save(create);
             }
 
-
         }
 
     }

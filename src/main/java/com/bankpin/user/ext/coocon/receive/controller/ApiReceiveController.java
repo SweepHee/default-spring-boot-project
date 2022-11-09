@@ -50,6 +50,7 @@ public class ApiReceiveController {
                         .error(false)
                         .code(HttpCodeType.OK.getCode())
                         .message("")
+                        .data(param)
                         .build());
     }
 

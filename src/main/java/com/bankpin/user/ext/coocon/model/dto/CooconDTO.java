@@ -1,6 +1,6 @@
 package com.bankpin.user.ext.coocon.model.dto;
 
-import com.bankpin.user.ext.coocon.model.type.ApiProperties;
+import com.bankpin.user.ext.coocon.model.type.ApiType;
 import com.bankpin.user.ext.coocon.util.Util;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
@@ -28,7 +28,7 @@ public class CooconDTO {
         @Builder.Default
         private String fintechApsno = "001";
 
-        private ApiProperties apiNm;
+        private ApiType apiNm;
         private String apiSvcCd;
         @Builder.Default
         private String fisDscd = "01"; // FIXME 테스트에서 해당값으로만 사용
@@ -50,9 +50,7 @@ public class CooconDTO {
         private String ipInfo;
         private String fintechMarkChnlCd;
         private String fillerC;
-
         private String lnReqNo;
-
 
     }
 

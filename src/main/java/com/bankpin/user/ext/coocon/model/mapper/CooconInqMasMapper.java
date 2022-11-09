@@ -12,6 +12,13 @@ public interface CooconInqMasMapper {
     @Select("SELECT EXISTS(SELECT * FROM TBLNS_INQ_MAS WHERE LN_REQ_NO = #{lnReqNo, jdbcType=VARCHAR})")
     Boolean existsByLnReqNo(String lnReqNo);
 
+    @Select(
+            "SELECT "+
+                    " if (count(LN_REQ_NO) != 0, LPAD(MAX(CAST(LN_REQ_NO AS UNSIGNED))+1,14,'0'), '00000000000000')"+
+                    " FROM TBLNS_INQ_MAS"
+    )
+    String findByMaxLnReqNo();
+
     @Insert(
             "INSERT INTO TBLNS_INQ_MAS SET "+
              "  LN_REQ_NO = #{lnReqNo, jdbcType=VARCHAR}"+
@@ -63,7 +70,7 @@ public interface CooconInqMasMapper {
             ", LN_RATE_CYCLE_CD = #{lnRateCycleCd, jdbcType=VARCHAR}"+
             ", RECOVER_HIS_YN = #{recoverHisYn, jdbcType=VARCHAR}"+
             ", RECOVER_PAY_CMPL_YN = #{recoverPayCmplYn, jdbcType=VARCHAR}"+
-            ", CUST_RRNO = #{custRrno, jdbcType=VARCHAR}"+
+            ", CUST_RRNO = FN_ENCRYPT(#{custRrno, jdbcType=VARCHAR})"+
             ", CUST_EMAIL = #{custEmail, jdbcType=VARCHAR}"+
             ", CUST_BUSI_REGNO = #{custBusiRegno, jdbcType=VARCHAR}"+
             ", CUST_BUSIPLC_MNGNO = #{custBusiplcMngno, jdbcType=VARCHAR}"+

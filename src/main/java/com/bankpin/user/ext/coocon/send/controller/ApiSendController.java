@@ -1,20 +1,17 @@
 package com.bankpin.user.ext.coocon.send.controller;
 
-
 import com.bankpin.user.auth.model.dto.UserAuth;
 import com.bankpin.user.ext.coocon.model.dto.*;
 import com.bankpin.user.ext.coocon.service.CooconInqRsltLstService;
-import com.bankpin.user.ext.coocon.model.type.ApiProperties;
+import com.bankpin.user.ext.coocon.model.type.ApiType;
 import com.bankpin.user.ext.coocon.service.*;
 import com.bankpin.user.model.dto.ResponseData;
 import com.bankpin.user.model.type.HttpCodeType;
-import com.bankpin.user.sns.auth.service.UserSnsAuthService;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.Objects;
 
 
@@ -32,8 +29,6 @@ public class ApiSendController {
 
     private final CooconCustAuthService cooconCustAuthService;
 
-
-    private final UserSnsAuthService userSnsAuthService;
     private final CooconInqRsltLstService cooconInqRsltLstService;
 
 
@@ -44,7 +39,7 @@ public class ApiSendController {
     public ResponseEntity<ResponseData> request101
         (@RequestBody Coocon101DTO.Request param, Authentication authentication) {
 
-        ApiProperties apiNm = ApiProperties.ADL_101_IQ;
+        ApiType apiNm = ApiType.ADL_101_IQ;
 
         CooconDTO.Common common = CooconDTO.Common.builder()
                 .apiNm(apiNm)
@@ -66,6 +61,7 @@ public class ApiSendController {
 
         param.setCommon(common);
         Coocon101DTO.Request apiParam = coocon101Service.setParameter(userAuth, authDetail, param);
+        System.out.println(apiParam);
 
         if (apiParam == null) {
 
@@ -83,8 +79,7 @@ public class ApiSendController {
 
             // FIXME INLIST2의 은행종류별로 발송해야 한다고 들었음. 쿠콘 개발자한테 물어봐야 함
             body = coocon101Service.request(param);
-            coocon101Service.eachInsertIfNotExists(userAuth, apiParam);
-
+            coocon101Service.create(userAuth, apiParam);
 
         } catch (Exception e) {
 
@@ -115,7 +110,7 @@ public class ApiSendController {
 
         // 대출신청번호가 파라미터로 넘어올거라 예상
 
-        ApiProperties apiNm = ApiProperties.ADL_103_IQ;
+        ApiType apiNm = ApiType.ADL_103_IQ;
 
         CooconDTO.Common common = CooconDTO.Common.builder()
                 .apiNm(apiNm)
@@ -175,8 +170,7 @@ public class ApiSendController {
     @PostMapping(value = "/105", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ResponseData> request105(@RequestBody ExecInfoDTO.ResponseParams param, Authentication authentication) {
 
-
-        ApiProperties apiNm = ApiProperties.ADL_105_IQ;
+        ApiType apiNm = ApiType.ADL_105_IQ;
 
         CooconDTO.Common common = CooconDTO.Common.builder()
                 .apiNm(apiNm)
@@ -232,7 +226,7 @@ public class ApiSendController {
     public ResponseEntity<ResponseData> request106
         (@RequestBody ExecInfoDTO.CancelParams param, Authentication authentication) {
 
-        ApiProperties apiNm = ApiProperties.ADL_106_IF;
+        ApiType apiNm = ApiType.ADL_106_IF;
 
         CooconDTO.Common common = CooconDTO.Common.builder()
                 .apiNm(apiNm)

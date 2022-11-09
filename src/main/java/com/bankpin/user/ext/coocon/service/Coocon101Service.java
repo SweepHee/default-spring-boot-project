@@ -1,12 +1,10 @@
 package com.bankpin.user.ext.coocon.service;
 
 import com.bankpin.user.auth.model.dto.UserAuth;
+import com.bankpin.user.ext.coocon.config.CooconPropertyConfig;
 import com.bankpin.user.ext.coocon.model.dto.*;
-import com.bankpin.user.ext.coocon.model.mapper.CooconCustAgreeLstMapper;
 import com.bankpin.user.ext.coocon.model.mapper.CooconInqMasMapper;
-import com.bankpin.user.ext.coocon.model.type.ApiProperties;
 import com.bankpin.user.ext.coocon.util.Util;
-import com.bankpin.user.sns.auth.model.mapper.SnsAuthMapper;
 import com.bankpin.user.terms.model.dto.TermsAgreeDTO;
 import com.bankpin.user.terms.service.TermsService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -19,19 +17,22 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.reactive.function.client.WebClient;
 
 
+import java.lang.reflect.Array;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class Coocon101Service {
 
-    private final SnsAuthMapper snsAuthMapper;
-    private final CooconCustAgreeLstMapper cooconCustAgreeLstMapper;
     private final CooconInqMasMapper cooconInqMasMapper;
     private final TermsService termsService;
+
+    private final CooconPropertyConfig cooconPropertyConfig;
+
 
     public CooconDTO.Output request(Coocon101DTO.Request param) throws ParseException, JsonProcessingException {
 
@@ -40,7 +41,7 @@ public class Coocon101Service {
         return WebClient
                 .create()
                 .post()
-                .uri(ApiProperties.requestURI(ApiProperties.ADL_101_IQ))
+                .uri(cooconPropertyConfig.getUri(param.getCommon().getApiNm()))
                 .contentType(MediaType.APPLICATION_JSON)
                 .bodyValue(jsonReq)
                 .retrieve()
@@ -66,7 +67,7 @@ public class Coocon101Service {
 
         String cstmNm = userAuth.getName();
         String email = userAuth.getEmail();
-        String rrno = snsAuthMapper.fnEncrypt(userAuth.getBirthday().replace(".", "").substring(2));
+        String rrno =userAuth.getBirthday().replace(".", "").substring(2);
 
         List<Coocon101DTO.Request.InList1> inlist1Lists = new ArrayList<>();
         List<TermsAgreeDTO.Create> agrees = termsService.findAllByUserId(userAuth.getId());
@@ -74,9 +75,8 @@ public class Coocon101Service {
             inlist1Lists.add(Coocon101DTO.Request.InList1.termsAgreeToInList1(agree));
         }
 
-        List<Coocon101DTO.Request.InList3> inlist3Lists = new ArrayList<>();
-        inlist3Lists.add((Coocon101DTO.Request.InList3) param.getInList3());
 
+        List<Coocon101DTO.Request.InList3> inlist3Lists = new ArrayList<>();
 
         return Coocon101DTO.Request.builder()
                 .Common(param.getCommon())
@@ -95,7 +95,7 @@ public class Coocon101Service {
                 .cpCrtcTlcm(authDetail.getTeleCd()) // 통신사코드
                 .email(email) // 디비에서 가져옴 (TBCOM_CUSTMAS)
                 .sCrtcUNo(authDetail.getAuthOrgUnicd()) // 인증기관고유코드 (TBCOM_CUSTAUTH_DTL)
-                .listCnt1(inlist1Lists.size()) // TBCOM_CUSTAGREE_LST
+                .listCnt1(inlist1Lists.toArray().length) // TBCOM_CUSTAGREE_LST
                 .inList1(inlist1Lists) // TBCOM_CUSTAGREE_LST
 
                 .jonCls(param.getJonCls()) // 직군분류 디비에없음
@@ -116,7 +116,7 @@ public class Coocon101Service {
                 .rehabPymtCmplYN(param.getRehabPymtCmplYN()) // 회생납부완료여부
                 .blank2(param.getBlank2()) // 필수에 아무값도 없음
 
-                .listCnt2(param.getInList2().size())
+                .listCnt2(param.getInList2().toArray().length)
                 .inList2(param.getInList2()) // 반복부2, 대출신청번호(우리가 관리하는 신청번호PK), 대출상품코드. 쿠콘에 물어봐야 함. 은행마다 따로 발송
                 .scrpInfoYN(param.getScrpInfoYN()) // 안한다고 했음. N
 
@@ -134,8 +134,8 @@ public class Coocon101Service {
                 .nHISPCWPNmTY(param.getNHISPCWPNmTY())
                 .nHISPCPyrNoTY(param.getNHISPCPyrNoTY())
                 .blank4(param.getBlank4())
-                .listCnt3(inlist3Lists.size())
-                .inList3(inlist3Lists)
+                .listCnt3(0) // 안받음
+                .inList3(inlist3Lists) // 안받음
                 .gr1(param.getGr1())
                 .sc1(param.getSc1())
                 .gr2(param.getGr2())
@@ -147,7 +147,54 @@ public class Coocon101Service {
 
     }
 
+    public void create(UserAuth userAuth, Coocon101DTO.Request param) {
 
+        String lnReqNo = cooconInqMasMapper.findByMaxLnReqNo();
+
+        InqMasDTO.Create build = InqMasDTO.Create.builder()
+                .lnReqNo(lnReqNo)
+                .lnInqDttm(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
+                .lnGbcd("1")
+                .lnReqGbcd("1")
+                .lnUseGbcd("1")
+                .lnReqAmt(param.getLoReqAmt())
+                .lnReqTermMm(param.getLoTeM())
+                .lnRtnMthCd(param.getRpayMthdDsCd())
+                .lnRateKindGbcd(param.getRtTpbsDsCd())
+                .lnRateCycleCd(param.getChgCycl())
+                .recoverHisYn(param.getPrsnRehabDs())
+                .recoverPayCmplYn(param.getRehabPymtCmplYN())
+                .custRrno(param.getRRNo()) // 암호화 항목
+                .custEmail(param.getEmail())
+                .custBusiRegno(param.getBrNo())
+                .custBusiplcMngno(param.getWpDsCd())
+                .custCmpyNm(param.getWpNm())
+                .custYearIncomAmt(param.getAnIncm())
+                .custJobClscd(param.getJonCls())
+                .custNhisMemGbcd(param.getMbrDs())
+                .custBusiUpjongGbcd(param.getBsTp())
+                .custEmployGbcd(param.getEplymtTpbs())
+                .custEnterYyyymm(param.getJnDt())
+                .custHousOwnGbcd(param.getHsOwTpbs())
+                .custHousTypecd(param.getHsTp())
+                .custCiNo(userAuth.getId())
+                //                        .lnHopeDt() // 대출 희망일
+                //                        .custCarownYn() // 고객 차량 보유여부 1:자차, 2:렌탈, 3:무소유
+                //                        .housOwnCnt() // 주택소유건수
+                //                        .marriedYn() // 결혼여부
+                //                        .childrenCnt() // 자녀수
+                //                        .agoLnAmt() // 기대출금액
+                //                        .lnMrtgNo() // 여신담보번호
+                .build();
+
+        cooconInqMasMapper.save(build);
+
+    }
+
+
+    /**
+    * 101 요청마다 데이터 생성되므로 사용X
+    * */
     public void eachInsertIfNotExists(UserAuth userAuth, Coocon101DTO.Request param) {
 
         for (Coocon101DTO.Request.InList2 inlist2 : param.getInList2()) {

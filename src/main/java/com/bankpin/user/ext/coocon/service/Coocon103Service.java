@@ -1,9 +1,9 @@
 package com.bankpin.user.ext.coocon.service;
 
+import com.bankpin.user.ext.coocon.config.CooconPropertyConfig;
 import com.bankpin.user.ext.coocon.model.dto.CooconDTO;
 import com.bankpin.user.ext.coocon.model.dto.ReqLstDTO;
 import com.bankpin.user.ext.coocon.model.mapper.CooconReqLstMapper;
-import com.bankpin.user.ext.coocon.model.type.ApiProperties;
 import com.bankpin.user.ext.coocon.util.Util;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +18,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 public class Coocon103Service {
 
     private final CooconReqLstMapper cooconReqLstMapper;
+    private final CooconPropertyConfig cooconPropertyConfig;
 
 
     public CooconDTO.Output request(ReqLstDTO.RequestParams param) throws ParseException, JsonProcessingException {
@@ -27,7 +28,7 @@ public class Coocon103Service {
         return WebClient
                 .create()
                 .post()
-                .uri(ApiProperties.requestURI(ApiProperties.ADL_103_IQ))
+                .uri(cooconPropertyConfig.getUri(param.getCommon().getApiNm()))
                 .contentType(MediaType.APPLICATION_JSON)
                 .bodyValue(jsonReq)
                 .retrieve()

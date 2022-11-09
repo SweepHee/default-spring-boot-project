@@ -33,16 +33,16 @@ public class ApiKcbSmsController {
     private final CustAuthDtlService custAuthDtlService;
 
 
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ResponseData> handleMethodArgumentNotValidException(MethodArgumentNotValidException exception) {
-        log.error("MethodArgumentNotValidException: {}", exception.getMessage());
-        return ResponseEntity.ok().body(
-                ResponseData.builder()
-                        .error(true)
-                        .code(HttpCodeType.BAD_REQUEST.getCode())
-                        .message("잘못된 요청값이 있습니다." + exception.getMessage())
-                        .build());
-    }
+//    @ExceptionHandler(MethodArgumentNotValidException.class)
+//    public ResponseEntity<ResponseData> handleMethodArgumentNotValidException(MethodArgumentNotValidException exception) {
+//        log.error("MethodArgumentNotValidException: {}", exception.getMessage());
+//        return ResponseEntity.ok().body(
+//                ResponseData.builder()
+//                        .error(true)
+//                        .code(HttpCodeType.BAD_REQUEST.getCode())
+//                        .message("잘못된 요청값이 있습니다." + exception.getMessage())
+//                        .build());
+//    }
     
     /**
     * SMS 발송

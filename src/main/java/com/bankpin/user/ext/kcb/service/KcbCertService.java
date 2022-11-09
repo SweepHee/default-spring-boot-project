@@ -2,6 +2,8 @@ package com.bankpin.user.ext.kcb.service;
 
 
 import com.bankpin.user.cust.mapper.CustAuthDtlMapper;
+import com.bankpin.user.ext.kcb.config.LocalPropertyConfig;
+import com.bankpin.user.ext.kcb.config.PropertyConfig;
 import com.bankpin.user.ext.kcb.model.dto.PassAppCertDTO;
 import com.bankpin.user.ext.kcb.model.dto.PassAppDTO;
 import com.bankpin.user.ext.kcb.model.dto.SmsCertDTO;
@@ -9,6 +11,7 @@ import com.bankpin.user.ext.kcb.model.dto.SmsDTO;
 import kcb.module.v3.exception.OkCertException;
 import kcb.org.json.JSONObject;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -17,24 +20,23 @@ import javax.servlet.http.HttpServletRequest;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class KcbCertService {
 
     private final CustAuthDtlMapper custAuthDtlMapper;
+    private final PropertyConfig propertyConfig;
 
-    private final String target = "PROD"; // 테스트="TEST", 운영="PROD"
-
-    @Value("${environments.kcb.company-code}")
-    private String cpCd;
 
     public SmsDTO.ReturnData sendSms(SmsDTO.Param param, HttpServletRequest request) throws OkCertException {
 
-        param.setCpCd(cpCd);
-        String target = this.target;
-        String license = getLicensePath(param.getCpCd(), target);
+        param.setCpCd(propertyConfig.getCpCd());
+        String target = propertyConfig.getTarget();
+        String license = getLicensePath();
         String svcNAME = "IDS_HS_EMBED_SMS_REQ";
 
         String USER_IP = request.getRemoteAddr();
-        String SITE_URL = "210.106.106.113";
+        System.out.println(license);
+        String SITE_URL = "bankpin.co.kr";
         String SITE_NAME = "뱅크핀";
 
         JSONObject reqJson = new JSONObject();
@@ -73,9 +75,9 @@ public class KcbCertService {
 
     public SmsCertDTO.ReturnData certificationSMS(SmsCertDTO.Param param) throws OkCertException {
 
-        param.setCpCd(cpCd);
-        String target = this.target;
-        String license = getLicensePath(param.getCpCd(), target);
+        param.setCpCd(propertyConfig.getCpCd());
+        String target = propertyConfig.getTarget();
+        String license = getLicensePath();
 
         String svcNAME = "IDS_HS_EMBED_SMS_CIDI";
 
@@ -90,7 +92,6 @@ public class KcbCertService {
         String resultStr = okcert.callOkCert(target, param.getCpCd(), svcNAME, license,  reqJson.toString());
 
         JSONObject resJson = new JSONObject(resultStr);
-        System.out.println(resJson);
 
         return SmsCertDTO.ReturnData.toReturnData(resJson);
 
@@ -98,10 +99,11 @@ public class KcbCertService {
 
     public PassAppDTO.ReturnData sendPass(PassAppDTO.Param param, HttpServletRequest request) throws OkCertException {
 
-        param.setCpCd(cpCd);
 
-        String target = this.target;
-        String license = getLicensePath(param.getCpCd(), target);
+        param.setCpCd(propertyConfig.getCpCd());
+
+        String target = propertyConfig.getTarget();
+        String license = getLicensePath();
         String svcNAME = "IDS_HS_EMBED_PASS_REQ";
 
         String USER_IP = request.getRemoteAddr();
@@ -132,9 +134,9 @@ public class KcbCertService {
 
     public PassAppCertDTO.ReturnData certificationPass(PassAppCertDTO.Param param) throws OkCertException {
 
-        param.setCpCd(cpCd);
-        String target = this.target;
-        String license = getLicensePath(param.getCpCd(), target);
+        param.setCpCd(propertyConfig.getCpCd());
+        String target = propertyConfig.getTarget();
+        String license = getLicensePath();
         String svcNAME = "IDS_HS_EMBED_PASS_CIDI";
 
         JSONObject reqJson = new JSONObject();
@@ -148,9 +150,8 @@ public class KcbCertService {
     }
 
 
-
-    private String getLicensePath(String cpCd, String target) {
-        return "D:\\jeon\\workspace\\bankpin-user-server\\libs\\" + cpCd + "_IDS_01_" + target + "_AES_license.dat";
+    private String getLicensePath() {
+        return propertyConfig.getPath();
     }
 
 
