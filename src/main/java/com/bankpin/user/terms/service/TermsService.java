@@ -46,6 +46,7 @@ public class TermsService {
 
             TermsAgreeDTO.Create create = TermsAgreeDTO.Create.builder()
                     .userId(parameter.getUserId())
+                    .lnReqNo(parameter.getLnReqNo())
                     .termsType(agree.getTermsType().getKey())
                     .accept(Objects.equals(agree.getAccept().toUpperCase(), "Y") ? "Y" : "N")
                     .build();
@@ -54,7 +55,7 @@ public class TermsService {
                 continue;
             }
 
-            if (termsAgreeMapper.existsByUserIdAndTermsType(create)) {
+            if (termsAgreeMapper.existsByUserIdAndLnReqNoAndTermsType(create)) {
                 termsAgreeMapper.update(create);
             } else {
                 termsAgreeMapper.save(create);

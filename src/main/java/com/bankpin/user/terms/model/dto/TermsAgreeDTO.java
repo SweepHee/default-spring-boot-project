@@ -9,6 +9,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.util.List;
+import java.util.Set;
 
 public class TermsAgreeDTO {
 
@@ -17,6 +18,7 @@ public class TermsAgreeDTO {
     public static class Create {
 
         private String userId;
+        private String lnReqNo;
         private String termsType;
         private String accept;
         private String createdDate;
@@ -31,8 +33,11 @@ public class TermsAgreeDTO {
 
         private String userId;
 
+        @NotNull(message = "일련번호는 필수입니다")
+        private String lnReqNo;
+
         @Valid
-        private List<TermsAgree> termsTypes;
+        private Set<TermsAgree> termsTypes;
 
         @Builder
         @Data

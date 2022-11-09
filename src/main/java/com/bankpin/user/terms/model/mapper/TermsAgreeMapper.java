@@ -20,13 +20,15 @@ public interface TermsAgreeMapper {
             "SELECT EXISTS" +
                     "(SELECT * FROM terms_agree " +
                     " WHERE user_id = #{userId, jdbcType=VARCHAR} " +
+                    " AND ln_req_no = #{lnReqNo, jdbcType=VARCHAR}"+
                     " AND terms_type = #{termsType, jdbcType=VARCHAR}) "
     )
-    boolean existsByUserIdAndTermsType(TermsAgreeDTO.Create create);
+    boolean existsByUserIdAndLnReqNoAndTermsType(TermsAgreeDTO.Create create);
 
     @Insert(
             "INSERT INTO terms_agree SET "+
             "  user_id = #{userId, jdbcType=VARCHAR}"+
+            ", ln_req_no = #{lnReqNo, jdbcType=VARCHAR}"+
             ", terms_type = #{termsType, jdbcType=VARCHAR}"+
             ", accept = #{accept, jdbcType=VARCHAR}"+
             ", created_date = NOW()"+
@@ -38,6 +40,7 @@ public interface TermsAgreeMapper {
     @Update(
             "UPDATE terms_agree SET "+
             "  user_id = #{userId, jdbcType=VARCHAR}"+
+            ", ln_req_no = #{lnReqNo, jdbcType=VARCHAR}"+
             ", terms_type = #{termsType, jdbcType=VARCHAR}"+
             ", accept = #{accept, jdbcType=VARCHAR}"+
             ", updated_date = NOW()"+

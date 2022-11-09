@@ -58,6 +58,8 @@ public class ApiTermsController {
     @PostMapping("/agree")
     public ResponseEntity<ResponseData> agree(@RequestBody @Valid TermsAgreeDTO.Param parameter, Authentication authentication) {
 
+        System.out.println(parameter);
+
         SnsUserDTO.Column user = userSnsAuthService.findByCustCiNo(authentication.getName());
         parameter.setUserId(user.getCustCiNo());
 
@@ -68,6 +70,7 @@ public class ApiTermsController {
                         .error(false)
                         .code(HttpCodeType.OK.getCode())
                         .message("")
+                        .data("1")
                         .build());
         
     }
