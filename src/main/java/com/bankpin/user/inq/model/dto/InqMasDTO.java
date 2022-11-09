@@ -1,7 +1,9 @@
 package com.bankpin.user.inq.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.Email;
@@ -91,6 +93,8 @@ public class InqMasDTO
     public static class Detail
     {
         private String lnReqNo;
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+        @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
         private LocalDateTime lnInqDttm;
         private String lnGbcd;
         private String lnReqGbcd;
@@ -116,6 +120,8 @@ public class InqMasDTO
         private String custHousOwnGbcd;
         private String custHousTypecd;
         private String custCiNo;
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+        @DateTimeFormat(pattern = "yyyy-MM-dd")
         private LocalDate lnHopeDt;
         private String custCarownYn;
         private Integer housOwnCnt;
@@ -129,6 +135,8 @@ public class InqMasDTO
     public static class Item
     {
         private String lnReqNo;
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+        @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
         private LocalDateTime lnInqDttm;
         private String lnGbcd;
         private String lnReqGbcd;
@@ -149,6 +157,8 @@ public class InqMasDTO
         private String custHousOwnGbcd;
         private String custHousTypecd;
         private String custCiNo;
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+        @DateTimeFormat(pattern = "yyyy-MM-dd")
         private LocalDate lnHopeDt;
         private String custCarownYn;
         private Integer housOwnCnt;
