@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>뱅크핀</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no, viewport-fit=cover">
+	<link rel="stylesheet" type="text/css" href="/user/static/assets/css/common.css" />
+</head>
+
+<body>
+
+	<!-- wrap -->
+	<div id="wrap">
+
+		<!-- container -->
+		<div id="container">
+
+			<!-- content -->
+			<div class="content">
+				<div class="ready_common sl">
+					
+					<img src="/user/static/assets/images/contents/icon_completion.svg" alt="상품접수" class="receipt_img">
+					<strong>대출 신청이<br>접수되었습니다.</strong>
+					<sub>빠른 시간내 결과를 알려드리겠습니다.</sub>
+					
+					
+				</div>
+				
+				<!--appr_list-->
+				<div class="appr_list hei">
+
+<!--					<dl>-->
+<!--						<dt>-->
+<!--							<p class="tt">대출가능 <b>1</b></p>-->
+<!--							<p class="num"><label>최대한도</label> <b>6,000</b>만원</p>-->
+<!--							<p class="num"><label>최저금리</label> <b>4.18%</b></p>-->
+<!--						</dt>-->
+<!--						<dd class="man">-->
+<!--							<p class="name">김**님(40대)</p>-->
+<!--							<p class="type">-->
+<!--								<span>경기도</span>-->
+<!--								<span>아파트</span>-->
+<!--								<span>생활비</span>-->
+<!--							</p>-->
+<!--						</dd>-->
+<!--					</dl>-->
+
+<!--					<dl>-->
+<!--						<dt>-->
+<!--							<p class="tt">대출가능 <b>1</b></p>-->
+<!--							<p class="num"><label>최대한도</label> <b>6,000</b>만원</p>-->
+<!--							<p class="num"><label>최저금리</label> <b>4.18%</b></p>-->
+<!--						</dt>-->
+<!--						<dd class="woman">-->
+<!--							<p class="name">김**님(40대)</p>-->
+<!--							<p class="type">-->
+<!--								<span>경기도</span>-->
+<!--								<span>아파트</span>-->
+<!--								<span>생활비</span>-->
+<!--							</p>-->
+<!--						</dd>-->
+<!--					</dl>-->
+
+<!--					<dl>-->
+<!--						<dt>-->
+<!--							<p class="tt">대출가능 <b>1</b></p>-->
+<!--							<p class="num"><label>최대한도</label> <b>6,000</b>만원</p>-->
+<!--							<p class="num"><label>최저금리</label> <b>4.18%</b></p>-->
+<!--						</dt>-->
+<!--						<dd class="man">-->
+<!--							<p class="name">김**님(40대)</p>-->
+<!--							<p class="type">-->
+<!--								<span>경기도</span>-->
+<!--								<span>아파트</span>-->
+<!--								<span>생활비</span>-->
+<!--							</p>-->
+<!--						</dd>-->
+<!--					</dl>-->
+
+<!--					<dl>-->
+<!--						<dt>-->
+<!--							<p class="tt">대출가능 <b>1</b></p>-->
+<!--							<p class="num"><label>최대한도</label> <b>6,000</b>만원</p>-->
+<!--							<p class="num"><label>최저금리</label> <b>4.18%</b></p>-->
+<!--						</dt>-->
+<!--						<dd class="woman">-->
+<!--							<p class="name">김**님(40대)</p>-->
+<!--							<p class="type">-->
+<!--								<span>경기도</span>-->
+<!--								<span>아파트</span>-->
+<!--								<span>생활비</span>-->
+<!--							</p>-->
+<!--						</dd>-->
+<!--					</dl>-->
+
+<!--					<dl>-->
+<!--						<dt>-->
+<!--							<p class="tt">대출가능 <b>1</b></p>-->
+<!--							<p class="num"><label>최대한도</label> <b>6,000</b>만원</p>-->
+<!--							<p class="num"><label>최저금리</label> <b>4.18%</b></p>-->
+<!--						</dt>-->
+<!--						<dd class="woman">-->
+<!--							<p class="name">김**님(40대)</p>-->
+<!--							<p class="type">-->
+<!--								<span>경기도</span>-->
+<!--								<span>아파트</span>-->
+<!--								<span>생활비</span>-->
+<!--							</p>-->
+<!--						</dd>-->
+<!--					</dl>-->
+
+				</div>
+				<!--appr_list e-->
+
+			</div>
+			<!-- content e -->
+
+		</div>
+		<!-- //container e -->
+
+		<!-- bottom button -->
+		<div class="bottom_btn">
+			<button class="common" id="btn_search">신청 내역 조회</button>
+		</div>
+		<!-- bottom button e-->
+
+	</div>
+	<!-- //wrap e-->
+
+	<script type="text/javascript" src="/user/static/assets/js/jquery-3.1.0.min.js"></script>
+	<script type="text/javascript" src="/user/static/assets/js/jquery-ui.js"></script>
+	<script type="text/javascript" src="/user/static/assets/js/slick.js"></script>
+	<script type="text/javascript" src="/user/static/assets/js/slick.min.js"></script>
+	<script src="/user/static/assets/js/mobile.js"></script>
+
+	<script>
+		function next() {
+			window.location.href = '/user';
+		}
+
+		$(document).ready(function() {
+			$(".appr_list").slick({
+				vertical: true,
+				swipe: false,
+				slidesToShow: 2,
+				slidesToScroll: 1,
+				autoplay: true,
+				autoplaySpeed: 2000,
+				arrows: false,
+				verticalSwiping: true,
+
+			});
+
+			jQuery('#btn_search').on("click", function() {
+				next();
+			});
+		});
+	</script>
+
+</body>
+
+</html>
