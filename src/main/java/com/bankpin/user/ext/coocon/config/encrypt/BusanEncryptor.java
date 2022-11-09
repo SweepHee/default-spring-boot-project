@@ -1,4 +1,4 @@
-package com.bankpin.user.ext.coocon.encrypt;
+package com.bankpin.user.ext.coocon.config.encrypt;
 
 public class BusanEncryptor implements Encryptor {
 
