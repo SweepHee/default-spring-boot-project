@@ -2,6 +2,8 @@ server:
   port: 8507
   servlet:
     context-path: /user
+    session:
+      timeout: 3600
   tomcat:
     uri-encoding: UTF-8
 
