@@ -16,6 +16,7 @@ import org.springframework.web.client.RestTemplate;
 import javax.servlet.http.HttpServletRequest;
 import java.net.URI;
 import java.security.MessageDigest;
+import java.util.List;
 import java.util.Random;
 
 public final class Util {
@@ -86,6 +87,13 @@ public final class Util {
     public static String random2NumToStr() {
         int min = 10;
         int max = 100;
+        int random = (int) ((Math.random() * (max-min)) + min);
+        return String.valueOf(random);
+    }
+
+    public static String random3NumToStr() {
+        int min = 100;
+        int max = 1000;
         int random = (int) ((Math.random() * (max-min)) + min);
         return String.valueOf(random);
     }

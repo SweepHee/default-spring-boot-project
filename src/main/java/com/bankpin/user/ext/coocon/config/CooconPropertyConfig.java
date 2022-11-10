@@ -4,6 +4,6 @@ import com.bankpin.user.ext.coocon.model.type.ApiType;
 
 public interface CooconPropertyConfig {
 
-    String getUri(ApiType property);
+    String getUri(String apiNm);
 
 }

@@ -51,9 +51,25 @@ public interface CooconInqRsltLstMapper {
     InqRsltLstDTO.Create findByLnReqNo(String lnReqNo);
 
     @Select(
-            "SELECT EXISTS(SELECT * FROM TBLNS_INQRSLT_LST WHERE LN_REQ_NO = #{lnReqNo, jdbcType=VARCHAR})"
+            "SELECT * FROM TBLNS_INQRSLT_LST" +
+            " WHERE " +
+            "     LN_REQ_NO = #{lnReqNo}"+
+            " AND FINTEC_ORG_MNGNO = #{fintecOrgMngNo, jdbcType=VARCHAR}"+
+            " AND LN_PRDT_CD = #{lnPrdtCd, jdbcType=VARCHAR}"
     )
-    boolean existsByLnReqNo(String lnReqNo);
+    InqRsltLstDTO.Create findByLnReqNoAndFinEnMnNoAndLoPrdCd(String lnReqNo, String fintecOrgMngNo, String lnPrdtCd);
+
+
+    @Select(
+            "SELECT EXISTS(" +
+            "SELECT * FROM TBLNS_INQRSLT_LST" +
+            " WHERE " +
+            "     LN_REQ_NO = #{lnReqNo, jdbcType=VARCHAR}"+
+            " AND FINTEC_ORG_MNGNO = #{fintecOrgMngno, jdbcType=VARCHAR}"+
+            " AND LN_PRDT_CD = #{lnPrdtCd, jdbcType=VARCHAR}"+
+            ")"
+    )
+    boolean existsByLnReqNoAndFinTecOrgMngNoAndLnPrdtCd(InqRsltLstDTO.Create create);
 
     @Update({
             "UPDATE TBLNS_INQRSLT_LST SET ",
@@ -87,7 +103,10 @@ public interface CooconInqRsltLstMapper {
             ", PRIN_EQ_RTN_ABL_YN = #{prinEqRtnAblYn, jdbcType=VARCHAR}",
             ", MINUS_BBOOK_ABL_YN = #{minusBbookAblYn, jdbcType=VARCHAR} ",
             "WHERE ",
-            "  LN_REQ_NO = #{lnReqNo, jdbcType=VARCHAR}"
+            "     LN_REQ_NO = #{lnReqNo, jdbcType=VARCHAR}",
+            " AND FINTEC_ORG_MNGNO = #{fintecOrgMngno, jdbcType=VARCHAR}",
+            " AND LN_PRDT_CD = #{lnPrdtCd, jdbcType=VARCHAR}"
     })
     void update(InqRsltLstDTO.Create create);
+
 }

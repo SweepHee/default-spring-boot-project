@@ -6,6 +6,7 @@ import com.bankpin.user.ext.coocon.model.dto.*;
 import com.bankpin.user.ext.coocon.model.mapper.CooconInqMasMapper;
 import com.bankpin.user.ext.coocon.util.Util;
 import com.bankpin.user.terms.model.dto.TermsAgreeDTO;
+import com.bankpin.user.terms.model.type.TermsType;
 import com.bankpin.user.terms.service.TermsService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -67,14 +69,18 @@ public class Coocon101Service {
 
         String cstmNm = userAuth.getName();
         String email = userAuth.getEmail();
-        String rrno =userAuth.getBirthday().replace(".", "").substring(2);
+        String rrno = userAuth.getBirthday().replace(".", "").substring(2);
 
         List<Coocon101DTO.Request.InList1> inlist1Lists = new ArrayList<>();
         List<TermsAgreeDTO.Create> agrees = termsService.findAllByUserId(userAuth.getId());
+
         for (TermsAgreeDTO.Create agree : agrees) {
             inlist1Lists.add(Coocon101DTO.Request.InList1.termsAgreeToInList1(agree));
         }
 
+        // FIXME 대출신청번호를 우리가 만드는 경우가 아니면 지워야 됨
+        String lnReqNo = cooconInqMasMapper.findByMaxLnReqNo();
+        param.getInList2().forEach(inlist -> inlist.setLoReqtNo(lnReqNo));
 
         List<Coocon101DTO.Request.InList3> inlist3Lists = new ArrayList<>();
 

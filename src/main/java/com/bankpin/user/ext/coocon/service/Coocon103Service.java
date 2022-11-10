@@ -37,7 +37,7 @@ public class Coocon103Service {
 
     }
 
-    public void save(CooconDTO.Output body) {
+    public void upsert(CooconDTO.Output body) {
 
         ReqLstDTO.Create create = ReqLstDTO.Create.builder()
                 .lnReqNo(body.getLoReqtNo())
@@ -49,7 +49,12 @@ public class Coocon103Service {
                 .callbackTelNo(body.getCbTelNo())
                 .build();
 
-        cooconReqLstMapper.save(create);
+        if (cooconReqLstMapper.existsByLnReqNoAndFintecOrgMngnoAndLnPrdtCd(create)) {
+            cooconReqLstMapper.update(create);
+        } else {
+            cooconReqLstMapper.save(create);
+        }
+
 
     }
 }

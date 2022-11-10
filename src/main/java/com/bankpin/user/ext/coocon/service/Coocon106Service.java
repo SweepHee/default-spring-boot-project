@@ -42,8 +42,6 @@ public class Coocon106Service {
                 .lnReqNo(param.getLoAplcMmNo())
                 .lnCnslYn("Y")
                 .build();
-        System.out.println(cancel);
-        System.out.println("시작=========");
         cooconExecInfoMapper.cancel(cancel);
     }
 

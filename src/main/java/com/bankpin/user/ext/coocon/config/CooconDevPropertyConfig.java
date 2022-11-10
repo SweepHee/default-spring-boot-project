@@ -15,8 +15,8 @@ public class CooconDevPropertyConfig implements CooconPropertyConfig {
     private final String uri = "https://vaoaapi-test.coocon.co.kr/"; // 테스트 API주소
 
     @Override
-    public String getUri(ApiType property) {
-        return uri + property + ".vapi";
+    public String getUri(String apiNm) {
+        return uri + apiNm + ".vapi";
     }
 
 }

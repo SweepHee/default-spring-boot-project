@@ -10,9 +10,15 @@ import org.apache.ibatis.annotations.Update;
 public interface CooconExecInfoMapper {
 
     @Select(
-            "SELECT EXISTS(SELECT * FROM TBLNS_EXEC_INFO WHERE LN_REQ_NO = #{lnReqNo, jdbcType=VARCHAR})"
+            "SELECT EXISTS(" +
+            "SELECT * FROM TBLNS_EXEC_INFO " +
+            "WHERE" +
+            "    LN_REQ_NO = #{lnReqNo, jdbcType=VARCHAR}" +
+            "AND FINTEC_ORG_MNGNO = #{fintecOrgMngno, jdbcType=VARCHAR}"+
+            "AND LN_PRDT_CD = #{lnPrdtCd, jdbcType=VARCHAR}"+
+            ")"
     )
-    boolean is(ExecInfoDTO.Create create);
+    boolean existsByLnReqNoAndFintecOrgMngnoAndLnPrdtCd(ExecInfoDTO.Create create);
 
     @Select(
             "SELECT EXISTS(SELECT * FROM TBLNS_EXEC_INFO WHERE LN_REQ_NO = #{lnReqNo, jdbcType=VARCHAR} AND LN_CNSL_YN = 'Y')"
@@ -31,12 +37,10 @@ public interface CooconExecInfoMapper {
 
     @Update(
             "UPDATE TBLNS_EXEC_INFO SET "+
-                "  FINTEC_ORG_MNGNO = #{fintecOrgMngno, jdbcType=VARCHAR}"+
-                ", LN_REQ_YN = #{lnReqYn, jdbcType=VARCHAR}"+
+                "  LN_REQ_YN = #{lnReqYn, jdbcType=VARCHAR}"+
                 ", LN_REQ_DTTM = #{lnReqDttm, jdbcType=VARCHAR}"+
                 ", BANK_CD = #{bankCd, jdbcType=VARCHAR}"+
                 ", BANK_BRCH_CD = #{bankBrchCd, jdbcType=VARCHAR}"+
-                ", LN_PRDT_CD = #{lnPrdtCd, jdbcType=VARCHAR}"+
                 ", LN_PRDT_NM = #{lnPrdtNm, jdbcType=VARCHAR}"+
                 ", LN_AMT = #{lnAmt, jdbcType=VARCHAR}"+
                 ", LST_LN_LMT_AMT = #{lstLnLmtAmt, jdbcType=VARCHAR}"+
@@ -49,7 +53,10 @@ public interface CooconExecInfoMapper {
                 ", LN_REQ_DT = #{lnReqDt, jdbcType=VARCHAR}"+
                 ", LN_RATE_CYCLE_CD = #{lnRateCycleCd, jdbcType=VARCHAR}"+
                 ", LN_AUTH_DT = #{lnAuthDt, jdbcType=VARCHAR} "+
-            "WHERE LN_REQ_NO = #{lnReqNo, jdbcType=VARCHAR}"
+                "WHERE " +
+                "     LN_REQ_NO = #{lnReqNo, jdbcType=VARCHAR}"+
+                " AND FINTEC_ORG_MNGNO = #{fintecOrgMngno, jdbcType=VARCHAR}"+
+                " AND LN_PRDT_CD = #{lnPrdtCd, jdbcType=VARCHAR}"
     )
     void update(ExecInfoDTO.Create create);
 

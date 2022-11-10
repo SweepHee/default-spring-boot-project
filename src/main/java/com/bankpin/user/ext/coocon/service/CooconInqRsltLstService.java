@@ -18,4 +18,9 @@ public class CooconInqRsltLstService {
         return cooconInqRsltLstMapper.findByLnReqNo(lnReqNo);
     }
 
+
+    public InqRsltLstDTO.Create findByLnReqNoAndFinEnMnNoAndLoPrdCd(String lnReqNo, String finEnMnNo, String loPrdCd) {
+        return cooconInqRsltLstMapper.findByLnReqNoAndFinEnMnNoAndLoPrdCd(lnReqNo, finEnMnNo, loPrdCd);
+    }
+
 }

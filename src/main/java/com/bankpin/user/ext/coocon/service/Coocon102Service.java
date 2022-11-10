@@ -48,7 +48,7 @@ public class Coocon102Service {
                     .minusBbookAblYn(outList.getOdAcYN())
                     .build();
 
-            if (cooconInqRsltLstMapper.existsByLnReqNo(outList.getLoReqtNo())) {
+            if (cooconInqRsltLstMapper.existsByLnReqNoAndFinTecOrgMngNoAndLnPrdtCd(create)) {
                 cooconInqRsltLstMapper.update(create);
             } else {
                 cooconInqRsltLstMapper.save(create);

@@ -1,6 +1,7 @@
 package com.bankpin.user.ext.coocon.model.dto;
 
 import com.bankpin.user.terms.model.dto.TermsAgreeDTO;
+import com.bankpin.user.terms.model.type.TermsType;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
@@ -105,7 +106,7 @@ public class Coocon101DTO {
 
             public static InList1 termsAgreeToInList1(TermsAgreeDTO.Create agree) {
                 return InList1.builder()
-                        .agrmtItCd(agree.getTermsType())
+                        .agrmtItCd(TermsType.of(agree.getTermsType()).getApiCode())
                         .agrmtDT(agree.getUpdatedDate())
                         .agrmtYN(agree.getUpdatedDate())
                         .build();

@@ -7,6 +7,7 @@ import com.bankpin.user.ext.coocon.model.type.ApiType;
 import com.bankpin.user.ext.coocon.service.*;
 import com.bankpin.user.model.dto.ResponseData;
 import com.bankpin.user.model.type.HttpCodeType;
+import kcb.org.json.JSONObject;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.*;
@@ -42,7 +43,7 @@ public class ApiSendController {
         ApiType apiNm = ApiType.ADL_101_IQ;
 
         CooconDTO.Common common = CooconDTO.Common.builder()
-                .apiNm(apiNm)
+                .apiNm(apiNm.toString())
                 .apiSvcCd(apiNm.getServiceCode())
                 .rtnUrl("http://localhost:8507/user/coocon/callback/102") // Todo 특정 기관에서만 사용된다고 되어있음 물어보기
                 .build();
@@ -61,7 +62,8 @@ public class ApiSendController {
 
         param.setCommon(common);
         Coocon101DTO.Request apiParam = coocon101Service.setParameter(userAuth, authDetail, param);
-        System.out.println(apiParam);
+        JSONObject a = new JSONObject(apiParam);
+        System.out.println(a);
 
         if (apiParam == null) {
 
@@ -77,7 +79,6 @@ public class ApiSendController {
 
         try {
 
-            // FIXME INLIST2의 은행종류별로 발송해야 한다고 들었음. 쿠콘 개발자한테 물어봐야 함
             body = coocon101Service.request(param);
             coocon101Service.create(userAuth, apiParam);
 
@@ -111,33 +112,55 @@ public class ApiSendController {
         // 대출신청번호가 파라미터로 넘어올거라 예상
 
         ApiType apiNm = ApiType.ADL_103_IQ;
+        System.out.println("......");
 
         CooconDTO.Common common = CooconDTO.Common.builder()
-                .apiNm(apiNm)
+                .apiNm("ADL_103_IQ")
                 .apiSvcCd(apiNm.getServiceCode())
                 .rtnUrl("http://localhost:8507/user/coocon/callback/104") // Todo 특정 기관에서만 사용된다고 되어있음 물어보기
                 .build();
 
         UserAuth userAuth = (UserAuth) authentication.getPrincipal();
-        Validator.Property basicValidate = basicValidator(userAuth, param.getLoReqtNo());
-        if (basicValidate.responseData != null) {
-            return ResponseEntity.ok(basicValidate.responseData);
+        CooconCustAuthDtlDTO.Detail authDetail = cooconCustAuthService.findAuthDtlByCustCiNo(userAuth.getId());
+
+        if (authDetail == null) {
+            return ResponseEntity.ok(
+                    ResponseData.builder()
+                            .error(true)
+                            .code(HttpCodeType.INTERNAL_SERVER_ERROR.getCode())
+                            .message("유저 상세 정보 없음")
+                            .build());
+        }
+
+        InqRsltLstDTO.Create result = cooconInqRsltLstService
+                .findByLnReqNoAndFinEnMnNoAndLoPrdCd(param.getLoReqtNo(), param.getFinEnMnNo(), param.getLoPrdCd());
+
+        if (result == null) {
+            return ResponseEntity.ok(
+                    ResponseData.builder()
+                            .error(true)
+                            .code(HttpCodeType.INTERNAL_SERVER_ERROR.getCode())
+                            .message("대출조회 및 결과내역 없음")
+                            .build());
         }
 
         param.setCommon(common);
-        param.setFinEnMnNo(basicValidate.getResult().getFintecOrgMngno());
-        param.setLoPrdCd(basicValidate.getResult().getLnPrdtCd());
-        param.setCstmCipn(basicValidate.getAuthDetail().getCustCphoneNo()); // Todo 전화번호, 이메일, 이름 암호화필요
+        param.setFinEnMnNo(result.getFintecOrgMngno());
+        param.setLoPrdCd(result.getLnPrdtCd());
+        param.setCstmCipn(authDetail.getCustCphoneNo()); // Todo 전화번호, 이메일, 이름 암호화필요
         param.setCstmEml(userAuth.getEmail());
         param.setCstmNm(userAuth.getName());
 
+        CooconDTO.Output body;
+
         try {
 
-            CooconDTO.Output body = coocon103Service.request(param);
-            body.getCommon().setLnReqNo(param.getLoReqtNo());
+            body = coocon103Service.request(param);
+            JSONObject test = new JSONObject(body);
+            System.out.println(test);
 
             if (Objects.equals(body.getCommon().getRpcd(), "00000")) {
-                coocon103Service.save(body);
+                coocon103Service.upsert(body);
             } else {
                 throw new Exception(body.getCommon().getRsms() +" :: "+  body.getCommon().getRpcd());
             }
@@ -158,6 +181,7 @@ public class ApiSendController {
                         .error(false)
                         .code(HttpCodeType.OK.getCode())
                         .message("")
+                        .data(body)
                         .build());
     }
 
@@ -173,28 +197,50 @@ public class ApiSendController {
         ApiType apiNm = ApiType.ADL_105_IQ;
 
         CooconDTO.Common common = CooconDTO.Common.builder()
-                .apiNm(apiNm)
+                .apiNm(apiNm.toString())
                 .apiSvcCd(apiNm.getServiceCode())
                 .rtnUrl("") // Todo 특정기관만 사용한다고 함 물어보기
                 .build();
 
         UserAuth userAuth = (UserAuth) authentication.getPrincipal();
-        Validator.Property basicValidate = basicValidator(userAuth, param.getLoAplcMmNo());
-        if (basicValidate.responseData != null) {
-            return ResponseEntity.ok(basicValidate.responseData);
+        CooconCustAuthDtlDTO.Detail authDetail = cooconCustAuthService.findAuthDtlByCustCiNo(userAuth.getId());
+
+        if (authDetail == null) {
+            return ResponseEntity.ok(
+                    ResponseData.builder()
+                            .error(true)
+                            .code(HttpCodeType.INTERNAL_SERVER_ERROR.getCode())
+                            .message("유저 상세 정보 없음")
+                            .build());
+        }
+
+        InqRsltLstDTO.Create result = cooconInqRsltLstService
+                .findByLnReqNoAndFinEnMnNoAndLoPrdCd(param.getLoAplcMmNo(), param.getAlncIsMnNo(), param.getLoPrdCd());
+
+        if (result == null) {
+            return ResponseEntity.ok(
+                    ResponseData.builder()
+                            .error(true)
+                            .code(HttpCodeType.INTERNAL_SERVER_ERROR.getCode())
+                            .message("대출조회 및 결과내역 없음")
+                            .build());
         }
 
 
         param.setCommon(common);
-        param.setAlncIsMnNo(basicValidate.getResult().getFintecOrgMngno());
-        param.setLoPrdCd(basicValidate.getResult().getLnPrdtCd());
+        param.setAlncIsMnNo(result.getFintecOrgMngno());
+        param.setLoPrdCd(result.getLnPrdtCd());
 
         ExecInfoDTO.RequestParams requestParams;
 
         try {
 
             requestParams = coocon105Service.request(param);
-            if (!Objects.equals(requestParams.getCommon().getRpcd(), "00000")) {
+            JSONObject test = new JSONObject(requestParams);
+            System.out.println(test);
+            if (Objects.equals(requestParams.getCommon().getRpcd(), "00000")) {
+                coocon105Service.upsert(requestParams);
+            } else {
                 throw new Exception(requestParams.getCommon().getRsms() +" :: "+  requestParams.getCommon().getRpcd());
             }
 
@@ -229,20 +275,37 @@ public class ApiSendController {
         ApiType apiNm = ApiType.ADL_106_IF;
 
         CooconDTO.Common common = CooconDTO.Common.builder()
-                .apiNm(apiNm)
+                .apiNm(apiNm.toString())
                 .apiSvcCd(apiNm.getServiceCode())
                 .rtnUrl("")
                 .build();
 
         UserAuth userAuth = (UserAuth) authentication.getPrincipal();
-        Validator.Property basicValidate = basicValidator(userAuth, param.getLoAplcMmNo());
-        if (basicValidate.responseData != null) {
-            return ResponseEntity.ok(basicValidate.responseData);
+        CooconCustAuthDtlDTO.Detail authDetail = cooconCustAuthService.findAuthDtlByCustCiNo(userAuth.getId());
+
+        if (authDetail == null) {
+            return ResponseEntity.ok(
+                    ResponseData.builder()
+                            .error(true)
+                            .code(HttpCodeType.INTERNAL_SERVER_ERROR.getCode())
+                            .message("유저 상세 정보 없음")
+                            .build());
         }
 
+        InqRsltLstDTO.Create result = cooconInqRsltLstService
+                .findByLnReqNoAndFinEnMnNoAndLoPrdCd(param.getLoAplcMmNo(), param.getAlncIsMnNo(), param.getLoPrdCd());
+
+        if (result == null) {
+            return ResponseEntity.ok(
+                    ResponseData.builder()
+                            .error(true)
+                            .code(HttpCodeType.INTERNAL_SERVER_ERROR.getCode())
+                            .message("대출조회 및 결과내역 없음")
+                            .build());
+        }
         param.setCommon(common);
-        param.setAlncIsMnNo(basicValidate.getResult().getFintecOrgMngno());
-        param.setLoPrdCd(basicValidate.getResult().getLnPrdtCd());
+        param.setAlncIsMnNo(result.getFintecOrgMngno());
+        param.setLoPrdCd(result.getLnPrdtCd());
         ExecInfoDTO.CancelParams requestParams;
 
         if (coocon106Service.isCancel(param)) {
@@ -258,6 +321,8 @@ public class ApiSendController {
         try {
 
             requestParams = coocon106Service.request(param);
+            JSONObject test = new JSONObject(requestParams);
+            System.out.println(test);
             if (Objects.equals(requestParams.getCommon().getRpcd(), "00000")) {
                 coocon106Service.cancel(requestParams);
             } else {
@@ -304,9 +369,9 @@ public class ApiSendController {
     }
 
 
-    private Validator.Property basicValidator(UserAuth userAuth, String lnReqNo) {
+    private Validator.Property basicValidator(UserAuth userAuth) {
 
-        CooconCustAuthDtlDTO.Detail authDetail = cooconCustAuthService.findAuthDtlByCustCiNoAndLnReqNo(userAuth.getId(), lnReqNo);
+        CooconCustAuthDtlDTO.Detail authDetail = cooconCustAuthService.findAuthDtlByCustCiNo(userAuth.getId());
 
         if (authDetail == null) {
             return Validator.Property.builder()

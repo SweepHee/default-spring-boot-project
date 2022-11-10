@@ -28,7 +28,7 @@ public class CooconDTO {
         @Builder.Default
         private String fintechApsno = "001";
 
-        private ApiType apiNm;
+        private String apiNm;
         private String apiSvcCd;
         @Builder.Default
         private String fisDscd = "01"; // FIXME 테스트에서 해당값으로만 사용
@@ -41,8 +41,8 @@ public class CooconDTO {
         @Builder.Default
         private String trtm = LocalTime.now().format(DateTimeFormatter.ofPattern("HHmmss"));
 
-        @Builder.Default
-        private String isTuno = Util.random2NumToStr() + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS"));
+        @Builder.Default // 20자리발송 3자리난수+날짜
+        private String isTuno = Util.random3NumToStr() + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS"));
         private String rpcd;
         private String rsms;
         private String rtnUrl;
@@ -56,6 +56,7 @@ public class CooconDTO {
 
 
     @Data
+    @JsonNaming(value = PropertyNamingStrategies.UpperCamelCaseStrategy.class)
     public static class Output {
 
         @JsonProperty("COMMON")

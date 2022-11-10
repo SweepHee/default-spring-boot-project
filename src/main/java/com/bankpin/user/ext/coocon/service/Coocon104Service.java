@@ -62,7 +62,7 @@ public class Coocon104Service {
                 .lnAuthDt(param.getLoCtDt())
                 .build();
 
-        if (cooconExecInfoMapper.is(create)) {
+        if (cooconExecInfoMapper.existsByLnReqNoAndFintecOrgMngnoAndLnPrdtCd(create)) {
             cooconExecInfoMapper.update(create);
         } else {
             cooconExecInfoMapper.save(create);
