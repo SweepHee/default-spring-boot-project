@@ -10,7 +10,7 @@ public interface TermsAgreeMapper {
 
 
     @Select(
-            "SELECT id, user_id, UPPER(terms_type) as terms_type, accept, created_date, updated_date FROM terms_agree WHERE "+
+            "SELECT id, user_id, UPPER(terms_type) as terms_type, accept, requirement, created_date, updated_date FROM terms_agree WHERE "+
             " user_id = #{userId, jdbcType=VARCHAR}"
     )
     List<TermsAgreeDTO.Create> findAllByUserId(String userId);
