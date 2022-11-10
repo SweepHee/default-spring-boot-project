@@ -21,6 +21,7 @@ public class TermsAgreeDTO {
         private String lnReqNo;
         private String termsType;
         private String accept;
+        private int requirement;
         private String createdDate;
         private String updatedDate;
 
@@ -45,9 +46,10 @@ public class TermsAgreeDTO {
         public static class TermsAgree {
 
             private TermsType termsType;
+            private boolean requirement;
 
             @NotNull
-            @Pattern(regexp = "^[Yy]$", message = "동의하지 않았습니다")
+            @Pattern(regexp = "^[YyNn]$", message = "동의하지 않았습니다")
             private String accept;
 
         }

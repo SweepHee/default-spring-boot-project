@@ -49,11 +49,8 @@ public class TermsService {
                     .lnReqNo(parameter.getLnReqNo())
                     .termsType(agree.getTermsType().getKey())
                     .accept(Objects.equals(agree.getAccept().toUpperCase(), "Y") ? "Y" : "N")
+                    .requirement(agree.isRequirement() ? 1 : 2)
                     .build();
-
-            if ("N".equals(create.getAccept())) {
-                continue;
-            }
 
             if (termsAgreeMapper.existsByUserIdAndLnReqNoAndTermsType(create)) {
                 termsAgreeMapper.update(create);

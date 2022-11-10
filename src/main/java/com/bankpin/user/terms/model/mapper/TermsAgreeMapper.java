@@ -31,6 +31,7 @@ public interface TermsAgreeMapper {
             ", ln_req_no = #{lnReqNo, jdbcType=VARCHAR}"+
             ", terms_type = #{termsType, jdbcType=VARCHAR}"+
             ", accept = #{accept, jdbcType=VARCHAR}"+
+            ", requirement = #{requirement, jdbcType=VARCHAR}"+
             ", created_date = NOW()"+
             ", updated_date = NOW()"
 
