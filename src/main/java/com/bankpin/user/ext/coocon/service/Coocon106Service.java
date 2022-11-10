@@ -40,6 +40,8 @@ public class Coocon106Service {
     public void cancel(ExecInfoDTO.CancelParams param) {
         ExecInfoDTO.Create cancel = ExecInfoDTO.Create.builder()
                 .lnReqNo(param.getLoAplcMmNo())
+                .fintecOrgMngno(param.getAlncIsMnNo())
+                .lnPrdtCd(param.getLoPrdCd())
                 .lnCnslYn("Y")
                 .build();
         cooconExecInfoMapper.cancel(cancel);
@@ -48,8 +50,11 @@ public class Coocon106Service {
     public boolean isCancel(ExecInfoDTO.CancelParams param) {
         ExecInfoDTO.Create cancel = ExecInfoDTO.Create.builder()
                 .lnReqNo(param.getLoAplcMmNo())
+                .fintecOrgMngno(param.getAlncIsMnNo())
+                .lnPrdtCd(param.getLoPrdCd())
                 .lnCnslYn("Y")
                 .build();
         return cooconExecInfoMapper.isCancel(cancel);
     }
+
 }

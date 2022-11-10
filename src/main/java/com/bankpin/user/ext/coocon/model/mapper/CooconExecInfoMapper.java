@@ -21,7 +21,14 @@ public interface CooconExecInfoMapper {
     boolean existsByLnReqNoAndFintecOrgMngnoAndLnPrdtCd(ExecInfoDTO.Create create);
 
     @Select(
-            "SELECT EXISTS(SELECT * FROM TBLNS_EXEC_INFO WHERE LN_REQ_NO = #{lnReqNo, jdbcType=VARCHAR} AND LN_CNSL_YN = 'Y')"
+            "SELECT EXISTS(" +
+            "SELECT * FROM TBLNS_EXEC_INFO" +
+            " WHERE " +
+            "     LN_REQ_NO = #{lnReqNo, jdbcType=VARCHAR} " +
+            " AND FINTEC_ORG_MNGNO = #{fintecOrgMngno, jdbcType=VARCHAR}"+
+            " AND LN_PRDT_CD = #{lnPrdtCd, jdbcType=VARCHAR}"+
+            " AND LN_CNSL_YN = 'Y'" +
+            ")"
     )
     boolean isCancel(ExecInfoDTO.Create param);
 
@@ -30,8 +37,9 @@ public interface CooconExecInfoMapper {
             "  LN_CNSL_YN = #{lnCnslYn, jdbcType=VARCHAR}"+
             ", LN_CNSL_REQ_DTTM = NOW() "+
             "WHERE "+
-            "LN_REQ_NO = #{lnReqNo, jdbcType=VARCHAR}"
-
+            "LN_REQ_NO = #{lnReqNo, jdbcType=VARCHAR}"+
+            " AND FINTEC_ORG_MNGNO = #{fintecOrgMngno, jdbcType=VARCHAR}"+
+            " AND LN_PRDT_CD = #{lnPrdtCd, jdbcType=VARCHAR}"
     )
     void cancel(ExecInfoDTO.Create cancel);
 
