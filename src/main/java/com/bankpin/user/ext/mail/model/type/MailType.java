@@ -12,39 +12,13 @@ import java.util.Properties;
 public enum MailType {
 
 
-    HIWORKS(Property.HiworksProperty.getUsername(), Property.HiworksProperty.getPassword()) {
-        @Override
-        public Properties props() {
-            Properties props = new Properties();
-            props.put("mail.smtp.host", Property.HiworksProperty.getHost());
-            props.put("mail.smtp.port", Property.HiworksProperty.getPort());
-            props.put("mail.smtp.auth", Property.HiworksProperty.getSmtpAuth());
-            props.put("mail.smtp.ssl.enable", Property.HiworksProperty.getSmtpSslEnable());
-            props.put("mail.smtp.ssl.protocols", "TLSv1.2");
-            return props;
-        }
-    },
-    NAVER(Property.NaverProperty.getUsername(), Property.NaverProperty.getPassword()) {
-        @Override
-        public Properties props() {
-            Properties props = new Properties();
-            props.put("mail.transport.protocol", Property.NaverProperty.getProtocol());
-            props.put("mail.smtp.host", Property.NaverProperty.getHost());
-            props.put("mail.smtp.port", Property.NaverProperty.getPort());
-            props.put("mail.smtp.auth", Property.NaverProperty.getSmtpAuth());
-            props.put("mail.smtp.starttls.enable", Property.NaverProperty.getSmtpStarttlsEnable());
-            props.put("mail.smtp.ssl.trust", Property.NaverProperty.getSmtpSslTrust());
-            props.put("mail.smtp.ssl.protocols", "TLSv1.2");
-            return props;
-        }
-    }
+    HIWORKS(Property.HiworksProperty.getUsername(), Property.HiworksProperty.getPassword(), Property.HiworksProperty.props()),
+    NAVER(Property.NaverProperty.getUsername(), Property.NaverProperty.getPassword(), Property.NaverProperty.props())
     ,
     ;
-
     private final String email;
     private final String password;
-
-    public abstract Properties props();
+    private final Properties props;
 
 
 
@@ -93,6 +67,16 @@ public enum MailType {
             @Value("${spring.mail.hiworks.properties.mail.smtp.ssl.enable}")
             private void setSmtpSslEnable(String smtpSslEnables) {
                 smtpSslEnable = smtpSslEnables;
+            }
+
+            private static Properties props() {
+                Properties props = new Properties();
+                props.put("mail.smtp.host", Property.HiworksProperty.getHost());
+                props.put("mail.smtp.port", Property.HiworksProperty.getPort());
+                props.put("mail.smtp.auth", Property.HiworksProperty.getSmtpAuth());
+                props.put("mail.smtp.ssl.enable", Property.HiworksProperty.getSmtpSslEnable());
+                props.put("mail.smtp.ssl.protocols", "TLSv1.2");
+                return props;
             }
 
 
@@ -155,6 +139,18 @@ public enum MailType {
             @Value("${spring.mail.naver.properties.mail.smtp.ssl.trust}")
             private void setSmtpSslTrust(String smtpSslTrusts) {
                 smtpSslTrust = smtpSslTrusts;
+            }
+
+            private static Properties props() {
+                Properties props = new Properties();
+                props.put("mail.transport.protocol", Property.NaverProperty.getProtocol());
+                props.put("mail.smtp.host", Property.NaverProperty.getHost());
+                props.put("mail.smtp.port", Property.NaverProperty.getPort());
+                props.put("mail.smtp.auth", Property.NaverProperty.getSmtpAuth());
+                props.put("mail.smtp.starttls.enable", Property.NaverProperty.getSmtpStarttlsEnable());
+                props.put("mail.smtp.ssl.trust", Property.NaverProperty.getSmtpSslTrust());
+                props.put("mail.smtp.ssl.protocols", "TLSv1.2");
+                return props;
             }
 
 

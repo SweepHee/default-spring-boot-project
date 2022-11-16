@@ -1,18 +1,13 @@
 package com.bankpin.user.ext.coocon.config.filter;
 
-import com.bankpin.user.auth.model.dto.UserAuth;
-import com.bankpin.user.ext.coocon.model.dto.CooconDTO;
 import com.bankpin.user.ext.coocon.model.dto.CooconLogDTO;
 import com.bankpin.user.ext.coocon.service.CooconLogService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-
 import javax.servlet.ReadListener;
 import javax.servlet.ServletInputStream;
 import javax.servlet.ServletRequest;
@@ -56,6 +51,7 @@ public class CooconRequestWrapper extends HttpServletRequestWrapper {
             String apiType = (uri.substring(uri.lastIndexOf("/"))).replaceAll("/", "");
 
             UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            System.out.println(userDetails);
             CooconLogDTO.Create log = CooconLogDTO.Create.builder()
                     .custCiNo(userDetails.getUsername())
                     .apiUrl(uri)
@@ -64,6 +60,7 @@ public class CooconRequestWrapper extends HttpServletRequestWrapper {
                     .apiInput(jsonObject.toJSONString())
                     .build();
 
+            System.out.println(log);
             cooconLogService.create(log);
             jsonObject.put("LogId", log.getId());
             newData = jsonObject.toString().getBytes(StandardCharsets.UTF_8);

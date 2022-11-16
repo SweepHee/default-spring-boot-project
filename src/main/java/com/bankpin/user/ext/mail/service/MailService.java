@@ -25,6 +25,7 @@ public class MailService {
         boolean error = false;
         String message = "";
         int code = HttpCodeType.OK.getCode();
+        System.out.println(parameter);
 
         if (parameter.getSubject() == null || parameter.getContent() == null || parameter.getUsers() == null) {
             return ResponseData.builder()
@@ -34,7 +35,7 @@ public class MailService {
                     .build();
         }
 
-        Session mailSession = Session.getDefaultInstance(mailType.props(), new javax.mail.Authenticator(){
+        Session mailSession = Session.getDefaultInstance(mailType.getProps(), new javax.mail.Authenticator(){
             protected javax.mail.PasswordAuthentication getPasswordAuthentication() {
                 return new javax.mail.PasswordAuthentication(mailType.getEmail(), mailType.getPassword());
             }

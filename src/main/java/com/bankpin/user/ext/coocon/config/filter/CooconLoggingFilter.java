@@ -1,8 +1,11 @@
 package com.bankpin.user.ext.coocon.config.filter;
 
 import com.bankpin.user.ext.coocon.service.CooconLogService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.*;
@@ -12,11 +15,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Slf4j
-@WebFilter(urlPatterns = {"/api/v1/coocon/*", "/coocon/callback/*"})
+@RequiredArgsConstructor
 public class CooconLoggingFilter extends OncePerRequestFilter {
 
-    @Autowired
-    private CooconLogService cooconLogService;
+    private final CooconLogService cooconLogService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain filterChain) throws ServletException, IOException {

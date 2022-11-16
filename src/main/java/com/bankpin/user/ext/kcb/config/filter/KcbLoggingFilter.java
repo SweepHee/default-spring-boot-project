@@ -3,6 +3,7 @@ package com.bankpin.user.ext.kcb.config.filter;
 import com.bankpin.user.ext.coocon.config.filter.CooconRequestWrapper;
 import com.bankpin.user.ext.coocon.service.CooconLogService;
 import com.bankpin.user.ext.kcb.service.KcbSmsLogService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -15,11 +16,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Slf4j
-@WebFilter(urlPatterns = {"/api/v1/kcb/sms/*"})
+@RequiredArgsConstructor
 public class KcbLoggingFilter extends OncePerRequestFilter {
 
-    @Autowired
-    private KcbSmsLogService kcbSmsLogService;
+    private final KcbSmsLogService kcbSmsLogService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain filterChain) throws ServletException, IOException {
