@@ -32,6 +32,8 @@ public class SmsCertDTO {
         @Pattern(regexp = "^[0-9]+$", message = "휴대폰번호에 유효하지 않은 문자열이 있습니다.")
         private String telNo;
 
+        private Long logId;
+
     }
 
     @Data

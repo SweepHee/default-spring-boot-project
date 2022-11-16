@@ -73,6 +73,8 @@ public class SmsDTO {
         @Pattern(regexp = "^Y$", message = "동의여부4에 동의하지 않았습니다.")
         private String agree4;
 
+        private Long logId;
+
     }
 
 
