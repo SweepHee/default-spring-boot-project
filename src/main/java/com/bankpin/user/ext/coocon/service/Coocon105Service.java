@@ -2,6 +2,7 @@ package com.bankpin.user.ext.coocon.service;
 
 
 import com.bankpin.user.ext.coocon.config.CooconPropertyConfig;
+import com.bankpin.user.ext.coocon.model.dto.Coocon105DTO;
 import com.bankpin.user.ext.coocon.model.dto.ExecInfoDTO;
 import com.bankpin.user.ext.coocon.model.mapper.CooconExecInfoMapper;
 import com.bankpin.user.ext.coocon.util.Util;
@@ -21,7 +22,7 @@ public class Coocon105Service {
     private final CooconExecInfoMapper cooconExecInfoMapper;
 
 
-    public ExecInfoDTO.RequestParams request(ExecInfoDTO.ResponseParams param) throws ParseException, JsonProcessingException {
+    public Coocon105DTO.Output request(Coocon105DTO.Param param) throws ParseException, JsonProcessingException {
         
         JSONObject jsonReq = Util.dtoToJsonObjectPascal(param);
 
@@ -32,11 +33,11 @@ public class Coocon105Service {
                 .contentType(MediaType.APPLICATION_JSON)
                 .bodyValue(jsonReq)
                 .retrieve()
-                .bodyToMono(ExecInfoDTO.RequestParams.class)
+                .bodyToMono(Coocon105DTO.Output.class)
                 .block();
     }
 
-    public void upsert(ExecInfoDTO.RequestParams param) {
+    public void upsert(Coocon105DTO.Output param) {
 
         ExecInfoDTO.Create create = ExecInfoDTO.Create.builder()
                 .lnReqNo(param.getLoAplcMmNo())

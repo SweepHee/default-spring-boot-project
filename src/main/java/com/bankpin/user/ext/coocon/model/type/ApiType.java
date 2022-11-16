@@ -1,7 +1,10 @@
 package com.bankpin.user.ext.coocon.model.type;
 
+import com.bankpin.user.auth.model.type.AuthorityType;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+
+import java.util.Arrays;
 
 @Getter
 @RequiredArgsConstructor
@@ -17,5 +20,12 @@ public enum ApiType {
 
     private final String serviceCode;
     private final String description;
+
+    public static ApiType of(String key) {
+        return Arrays.stream(ApiType.values())
+                .filter(r -> r.toString().equals(key))
+                .findAny()
+                .orElse(null);
+    }
 
 }

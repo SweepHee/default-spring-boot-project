@@ -23,22 +23,4 @@ public class ReqLstDTO {
 
     }
 
-    @Data
-    @Builder
-    @JsonNaming(value = PropertyNamingStrategies.UpperCamelCaseStrategy.class)
-    public static class RequestParams {
-
-        @JsonProperty("COMMON")
-        private CooconDTO.Common Common;
-        private String loReqtNo;
-        private String finEnMnNo;
-        private String loPrdCd;
-        private String cstmCipn;
-        private String cstmEml;
-        private String cstmNm;
-        private String blank1;
-        private String fillerI;
-
-    }
-
 }

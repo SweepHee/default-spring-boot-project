@@ -1,6 +1,7 @@
 package com.bankpin.user.ext.coocon.service;
 
 import com.bankpin.user.ext.coocon.config.CooconPropertyConfig;
+import com.bankpin.user.ext.coocon.model.dto.Coocon103DTO;
 import com.bankpin.user.ext.coocon.model.dto.CooconDTO;
 import com.bankpin.user.ext.coocon.model.dto.ReqLstDTO;
 import com.bankpin.user.ext.coocon.model.mapper.CooconReqLstMapper;
@@ -21,7 +22,7 @@ public class Coocon103Service {
     private final CooconPropertyConfig cooconPropertyConfig;
 
 
-    public CooconDTO.Output request(ReqLstDTO.RequestParams param) throws ParseException, JsonProcessingException {
+    public Coocon103DTO.Output request(Coocon103DTO.Param param) throws ParseException, JsonProcessingException {
 
         JSONObject jsonReq = Util.dtoToJsonObjectPascal(param);
 
@@ -32,12 +33,12 @@ public class Coocon103Service {
                 .contentType(MediaType.APPLICATION_JSON)
                 .bodyValue(jsonReq)
                 .retrieve()
-                .bodyToMono(CooconDTO.Output.class)
+                .bodyToMono(Coocon103DTO.Output.class)
                 .block();
 
     }
 
-    public void upsert(CooconDTO.Output body) {
+    public void upsert(Coocon103DTO.Output body) {
 
         ReqLstDTO.Create create = ReqLstDTO.Create.builder()
                 .lnReqNo(body.getLoReqtNo())

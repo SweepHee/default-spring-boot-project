@@ -1,5 +1,6 @@
 package com.bankpin.user.ext.coocon.service;
 
+import com.bankpin.user.ext.coocon.model.dto.Coocon102DTO;
 import com.bankpin.user.ext.coocon.model.dto.InqRsltLstDTO;
 import com.bankpin.user.ext.coocon.model.mapper.CooconInqRsltLstMapper;
 import lombok.RequiredArgsConstructor;
@@ -11,7 +12,7 @@ public class Coocon102Service {
 
     private final CooconInqRsltLstMapper cooconInqRsltLstMapper;
 
-    public void eachInsertIfNotExists(InqRsltLstDTO.Param param) {
+    public void eachInsertIfNotExists(Coocon102DTO.Param param) {
 
         for (InqRsltLstDTO.Param.OUTLIST1 outList: param.getOutList1()) {
 

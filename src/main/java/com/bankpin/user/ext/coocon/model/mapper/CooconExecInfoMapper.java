@@ -25,8 +25,8 @@ public interface CooconExecInfoMapper {
             "SELECT * FROM TBLNS_EXEC_INFO" +
             " WHERE " +
             "     LN_REQ_NO = #{lnReqNo, jdbcType=VARCHAR} " +
-            " AND FINTEC_ORG_MNGNO = #{fintecOrgMngno, jdbcType=VARCHAR}"+
-            " AND LN_PRDT_CD = #{lnPrdtCd, jdbcType=VARCHAR}"+
+            " AND FINTEC_ORG_MNGNO = #{fintecOrgMngno, jdbcType=VARCHAR} "+
+            " AND LN_PRDT_CD = #{lnPrdtCd, jdbcType=VARCHAR} "+
             " AND LN_CNSL_YN = 'Y'" +
             ")"
     )

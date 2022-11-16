@@ -9,6 +9,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -103,6 +105,7 @@ public class InqRsltLstDTO {
         private String blank1;
 
         @JsonProperty("OUTLIST1")
+        @Valid
         private List<OUTLIST1> outList1 = new ArrayList<>();
         private String fillerI;
 
@@ -111,7 +114,10 @@ public class InqRsltLstDTO {
         @JsonNaming(value = PropertyNamingStrategies.UpperCamelCaseStrategy.class)
         public static class OUTLIST1 {
 
+
+            @Length(max=14)
             private String loReqtNo;
+
             private String finEnMnNo;
             private String aplcDs;
             private String loPrdCd;

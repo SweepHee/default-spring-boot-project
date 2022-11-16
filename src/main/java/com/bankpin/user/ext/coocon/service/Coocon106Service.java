@@ -2,6 +2,7 @@ package com.bankpin.user.ext.coocon.service;
 
 
 import com.bankpin.user.ext.coocon.config.CooconPropertyConfig;
+import com.bankpin.user.ext.coocon.model.dto.Coocon106DTO;
 import com.bankpin.user.ext.coocon.model.dto.ExecInfoDTO;
 import com.bankpin.user.ext.coocon.model.mapper.CooconExecInfoMapper;
 import com.bankpin.user.ext.coocon.util.Util;
@@ -21,7 +22,7 @@ public class Coocon106Service {
     private final CooconPropertyConfig cooconPropertyConfig;
 
 
-    public ExecInfoDTO.CancelParams request(ExecInfoDTO.CancelParams param) throws ParseException, JsonProcessingException {
+    public Coocon106DTO.Output request(Coocon106DTO.Param param) throws ParseException, JsonProcessingException {
 
         JSONObject jsonReq = Util.dtoToJsonObjectPascal(param);
 
@@ -32,12 +33,12 @@ public class Coocon106Service {
                 .contentType(MediaType.APPLICATION_JSON)
                 .bodyValue(jsonReq)
                 .retrieve()
-                .bodyToMono(ExecInfoDTO.CancelParams.class)
+                .bodyToMono(Coocon106DTO.Output.class)
                 .block();
 
     }
 
-    public void cancel(ExecInfoDTO.CancelParams param) {
+    public void cancel(Coocon106DTO.Output param) {
         ExecInfoDTO.Create cancel = ExecInfoDTO.Create.builder()
                 .lnReqNo(param.getLoAplcMmNo())
                 .fintecOrgMngno(param.getAlncIsMnNo())
@@ -47,7 +48,7 @@ public class Coocon106Service {
         cooconExecInfoMapper.cancel(cancel);
     }
 
-    public boolean isCancel(ExecInfoDTO.CancelParams param) {
+    public boolean isCancel(Coocon106DTO.Param param) {
         ExecInfoDTO.Create cancel = ExecInfoDTO.Create.builder()
                 .lnReqNo(param.getLoAplcMmNo())
                 .fintecOrgMngno(param.getAlncIsMnNo())

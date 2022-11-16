@@ -5,8 +5,10 @@ import com.bankpin.user.terms.model.type.TermsType;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +17,8 @@ public class Coocon101DTO {
 
     @Data
     @Builder
+    @AllArgsConstructor
+    @NoArgsConstructor
     @JsonNaming(value = PropertyNamingStrategies.UpperCamelCaseStrategy.class)
     public static class Request {
 
@@ -95,6 +99,7 @@ public class Coocon101DTO {
         private String inList1str;
         private String inList2str;
         private String inList3str;
+        private Long logId;
 
         @Data
         @Builder

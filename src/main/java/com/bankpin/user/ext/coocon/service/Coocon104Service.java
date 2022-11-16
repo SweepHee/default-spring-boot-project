@@ -1,5 +1,6 @@
 package com.bankpin.user.ext.coocon.service;
 
+import com.bankpin.user.ext.coocon.model.dto.Coocon104DTO;
 import com.bankpin.user.ext.coocon.model.dto.ExecInfoDTO;
 import com.bankpin.user.ext.coocon.model.mapper.CooconExecInfoMapper;
 import lombok.RequiredArgsConstructor;
@@ -38,12 +39,12 @@ public class Coocon104Service {
 
     }
 
-    public void upsert(ExecInfoDTO.RequestParams param) {
+    public void upsert(Coocon104DTO.Param param) {
 
         ExecInfoDTO.Create create = ExecInfoDTO.Create.builder()
                 .lnReqNo(param.getLoAplcMmNo())
                 .fintecOrgMngno(param.getAlncIsMnNo())
-                .lnReqYn("Y") // 대출신청여부. 103을 보내면 하는 거니까 했다고 판단
+                .lnReqYn("Y")
                 .lnReqDttm(param.getAplyDt())
 //                .bankCd()  // 은행코드 없음
 //                .bankBrchCd() // 은행지점코드
