@@ -65,7 +65,6 @@ public class CooconRequestWrapper extends HttpServletRequestWrapper {
                     .apiInput(jsonObject.toJSONString())
                     .build();
 
-            System.out.println(log);
             cooconLogService.create(log);
             jsonObject.put("LogId", log.getId());
             newData = jsonObject.toString().getBytes(StandardCharsets.UTF_8);

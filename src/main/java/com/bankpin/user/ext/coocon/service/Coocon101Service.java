@@ -78,7 +78,6 @@ public class Coocon101Service {
             inlist1Lists.add(Coocon101DTO.Request.InList1.termsAgreeToInList1(agree));
         }
 
-        // FIXME 대출신청번호를 우리가 만드는 경우가 아니면 지워야 됨
         String lnReqNo = cooconInqMasMapper.findByMaxLnReqNo();
         param.getInList2().forEach(inlist -> inlist.setLoReqtNo(lnReqNo));
 

@@ -15,7 +15,7 @@ public interface KcbSmsLogMapper {
                     ", API_URL = #{apiUrl, jdbcType=VARCHAR}"+
                     ", API_TYPE = #{apiType, jdbcType=VARCHAR}"+
                     ", API_IP_ADDR = #{apiIpAddr, jdbcType=VARCHAR}"+
-                    ", API_INPUT = #{apiInput, jdbcType=VARCHAR}"+
+                    ", API_INPUT = TO_BASE64(#{apiInput, jdbcType=VARCHAR})"+
                     ", API_OUTPUT = #{apiOutput, jdbcType=VARCHAR} "
     )
     @Options(useGeneratedKeys = true, keyProperty = "id")
@@ -37,10 +37,10 @@ public interface KcbSmsLogMapper {
             "API_IP_ADDR = #{apiIpAddr, jdbcType=VARCHAR}," +
             "</if>" +
             "<if test='apiInput != null and apiInput != \"\"'>" +
-            "API_INPUT = #{apiInput, jdbcType=VARCHAR}," +
+            "API_INPUT = TO_BASE64(#{apiInput, jdbcType=VARCHAR})," +
             "</if>" +
             "<if test='apiOutput != null and apiOutput != \"\"'>" +
-            "API_OUTPUT = #{apiOutput, jdbcType=VARCHAR}," +
+            "API_OUTPUT = TO_BASE64(#{apiOutput, jdbcType=VARCHAR})," +
             "</if>" +
             "</trim>"+
             "WHERE " +

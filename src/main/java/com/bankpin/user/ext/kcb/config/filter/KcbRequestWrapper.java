@@ -60,7 +60,7 @@ public class KcbRequestWrapper extends HttpServletRequestWrapper {
                     .build();
 
             kcbSmsLogService.create(log);
-            jsonObject.put("log_id", log.getId());
+            jsonObject.put("LogId", log.getId());
             newData = jsonObject.toString().getBytes(StandardCharsets.UTF_8);
         } catch (Exception e) {
             log.error("fail:" + e);
