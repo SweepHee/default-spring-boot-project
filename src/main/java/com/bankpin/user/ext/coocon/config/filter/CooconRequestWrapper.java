@@ -50,10 +50,15 @@ public class CooconRequestWrapper extends HttpServletRequestWrapper {
             String uri = request.getRequestURI();
             String apiType = (uri.substring(uri.lastIndexOf("/"))).replaceAll("/", "");
 
-            UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            System.out.println(userDetails);
+            String username = "";
+
+            if ("101".equals(apiType) || "103".equals(apiType) || "105".equals(apiType) || "106".equals(apiType)) {
+                UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+                username = userDetails.getUsername();
+            }
+
             CooconLogDTO.Create log = CooconLogDTO.Create.builder()
-                    .custCiNo(userDetails.getUsername())
+                    .custCiNo(username)
                     .apiUrl(uri)
                     .apiType(apiType)
                     .apiIpAddr(request.getRemoteAddr())
