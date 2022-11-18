@@ -14,9 +14,9 @@ public class KcbSmsLogDTO {
         private String apiUrl;
         private String apiType;
         private String apiIpAddr;
-        private String apiInput;
-        private String apiOutput;
-        private String datetime;
+        private String apiCntn;
+        private String apiOutCntn;
+        private String apiDatetime;
 
     }
 

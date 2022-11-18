@@ -4,6 +4,7 @@ package com.bankpin.user.ext.kcb.controller;
 import com.bankpin.user.auth.model.dto.UserAuth;
 import com.bankpin.user.cust.model.dto.CustAuthDtlDTO;
 import com.bankpin.user.cust.service.CustAuthDtlService;
+import com.bankpin.user.ext.coocon.model.dto.CooconLogDTO;
 import com.bankpin.user.ext.kcb.model.dto.KcbSmsLogDTO;
 import com.bankpin.user.ext.kcb.model.dto.SmsCertDTO;
 import com.bankpin.user.ext.kcb.model.dto.SmsDTO;
@@ -22,7 +23,6 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import javax.validation.constraints.Pattern;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -57,26 +57,28 @@ public class ApiKcbSmsController {
     public ResponseEntity<ResponseData> send(@RequestBody @Valid SmsDTO.Param param, HttpServletRequest request, Authentication authentication)
             throws OkCertException, JsonProcessingException {
 
+        KcbSmsLogDTO.Create logDto = KcbSmsLogDTO.Create.builder()
+                .id(param.getLogId())
+                .build();
+        System.out.println("===========logDto"+logDto);
+
         UserAuth userAuth = (UserAuth) authentication.getPrincipal();
         CustAuthDtlDTO.Detail detail = custAuthDtlService.findByCustCiNoAndSelfAuthMethCd(userAuth.getId(), "2");
         if (detail != null) {
 
-            return ResponseEntity.ok().body(
-                    ResponseData.builder()
-                            .error(true)
-                            .code(HttpCodeType.BAD_REQUEST.getCode())
-                            .message("이미 인증 기록이 있는 회원입니다")
-                            .data(detail)
-                            .build());
+            ResponseData responseData = ResponseData.builder()
+                    .error(true)
+                    .code(HttpCodeType.BAD_REQUEST.getCode())
+                    .message("이미 인증 기록이 있는 회원입니다")
+                    .data(detail)
+                    .build();
+            this.logUpdate(logDto, responseData);
+            return ResponseEntity.ok().body(responseData);
 
         }
 
         SmsDTO.ReturnData returnData = kcbCertService.sendSms(param, request);
-        KcbSmsLogDTO.Create logDto = KcbSmsLogDTO.Create.builder()
-                .id(param.getLogId())
-                .apiOutput(objectMapper.writeValueAsString(returnData))
-                .build();
-        kcbSmsLogService.update(logDto);
+        this.logUpdate(logDto, returnData);
 
         return ResponseEntity.ok().body(
                 ResponseData.builder()
@@ -96,14 +98,12 @@ public class ApiKcbSmsController {
     public ResponseEntity<ResponseData> certification(@RequestBody @Valid SmsCertDTO.Param param, Authentication authentication)
             throws OkCertException, JsonProcessingException {
 
-        SmsCertDTO.ReturnData returnData = kcbCertService.certificationSMS(param);
-
         KcbSmsLogDTO.Create logDto = KcbSmsLogDTO.Create.builder()
                 .id(param.getLogId())
-                .apiOutput(objectMapper.writeValueAsString(returnData))
                 .build();
 
-        kcbSmsLogService.update(logDto);
+        SmsCertDTO.ReturnData returnData = kcbCertService.certificationSMS(param);
+        this.logUpdate(logDto, returnData);
 
         if ("B000".equals(returnData.getRsltCd().getKey())) {
 
@@ -134,6 +134,11 @@ public class ApiKcbSmsController {
                         .data(returnData)
                         .build());
 
+    }
+
+    private <T> void logUpdate(KcbSmsLogDTO.Create logDTO, T t) throws JsonProcessingException {
+        logDTO.setApiOutCntn(objectMapper.writeValueAsString(t));
+        kcbSmsLogService.update(logDTO);
     }
 
 }

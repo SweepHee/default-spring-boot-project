@@ -62,7 +62,7 @@ public class CooconRequestWrapper extends HttpServletRequestWrapper {
                     .apiUrl(uri)
                     .apiType(apiType)
                     .apiIpAddr(request.getRemoteAddr())
-                    .apiInput(jsonObject.toJSONString())
+                    .apiCntn(jsonObject.toJSONString())
                     .build();
 
             cooconLogService.create(log);

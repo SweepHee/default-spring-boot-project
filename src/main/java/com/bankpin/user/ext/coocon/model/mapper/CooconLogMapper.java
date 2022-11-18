@@ -12,8 +12,8 @@ public interface CooconLogMapper {
                 ", API_URL = #{apiUrl, jdbcType=VARCHAR}"+
                 ", API_TYPE = #{apiType, jdbcType=VARCHAR}"+
                 ", API_IP_ADDR = #{apiIpAddr, jdbcType=VARCHAR}"+
-                ", API_INPUT = #{apiInput, jdbcType=VARCHAR}"+
-                ", API_OUTPUT = #{apiOutput, jdbcType=VARCHAR} "
+                ", API_CNTN = #{apiCntn, jdbcType=VARCHAR}"+
+                ", API_OUT_CNTN = #{apiOutCntn, jdbcType=VARCHAR} "
     )
     @Options(useGeneratedKeys = true, keyProperty = "id")
     void save(CooconLogDTO.Create create);
@@ -34,11 +34,11 @@ public interface CooconLogMapper {
                 "<if test='apiIpAddr != null and apiIpAddr != \"\"'>" +
                 "API_IP_ADDR = #{apiIpAddr, jdbcType=VARCHAR}," +
                 "</if>" +
-                "<if test='apiInput != null and apiInput != \"\"'>" +
-                "API_INPUT = #{apiInput, jdbcType=VARCHAR}," +
+                "<if test='apiCntn != null and apiCntn != \"\"'>" +
+                "API_CNTN = #{apiCntn, jdbcType=VARCHAR}," +
                 "</if>" +
-                "<if test='apiOutput != null and apiOutput != \"\"'>" +
-                "API_OUTPUT = #{apiOutput, jdbcType=VARCHAR}," +
+                "<if test='apiOutCntn != null and apiOutCntn != \"\"'>" +
+                "API_OUT_CNTN = #{apiOutCntn, jdbcType=VARCHAR}," +
                 "</if>" +
             "</trim>"+
             "WHERE " +

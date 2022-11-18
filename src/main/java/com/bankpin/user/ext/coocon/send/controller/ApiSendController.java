@@ -7,6 +7,7 @@ import com.bankpin.user.ext.coocon.model.type.ApiType;
 import com.bankpin.user.ext.coocon.service.*;
 import com.bankpin.user.model.dto.ResponseData;
 import com.bankpin.user.model.type.HttpCodeType;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.exc.MismatchedInputException;
 import kcb.org.json.JSONObject;
@@ -16,7 +17,6 @@ import org.springframework.http.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.Objects;
 
 
@@ -30,14 +30,9 @@ public class ApiSendController {
     private final Coocon103Service coocon103Service;
     private final Coocon105Service coocon105Service;
     private final Coocon106Service coocon106Service;
-
     private final CooconLogService cooconLogService;
-
-
     private final CooconCustAuthService cooconCustAuthService;
-
     private final CooconInqRsltLstService cooconInqRsltLstService;
-
     private final ObjectMapper objectMapper;
 
     @ExceptionHandler(MismatchedInputException.class)
@@ -70,9 +65,12 @@ public class ApiSendController {
     * */
     @PostMapping("/101")
     public ResponseEntity<ResponseData> request101
-        (@RequestBody Coocon101DTO.Request param, Authentication authentication) {
+        (@RequestBody Coocon101DTO.Request param, Authentication authentication) throws JsonProcessingException {
 
         ApiType apiNm = ApiType.ADL_101_IQ;
+        CooconLogDTO.Create logDto = CooconLogDTO.Create.builder()
+                .id(param.getLogId())
+                .build();
 
         CooconDTO.Common common = CooconDTO.Common.builder()
                 .apiNm(apiNm.toString())
@@ -84,12 +82,15 @@ public class ApiSendController {
         CooconCustAuthDtlDTO.Detail authDetail = cooconCustAuthService.findAuthDtlByCustCiNo(userAuth.getId());
 
         if (authDetail == null) {
-            return ResponseEntity.ok(
-                    ResponseData.builder()
-                            .error(true)
-                            .code(HttpCodeType.INTERNAL_SERVER_ERROR.getCode())
-                            .message("유저 상세 정보 없음")
-                            .build());
+
+            ResponseData responseData = ResponseData.builder()
+                    .error(true)
+                    .code(HttpCodeType.INTERNAL_SERVER_ERROR.getCode())
+                    .message("유저 상세 정보 없음")
+                    .build();
+            this.logUpdate(logDto, responseData);
+            return ResponseEntity.ok(responseData);
+
         }
 
         param.setCommon(common);
@@ -98,13 +99,13 @@ public class ApiSendController {
         System.out.println(a);
 
         if (apiParam == null) {
-
-            return ResponseEntity.ok(
-                    ResponseData.builder()
-                            .error(true)
-                            .code(HttpCodeType.INTERNAL_SERVER_ERROR.getCode())
-                            .message("유저 정보 부족")
-                            .build());
+            ResponseData responseData = ResponseData.builder()
+                    .error(true)
+                    .code(HttpCodeType.INTERNAL_SERVER_ERROR.getCode())
+                    .message("유저 정보 부족")
+                    .build();
+            this.logUpdate(logDto, responseData);
+            return ResponseEntity.ok(responseData);
         }
 
         CooconDTO.Output body;
@@ -113,20 +114,18 @@ public class ApiSendController {
 
             body = coocon101Service.request(param);
             coocon101Service.create(userAuth, apiParam);
-            CooconLogDTO.Create logDto = CooconLogDTO.Create.builder()
-                    .id(param.getLogId())
-                    .apiOutput(objectMapper.writeValueAsString(body))
-                    .build();
+            this.logUpdate(logDto, body);
             cooconLogService.update(logDto);
 
         } catch (Exception e) {
 
-            return ResponseEntity.ok(
-                    ResponseData.builder()
-                            .error(true)
-                            .code(HttpCodeType.INTERNAL_SERVER_ERROR.getCode())
-                            .message(e.getMessage())
-                            .build());
+            ResponseData responseData = ResponseData.builder()
+                    .error(true)
+                    .code(HttpCodeType.INTERNAL_SERVER_ERROR.getCode())
+                    .message(e.getMessage())
+                    .build();
+            this.logUpdate(logDto, responseData);
+            return ResponseEntity.ok(responseData);
 
         }
 
@@ -144,9 +143,13 @@ public class ApiSendController {
      * 대출신청접수
      * */
     @PostMapping("/103")
-    public ResponseEntity<ResponseData> request103(@RequestBody Coocon103DTO.Param param, Authentication authentication) {
+    public ResponseEntity<ResponseData> request103(@RequestBody Coocon103DTO.Param param, Authentication authentication)
+            throws JsonProcessingException {
 
         ApiType apiNm = ApiType.ADL_103_IQ;
+        CooconLogDTO.Create logDto = CooconLogDTO.Create.builder()
+                .id(param.getLogId())
+                .build();
 
         CooconDTO.Common common = CooconDTO.Common.builder()
                 .apiNm("ADL_103_IQ")
@@ -158,24 +161,26 @@ public class ApiSendController {
         CooconCustAuthDtlDTO.Detail authDetail = cooconCustAuthService.findAuthDtlByCustCiNo(userAuth.getId());
 
         if (authDetail == null) {
-            return ResponseEntity.ok(
-                    ResponseData.builder()
-                            .error(true)
-                            .code(HttpCodeType.INTERNAL_SERVER_ERROR.getCode())
-                            .message("유저 상세 정보 없음")
-                            .build());
+            ResponseData responseData = ResponseData.builder()
+                    .error(true)
+                    .code(HttpCodeType.INTERNAL_SERVER_ERROR.getCode())
+                    .message("유저 상세 정보 없음")
+                    .build();
+            this.logUpdate(logDto, responseData);
+            return ResponseEntity.ok(responseData);
         }
 
         InqRsltLstDTO.Create result = cooconInqRsltLstService
                 .findByLnReqNoAndFinEnMnNoAndLoPrdCd(param.getLoReqtNo(), param.getFinEnMnNo(), param.getLoPrdCd());
 
         if (result == null) {
-            return ResponseEntity.ok(
-                    ResponseData.builder()
-                            .error(true)
-                            .code(HttpCodeType.INTERNAL_SERVER_ERROR.getCode())
-                            .message("대출조회 및 결과내역 없음")
-                            .build());
+            ResponseData responseData = ResponseData.builder()
+                    .error(true)
+                    .code(HttpCodeType.INTERNAL_SERVER_ERROR.getCode())
+                    .message("대출조회 및 결과내역 없음")
+                    .build();
+            this.logUpdate(logDto, responseData);
+            return ResponseEntity.ok(responseData);
         }
 
         param.setCommon(common);
@@ -190,11 +195,7 @@ public class ApiSendController {
         try {
 
             body = coocon103Service.request(param);
-            CooconLogDTO.Create logDto = CooconLogDTO.Create.builder()
-                    .id(param.getLogId())
-                    .apiOutput(objectMapper.writeValueAsString(body))
-                    .build();
-            cooconLogService.update(logDto);
+            this.logUpdate(logDto, body);
 
             JSONObject test = new JSONObject(body);
             System.out.println(test);
@@ -207,12 +208,13 @@ public class ApiSendController {
 
         } catch (Exception e) {
 
-            return ResponseEntity.ok(
-                    ResponseData.builder()
-                            .error(true)
-                            .code(HttpCodeType.INTERNAL_SERVER_ERROR.getCode())
-                            .message(e.getMessage())
-                            .build());
+            ResponseData responseData = ResponseData.builder()
+                    .error(true)
+                    .code(HttpCodeType.INTERNAL_SERVER_ERROR.getCode())
+                    .message(e.getMessage())
+                    .build();
+            this.logUpdate(logDto, responseData);
+            return ResponseEntity.ok(responseData);
 
         }
 
@@ -232,9 +234,12 @@ public class ApiSendController {
      * 104가 안 올 경우(혹은 확인해보고 싶은 경우) 호출하는 API. 굳이 저장할 필요 없어 보임 (104로 들어왔을때 저장시키기)
     * */
     @PostMapping(value = "/105", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ResponseData> request105(@RequestBody Coocon105DTO.Param param, Authentication authentication) {
+    public ResponseEntity<ResponseData> request105(@RequestBody Coocon105DTO.Param param, Authentication authentication) throws JsonProcessingException {
 
         ApiType apiNm = ApiType.ADL_105_IQ;
+        CooconLogDTO.Create logDto = CooconLogDTO.Create.builder()
+                .id(param.getLogId())
+                .build();
 
         CooconDTO.Common common = CooconDTO.Common.builder()
                 .apiNm(apiNm.toString())
@@ -246,24 +251,26 @@ public class ApiSendController {
         CooconCustAuthDtlDTO.Detail authDetail = cooconCustAuthService.findAuthDtlByCustCiNo(userAuth.getId());
 
         if (authDetail == null) {
-            return ResponseEntity.ok(
-                    ResponseData.builder()
-                            .error(true)
-                            .code(HttpCodeType.INTERNAL_SERVER_ERROR.getCode())
-                            .message("유저 상세 정보 없음")
-                            .build());
+            ResponseData responseData = ResponseData.builder()
+                    .error(true)
+                    .code(HttpCodeType.INTERNAL_SERVER_ERROR.getCode())
+                    .message("유저 상세 정보 없음")
+                    .build();
+            this.logUpdate(logDto, responseData);
+            return ResponseEntity.ok(responseData);
         }
 
         InqRsltLstDTO.Create result = cooconInqRsltLstService
                 .findByLnReqNoAndFinEnMnNoAndLoPrdCd(param.getLoAplcMmNo(), param.getAlncIsMnNo(), param.getLoPrdCd());
 
         if (result == null) {
-            return ResponseEntity.ok(
-                    ResponseData.builder()
-                            .error(true)
-                            .code(HttpCodeType.INTERNAL_SERVER_ERROR.getCode())
-                            .message("대출조회 및 결과내역 없음")
-                            .build());
+            ResponseData responseData = ResponseData.builder()
+                    .error(true)
+                    .code(HttpCodeType.INTERNAL_SERVER_ERROR.getCode())
+                    .message("대출조회 및 결과내역 없음")
+                    .build();
+            this.logUpdate(logDto, responseData);
+            return ResponseEntity.ok(responseData);
         }
 
 
@@ -276,11 +283,7 @@ public class ApiSendController {
         try {
 
             body = coocon105Service.request(param);
-            CooconLogDTO.Create logDto = CooconLogDTO.Create.builder()
-                    .id(param.getLogId())
-                    .apiOutput(objectMapper.writeValueAsString(body))
-                    .build();
-            cooconLogService.update(logDto);
+            this.logUpdate(logDto, body);
             JSONObject test = new JSONObject(body);
             System.out.println(test);
             if (Objects.equals(body.getCommon().getRpcd(), "00000")) {
@@ -291,21 +294,14 @@ public class ApiSendController {
 
 
         } catch (Exception e) {
-
-            return ResponseEntity.ok(
-                    ResponseData.builder()
-                            .error(true)
-                            .code(HttpCodeType.INTERNAL_SERVER_ERROR.getCode())
-                            .message(e.getMessage())
-                            .build());
-
+            ResponseData responseData = ResponseData.builder()
+                    .error(true)
+                    .code(HttpCodeType.INTERNAL_SERVER_ERROR.getCode())
+                    .message(e.getMessage())
+                    .build();
+            this.logUpdate(logDto, responseData);
+            return ResponseEntity.ok(responseData);
         }
-
-        CooconLogDTO.Create logDto = CooconLogDTO.Create.builder()
-                .id(param.getLogId())
-                .apiOutput(body.toString())
-                .build();
-        cooconLogService.update(logDto);
 
         return ResponseEntity.ok(
                 ResponseData.builder()
@@ -321,9 +317,12 @@ public class ApiSendController {
      * */
     @PostMapping("/106")
     public ResponseEntity<ResponseData> request106
-        (@RequestBody Coocon106DTO.Param param, Authentication authentication) {
+        (@RequestBody Coocon106DTO.Param param, Authentication authentication) throws JsonProcessingException {
 
         ApiType apiNm = ApiType.ADL_106_IF;
+        CooconLogDTO.Create logDto = CooconLogDTO.Create.builder()
+                .id(param.getLogId())
+                .build();
 
         CooconDTO.Common common = CooconDTO.Common.builder()
                 .apiNm(apiNm.toString())
@@ -335,24 +334,26 @@ public class ApiSendController {
         CooconCustAuthDtlDTO.Detail authDetail = cooconCustAuthService.findAuthDtlByCustCiNo(userAuth.getId());
 
         if (authDetail == null) {
-            return ResponseEntity.ok(
-                    ResponseData.builder()
-                            .error(true)
-                            .code(HttpCodeType.INTERNAL_SERVER_ERROR.getCode())
-                            .message("유저 상세 정보 없음")
-                            .build());
+            ResponseData responseData = ResponseData.builder()
+                    .error(true)
+                    .code(HttpCodeType.INTERNAL_SERVER_ERROR.getCode())
+                    .message("유저 상세 정보 없음")
+                    .build();
+            this.logUpdate(logDto, responseData);
+            return ResponseEntity.ok(responseData);
         }
 
         InqRsltLstDTO.Create result = cooconInqRsltLstService
                 .findByLnReqNoAndFinEnMnNoAndLoPrdCd(param.getLoAplcMmNo(), param.getAlncIsMnNo(), param.getLoPrdCd());
 
         if (result == null) {
-            return ResponseEntity.ok(
-                    ResponseData.builder()
-                            .error(true)
-                            .code(HttpCodeType.INTERNAL_SERVER_ERROR.getCode())
-                            .message("대출조회 및 결과내역 없음")
-                            .build());
+            ResponseData responseData = ResponseData.builder()
+                    .error(true)
+                    .code(HttpCodeType.INTERNAL_SERVER_ERROR.getCode())
+                    .message("대출조회 및 결과내역 없음")
+                    .build();
+            this.logUpdate(logDto, responseData);
+            return ResponseEntity.ok(responseData);
         }
         param.setCommon(common);
         param.setAlncIsMnNo(result.getFintecOrgMngno());
@@ -360,24 +361,19 @@ public class ApiSendController {
         Coocon106DTO.Output body;
 
         if (coocon106Service.isCancel(param)) {
-
-            return ResponseEntity.ok(
-                    ResponseData.builder()
-                            .error(true)
-                            .code(HttpCodeType.ALREADY_REPORTED.getCode())
-                            .message("이미 취소했습니다")
-                            .build());
+            ResponseData responseData = ResponseData.builder()
+                    .error(true)
+                    .code(HttpCodeType.ALREADY_REPORTED.getCode())
+                    .message("이미 취소했습니다")
+                    .build();
+            this.logUpdate(logDto, responseData);
+            return ResponseEntity.ok(responseData);
         }
 
         try {
 
             body = coocon106Service.request(param);
-            CooconLogDTO.Create logDto = CooconLogDTO.Create.builder()
-                    .id(param.getLogId())
-                    .apiOutput(objectMapper.writeValueAsString(body))
-                    .build();
-            cooconLogService.update(logDto);
-
+            this.logUpdate(logDto, body);
             JSONObject test = new JSONObject(body);
             System.out.println(test);
             if (Objects.equals(body.getCommon().getRpcd(), "00000")) {
@@ -405,6 +401,12 @@ public class ApiSendController {
                         .message("")
                         .build());
 
+    }
+
+
+    private <T> void logUpdate(CooconLogDTO.Create logDTO, T t) throws JsonProcessingException {
+        logDTO.setApiOutCntn(objectMapper.writeValueAsString(t));
+        cooconLogService.update(logDTO);
     }
 
 

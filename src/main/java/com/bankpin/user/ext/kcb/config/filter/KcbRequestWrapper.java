@@ -56,11 +56,11 @@ public class KcbRequestWrapper extends HttpServletRequestWrapper {
                     .apiUrl(uri)
                     .apiType(apiType)
                     .apiIpAddr(request.getRemoteAddr())
-                    .apiInput(jsonObject.toJSONString())
+                    .apiCntn(jsonObject.toJSONString())
                     .build();
 
             kcbSmsLogService.create(log);
-            jsonObject.put("LogId", log.getId());
+            jsonObject.put("log_id", log.getId());
             newData = jsonObject.toString().getBytes(StandardCharsets.UTF_8);
         } catch (Exception e) {
             log.error("fail:" + e);

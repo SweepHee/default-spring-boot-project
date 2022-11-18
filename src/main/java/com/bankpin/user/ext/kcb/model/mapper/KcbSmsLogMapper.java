@@ -15,8 +15,8 @@ public interface KcbSmsLogMapper {
                     ", API_URL = #{apiUrl, jdbcType=VARCHAR}"+
                     ", API_TYPE = #{apiType, jdbcType=VARCHAR}"+
                     ", API_IP_ADDR = #{apiIpAddr, jdbcType=VARCHAR}"+
-                    ", API_INPUT = FN_ENCRYPT(#{apiInput, jdbcType=VARCHAR})"+
-                    ", API_OUTPUT = FN_ENCRYPT(#{apiOutput, jdbcType=VARCHAR}) "
+                    ", API_CNTN = FN_ENCRYPT(#{apiCntn, jdbcType=VARCHAR})"+
+                    ", API_OUT_CNTN = FN_ENCRYPT(#{apiOutCntn, jdbcType=VARCHAR}) "
     )
     @Options(useGeneratedKeys = true, keyProperty = "id")
     Long save(KcbSmsLogDTO.Create create);
@@ -36,11 +36,11 @@ public interface KcbSmsLogMapper {
             "<if test='apiIpAddr != null and apiIpAddr != \"\"'>" +
             "API_IP_ADDR = #{apiIpAddr, jdbcType=VARCHAR}," +
             "</if>" +
-            "<if test='apiInput != null and apiInput != \"\"'>" +
-            "API_INPUT = FN_ENCRYPT(#{apiInput, jdbcType=VARCHAR})," +
+            "<if test='apiCntn != null and apiCntn != \"\"'>" +
+            "API_CNTN = FN_ENCRYPT(#{apiCntn, jdbcType=VARCHAR})," +
             "</if>" +
-            "<if test='apiOutput != null and apiOutput != \"\"'>" +
-            "API_OUTPUT = FN_ENCRYPT(#{apiOutput, jdbcType=VARCHAR})," +
+            "<if test='apiOutCntn != null and apiOutCntn != \"\"'>" +
+            "API_OUT_CNTN = FN_ENCRYPT(#{apiOutCntn, jdbcType=VARCHAR})," +
             "</if>" +
             "</trim>"+
             "WHERE " +

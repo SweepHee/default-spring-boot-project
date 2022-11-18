@@ -41,19 +41,22 @@ public class ApiReceiveController {
         JSONObject test = new JSONObject(param);
         System.out.println(test);
 
+        CooconLogDTO.Create logDto = CooconLogDTO.Create.builder()
+                .id(param.getLogId())
+                .build();
+
         try {
 
             coocon102Service.eachInsertIfNotExists(param);
 
         } catch (Exception e) {
-
-            return ResponseEntity.ok(
-                    ResponseData.builder()
-                            .error(true)
-                            .code(HttpCodeType.INTERNAL_SERVER_ERROR.getCode())
-                            .message(e.getMessage())
-                            .build());
-
+            ResponseData responseData = ResponseData.builder()
+                    .error(true)
+                    .code(HttpCodeType.INTERNAL_SERVER_ERROR.getCode())
+                    .message(e.getMessage())
+                    .build();
+            this.logUpdate(logDto, responseData);
+            return ResponseEntity.ok(responseData);
         }
 
         Coocon102DTO.Output output = Coocon102DTO.Output.builder()
@@ -61,12 +64,7 @@ public class ApiReceiveController {
                 .fillerI(null)
                 .build();
 
-        CooconLogDTO.Create logDto = CooconLogDTO.Create.builder()
-                .id(param.getLogId())
-                .apiOutput(objectMapper.writeValueAsString(output))
-                .build();
-        cooconLogService.update(logDto);
-
+        this.logUpdate(logDto, output);
 
         return ResponseEntity.ok(
                 ResponseData.builder()
@@ -84,19 +82,22 @@ public class ApiReceiveController {
     @PostMapping("/104")
     public ResponseEntity<ResponseData> response104(@RequestBody Coocon104DTO.Param param) throws JsonProcessingException {
 
+        CooconLogDTO.Create logDto = CooconLogDTO.Create.builder()
+                .id(param.getLogId())
+                .build();
+
         try {
 
             coocon104Service.upsert(param);
 
         } catch (Exception e) {
-
-            return ResponseEntity.ok(
-                    ResponseData.builder()
-                            .error(true)
-                            .code(HttpCodeType.INTERNAL_SERVER_ERROR.getCode())
-                            .message(e.getMessage())
-                            .build());
-
+            ResponseData responseData = ResponseData.builder()
+                    .error(true)
+                    .code(HttpCodeType.INTERNAL_SERVER_ERROR.getCode())
+                    .message(e.getMessage())
+                    .build();
+            this.logUpdate(logDto, responseData);
+            return ResponseEntity.ok(responseData);
         }
 
         Coocon104DTO.Output output = Coocon104DTO.Output.builder()
@@ -108,11 +109,7 @@ public class ApiReceiveController {
                 .fillerI(param.getFillerI())
                 .build();
 
-        CooconLogDTO.Create logDto = CooconLogDTO.Create.builder()
-                .id(param.getLogId())
-                .apiOutput(objectMapper.writeValueAsString(output))
-                .build();
-        cooconLogService.update(logDto);
+        this.logUpdate(logDto, output);
 
         return ResponseEntity.ok(
                 ResponseData.builder()
@@ -122,6 +119,12 @@ public class ApiReceiveController {
                         .data(output)
                         .build());
 
+    }
+
+
+    private <T> void logUpdate(CooconLogDTO.Create logDTO, T t) throws JsonProcessingException {
+        logDTO.setApiOutCntn(objectMapper.writeValueAsString(t));
+        cooconLogService.update(logDTO);
     }
 
 }
