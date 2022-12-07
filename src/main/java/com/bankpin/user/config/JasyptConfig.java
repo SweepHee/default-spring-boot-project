@@ -12,7 +12,7 @@ public class JasyptConfig
     @Bean(name = "jasyptStringEncryptor")
     public StringEncryptor stringEncryptor()
     {
-        String key = "ett-bank-pin";
+        String key = "default-password-key";
         PooledPBEStringEncryptor encryptor = new PooledPBEStringEncryptor();
         SimpleStringPBEConfig config = new SimpleStringPBEConfig();
         config.setPassword(key);

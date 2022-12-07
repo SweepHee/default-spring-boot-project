@@ -4,8 +4,8 @@ spring:
       protocol: smtp
       host: smtp.naver.com
       port: 587
-      username: ENC(R2pB0ybvRxOgxMJ/S/Bk17Vy9R0bWhNLjtenipHwdW8=)
-      password: ENC(AaUnIdpcqPP0bpuQ6rx1s6mFb1apcfcV)
+      username:
+      password:
       properties:
         mail.smtp.auth: true
         mail.smtp.starttls.enable: true
@@ -14,8 +14,8 @@ spring:
     hiworks:
       host: smtps.hiworks.com
       port: 465
-      username: ENC(W4pUqcRGW9sHLzQIEOPPx9vkxjXro8wQwa024/DiJDc=)
-      password: ENC(AaUnIdpcqPP0bpuQ6rx1s6mFb1apcfcV)
+      username:
+      password:
       properties:
         mail.smtp.auth: true
         mail.smtp.ssl.enable: true
